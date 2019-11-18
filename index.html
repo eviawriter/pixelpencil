@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PixelPencil</title>
+    <meta name="description"
+        content="PixelPencil Editor is a powerfull tool to help you write the best content in an organised manner">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- here be the stylesheets -->
+
+    <!-- main stylesheets -->
+    <link rel="stylesheet" href="css/body.css">
+
+    <!-- styling of the menu bar on the left -->
+    <link rel="stylesheet" href="css/menu/main.css">
+
+    <!-- styling of the search bar -->
+    <link rel="stylesheet" href="css/search/main.css">
+
+    <!-- styling of the create-modals -->
+    <link rel="stylesheet" href="css/create/main.css">
+    <link rel="stylesheet" href="css/create/dialog.css">
+
+    <!-- styling of the content -->
+    <link rel="stylesheet" href="css/content/writing/toolbar/toolbar.css">
+    <link rel="stylesheet" href="css/content/writing/editor/editor.css">
+    <link rel="stylesheet" href="css/content/details.css">
+    <link rel="stylesheet" href="css/content/main.css">
+
+    <!-- styling of the context menu -->
+    <link rel="stylesheet" href="css/context/main.css">
+
+    <!-- styling of the subnav on the left -->
+    <link rel="stylesheet" href="css/subnav/writing/accordion.css">
+    <link rel="stylesheet" href="css/subnav/main.css">
+    <link rel="stylesheet" href="css/subnav/characters/characters.css">
+
+    <!-- styling of the actions -->
+    <link rel="stylesheet" href="css/action/main.css">
+
+    <!-- Fonts; these stylesheets are linking  to websites. Potential security hazard -->
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <!-- main container, wraps up box-sidebar, box-navibar and box-content -->
+    <div class="maincontainer">
+
+        <!-- box-sidebar -->
+        <div class="box-sidebar">
+
+            <!-- sidebar-options -->
+            <div class="box-opti">
+                <button class="menubutton" id="opti-button" onclick="menu('options', this)"></button>
+            </div>
+
+            <!-- sidebar-menu -->
+            <div class="box-menu">
+                <button class="menubutton" id="menu-dashboard" onclick="menu('dashboard', this)">Dashboard</button>
+                <button class="menubutton" id="menu-writing" onclick="menu('writing', this)">Writing</button>
+                <button class="menubutton" id="menu-characters" onclick="menu('characters', this)">Characters</button>
+                <button class="menubutton" id="menu-locations" onclick="menu('locations', this)">Locations</button>
+                <button class="menubutton" id="menu-ideas" onclick="menu('ideas', this)">Ideas</button>
+                <button class="menubutton" id="menu-research" onclick="menu('research', this)">Research</button>
+            </div>
+
+            <!-- sidebar-logo -->
+            <div class="box-logo"></div>
+        </div>
+
+        <!-- left navigation bar -->
+        <div class="box-navibar">
+
+            <!-- search bar -->
+            <div class="box-search">
+                <input type="text" placeholder="Search...">
+            </div>
+
+            <!-- main navigation bar on the left -->
+            <div class="box-subnav">
+                <div id="subnav-dashboard"></div>
+                <div id="subnav-writing">
+
+                    <!-- prefix subnav = sn, sn-accordion is container 
+                    This info gets replaced at load. -->
+                    <div class="sn-accordion">
+                        <div class="sn-accordion">
+                            <section class="sn-accordion-item" data-chapid="1" data-chaporder="1"
+                                onmouseover="subnav_remove_active('writing', this)">
+                                <button class="button_chapters" data-chapid=${row.chapid}>
+                                    <h1>Chapter 1</h1>
+                                    <h2>Dit is een chapter!</h2>
+                                </button>
+
+                                <div class="sn-subitems" data-chapid="1">
+                                    <button class="sn-subitem writing" tabindex="0" draggable="true"
+                                        ondragstart="subdragstart(event)" ondrop="subdragdrop(event)"
+                                        ondragover="subdragover(event)" ondragenter="subdragenter(event)"
+                                        ondragleave="subdragleave(event)" onclick="subnav_writing(this)" data-chapid="1"
+                                        data-subid="1" data-suborder="1">1. Subchapter nummero uno</button>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="subnav-characters">
+
+
+                    <div class="sn-accordion">
+
+                        <section class="sn-accordion-item open">
+                            <h1 class="sn-character-header">Main characters</h1>
+                            <div class="sn-subitems">
+                                <button class="sn-subitem characters">Balu de grote beer</button>
+                                <button class="sn-subitem characters">Juffrouw Tok</button>
+                            </div>
+                        </section>
+
+                        <section class="sn-accordion-item open">
+                            <h1 class="sn-character-header">Secondary characters</h1>
+                            <div class="sn-subitems">
+                                <button class="sn-subitem">Meneer de Uil</button>
+                                <button class="sn-subitem">Meneer de Brilaap</button>
+                            </div>
+                        </section>
+
+
+                        <section class="sn-accordion-item open">
+                            <h1 class="sn-character-header">Other characters</h1>
+                            <div class="sn-subitems">
+                                <button class="sn-subitem">Meneer de Wolf</button>
+                                <button class="sn-subitem">Roodkapje</button>
+                            </div>
+                        </section>
+
+                    </div>
+                </div>
+
+                <div id="subnav-locations">
+                    <div class="sn-accordion">
+
+                        <section class="sn-accordion-item open">
+                            <h1 class="sn-character-header">Locations</h1>
+                            <div class="sn-subitems">
+                                <button class="sn-subitem">Elora</button>
+                                <button class="sn-subitem">Natalya</button>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <div id="subnav-ideas">
+                    <div class="sn-accordion">
+
+                        <section class="sn-accordion-item open">
+                            <h1 class="sn-character-header">Ideas</h1>
+                            <div class="sn-subitems">
+                                <button class="sn-subitem">Make Elora great again</button>
+                                <button class="sn-subitem">Fight the good fight</button>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div id="subnav-research">
+                    <div class="sn-accordion">
+
+                        <section class="sn-accordion-item open">
+                            <h1 class="sn-character-header">Chapters</h1>
+                            <div class="sn-subitems">
+                                <button class="sn-subitem">Chapter 1</button>
+                                <button class="sn-subitem">Chapter 2</button>
+                                <button class="sn-subitem">Chapter 3</button>
+                            </div>
+                        </section>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-create">
+
+
+                <div class="create-container">
+
+                    <!-- tooltip with button -->
+                    <div class="box-tooltip">
+
+                        <button class="button-general" id="create-button" data-cat="writing"
+                            onmouseover="tooltip_visible(this)"></button>
+
+                        <!-- modaladdchapters creates -->
+                        <div class="tooltipcontent" id="cr-dashboard">
+                            <button class="tooltip" onclick="open_modal_create('da-deadline')">Add
+                                deadline</button>
+                            <button class="tooltip" onclick="open_modal_create('da-wordgoal')">Add
+                                wordgoal</button>
+                        </div>
+
+                        <div class="tooltipcontent" id="cr-writing">
+                            <button class="tooltip" onclick="open_modal_create('wr-chapter')">Add
+                                chapter</button>
+                            <button class="tooltip" onclick="open_modal_create('wr-subchapter')">Add
+                                subchapter</button>
+                        </div>
+
+                        <div class="tooltipcontent" id="cr-characters">
+                            <button class="tooltip" onclick="open_modal_create('ch-main')">Add main
+                                character</button>
+                            <button class="tooltip" onclick="open_modal_create('ch-second')">Add secondary
+                                character</button>
+                            <button class="tooltip" onclick="open_modal_create('ch-other')">Add other
+                                character</button>
+                        </div>
+
+                        <div class="tooltipcontent" id="cr-locations">
+                            <button class="tooltip" onclick="open_modal_create('lo-location')">Add
+                                location</button>
+                        </div>
+
+                        <div class="tooltipcontent" id="cr-ideas">
+                            <button class="tooltip" onclick="open_modal_create('id-idea')">Add idea</button>
+                        </div>
+
+                        <div class="tooltipcontent" id="cr-research">
+                            <button class="tooltip" onclick="open_modal_create('re-link')">Add website</button>
+                            <button class="tooltip" onclick="open_modal_create('re-text')">Add text</button>
+                            <button class="tooltip" onclick="open_modal_create('re-book')">Add book</button>
+                            <button class="tooltip" onclick="open_modal_create('re-interview')">Add
+                                interview</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="box-editing">
+
+            <!-- here starts the contextmenu -->
+            <div class="box-context">
+
+                <!-- contextmenu for dashboard -->
+                <div class="box-contextmenu" id="cm-dashboard">
+
+                    <button class="cm-button" id="cm-dashboard-details"
+                        onclick="cm_dashboard('dashboard')">Dashboard</button>
+
+                </div>
+
+                <!-- contextmenu for writing -->
+                <div class="box-contextmenu" id="cm-writing">
+
+                    <button class="cm-button" id="cm-write-story" onclick="cm_write('story', this)">Story</button>
+                    <!-- these buttons are not yet active -->
+
+                    <button class="cm-button" id="cm-write-characters"
+                        onclick="cm_write('characters', this)">Characters</button>
+                    <button class="cm-button" id="cm-write-locations"
+                        onclick="cm_write('locations', this)">Locations</button>
+                    <button class="cm-button" id="cm-write-ideas" onclick="cm_write('ideas', this)">Ideas</button>
+                    <button class="cm-button" id="cm-write-research"
+                        onclick="cm_write('research', this)">Research</button>
+
+                </div>
+
+                <!-- contextmenu for characters -->
+                <div class="box-contextmenu" id="cm-characters">
+
+                    <button class="cm-button" id="cm-char-details" onclick="cm_characters('chardetails')">Character
+                        details</button>
+                    <button class="cm-button" id="cm-char-notes" onclick="cm_characters('notes')">Notes</button>
+
+                </div>
+
+                <!-- contextmenu for locations -->
+                <div class="box-contextmenu" id="cm-locations">
+
+                    <button class="cm-button" id="cm-loca-details" onclick="cm_locations('locdetails')">Location
+                        details</button>
+
+                </div>
+
+                <!-- contextmenu for ideas -->
+                <div class="box-contextmenu" id="cm-ideas">
+
+                    <button class="cm-button" id="cm-ideas-###" onclick="cm_ideas('ideas')">Ideas</button>
+
+                </div>
+
+                <!-- contextmenu for research -->
+                <div class="box-contextmenu" id="cm-research">
+
+                    <button class="cm-button" id="cm-research-###" onclick="cm_research('research')">Notes</button>
+                    <button class="cm-button" id="cm-research-###" onclick="cm_research('research')">Websites</button>
+                    <button class="cm-button" id="cm-research-###" onclick="cm_research('research')">Books</button>
+                    <button class="cm-button" id="cm-research-###" onclick="cm_research('research')">Interviews</button>
+
+
+                </div>
+
+            </div>
+
+            <div class="box-content">
+
+                <div id="box-content-writing">
+
+                    <!-- here starts the toolbar -->
+                    <div class="toolbar">
+
+                        <select class="tb-button" onchange="fontEditor(this[this.selectedIndex].value)">
+                            <option value="" selected>lettertype</option>
+                            <option value="Sawasdee">Sawasdee</option>
+                            <option value="Ubuntu">Ubuntu</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Times">Times</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Verdana">Verdana</option>
+                        </select>
+
+                        <select class="tb-button" onchange="fontSize(this[this.selectedIndex].value)">
+                            <option value="" selected>Size</option>
+                            <option value="2">10pt</option>
+                            <option value="3">12pt</option>
+                            <option value="4">14pt</option>
+                            <option value="5">16pt</option>
+                            <option value="6">18pt</option>
+                            <option value="7">24pt</option>
+                        </select>
+
+                        <button class="tb-button"
+                            onclick="document.execCommand('formatBlock', false, 'h1');">H1</button>
+                        <button class="tb-button"
+                            onclick="document.execCommand('formatBlock', false, 'h2');">H2</button>
+                        <button class="tb-button"
+                            onclick="document.execCommand('formatBlock', false, 'h3');">H3</button>
+                        <button class="tb-button" onclick="document.execCommand('bold', false, '');">B</button>
+                        <button class="tb-button" onclick="document.execCommand('italic', false, '');">I</button>
+                        <button class="tb-button" onclick="document.execCommand('underline', false, '');">U</button>
+                        <button class="fas fa-indent" id="tb-button"
+                            onclick="document.execCommand('indent', false, '');"></button>
+                        <button class="fas fa-outdent" id="tb-button"
+                            onclick="document.execCommand('outdent', false, '');"></button>
+                        <button class="fa fa-list-ul" id="tb-button"
+                            onclick="document.execCommand('insertUnorderedList', false, '');"></button>
+                        <button class="fa fa-list-ol" id="tb-button"
+                            onclick="document.execCommand('insertOrderedList', false, '');"></button>
+                        <button class="fas fa-broom" id="tb-button"
+                            onclick="document.execCommand('formatBlock', false, 'div');"></button>
+
+                        <div class="revisions">
+                            <button class="rev-button">Revisions</button>
+                            <div class="rev-menu">
+                                <div id="revision0">Original</div>
+                                <div id="revision1">Revision 1</div>
+                                <div id="revision2">Revision 2</div>
+                                <div id="revision3">Revision 3</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- This is the actual writing area -->
+                    <div class="box-editor">
+                        <div id="editor" contenteditable="true"></div>
+                    </div>
+                </div>
+
+                <div id="box-content-characters"></div>
+                <div id="box-content-locations"></div>
+                <div id="box-content-ideas"></div>
+                <div id="box-content-research"></div>
+                <div id="box-content-dashboard"></div>
+
+
+            </div>
+
+            <div class="box-actions">
+                <div class="ac-actions" id="ac-dashboard"></div>
+
+                <div class="ac-actions" id="ac-writing">
+                    <div id="ac-countword"></div>
+                </div>
+
+                <div class="ac-actions" id="ac-other">
+
+                    <!-- the box that contains the  button and the tooltips with their buttons -->
+                    <div class="box-tooltip">
+
+                        <!-- data-cat needs to be changed when clicked on a menu-category -->
+                        <button class="button-general" id="action-button" data-cat="characters"
+                            onmouseover="ac_tooltip_visible(this)"></button>
+
+                        <!-- these are the tooltips -->
+                        <div class="tooltipcontent" id="ac-characters">
+
+                            <button class="tooltip" onclick="open_subject_modal(this, 'char-subject')">Add your own
+                                subject</button>
+                            <button class="tooltip" onclick="open_subject_modal(this, 'char-thematic')">Add thematic
+                                subject</button>
+
+                        </div>
+
+                        <div class="tooltipcontent" id="ac-locations">
+
+                            <button class="tooltip" onclick="open_modal_action('loca-subject')">Add your own location
+                                info</button>
+                            <button class="tooltip" onclick="open_modal_action('loca-thematic')">Add thematic
+                                subject</button>
+
+                        </div>
+
+
+                        <div class="tooltipcontent" id="ac-ideas">
+
+                            <button class="tooltip" onclick="open_modal_action('idea-subject')">Add your own
+                                ideas</button>
+                            <button class="tooltip" onclick="open_modal_action('idea-thematic')">Add thematic
+                                subject</button>
+
+                        </div>
+
+
+                        <div class="tooltipcontent" id="ac-research">
+
+                            <button class="tooltip" onclick="open_modal_action('rese-subject')">Add your own
+                                research</button>
+                            <button class="tooltip" onclick="open_modal_action('rese-thematic')">Add thematic
+                                subject</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- here will be modals -->
+
+    <!-- 
+            Modal used to create new stuff with the create-button 
+            markup and text is found in js/create/main.js
+        -->
+    <dialog id="modal_create"></dialog>
+
+    <!-- 
+            Modal used to delete stuff from the database. It's content is found in js/subnav
+        -->
+    <dialog id="modal_delete"></dialog>
+
+    <!-- Modal used for creating new subjects and other stuff (in box-actions) -->
+    <dialog id="modal_action"></dialog>
+
+    </div>
+
+
+
+
+
+    <!-- here be the scripting done -->
+    <!-- main script -->
+    <script src="js/global.js"></script>
+    <script src="js/subnav/characters/populate_subnav.js"></script>
+
+    <!-- main menu scripts -->
+    <script src="js/menu/main.js"></script>
+
+    <!-- subnav scripts -->
+    <script src="js/subnav/writing/activeclass.js"></script>
+    <script src="js/subnav/writing/loadsubchapter.js"></script>
+    <script src="js/subnav/writing/dragevents.js"></script>
+
+    <!-- subnav scripts for adding -->
+    <script src="js/create/writing/modal_specific_changes.js"></script>
+    <script src="js/create/writing/add_chapter.js"></script>
+    <script src="js/create/writing/add_subchapter.js"></script>
+
+    <!-- subnav scripts for deleting -->
+    <script src="js/subnav/delete_general.js"></script>
+    <script src="js/subnav/writing/delete_chapter.js"></script>
+    <script src="js/subnav/writing/delete_subchapter.js"></script>
+
+    <!-- create scripts -->
+    <script src="js/create/main.js"></script>
+
+    <!-- context scripts -->
+    <script src="js/context/main.js"></script>
+
+    <!-- content scripts -->
+    <script src="js/subnav/characters/character_content.js"></script>
+
+    <!-- action scripts -->
+    <script src="js/action/writing/ac_countwords.js"></script>
+    <script src="js/action/main.js"></script>
+    <script src="js/action/characters/add_subject.js"></script>
+
+    <!-- scripts needed for startup -->
+    <script src="js/body.js"></script>
+
+</body>
+
+</html>

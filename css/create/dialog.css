@@ -1,0 +1,195 @@
+/* then the create dialog */
+
+/* make modal invisible */
+
+#modal_create {
+    z-index: 100;
+}
+#modal_delete {
+    z-index: 100;
+}
+
+.box-create-form {
+    margin: 0;
+}
+
+/* style the dialog box */
+
+dialog {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 750px;
+    padding: 50px;
+    background-color: white;
+    color: var(--text-color);
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.25);
+    max-width: 90vw;
+}
+
+dialog[open] {
+    animation: appear 0.5s;
+}
+
+dialog::backdrop {
+    animation: fade 0.5s;
+    background: black;
+    opacity: 0.6;
+}
+
+dialog .actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateX(-50%, -50%);
+        /* transform: translateX(-3rem); */
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%, -50%);
+        /* transform: translateX(0); */
+    }
+}
+
+@keyframes fade {
+    from {
+        background: black;
+        opacity: 0;
+    }
+
+    to {
+        background: black;
+        opacity: 0.6;
+    }
+}
+
+/* style the headers */
+.form-box-input {
+    padding: 20px 50px 50px 50px;
+}
+
+.create_form_header {
+    margin: 0;
+    text-align: center;
+    color: #00ae9d;
+    font-size: 24px;
+    font-weight: bold;
+    height: 50px;
+    border-bottom: 2px solid #00ae9d;
+}
+
+.form-input-header {
+    color: #00ae9d;
+    font-size: 18px;
+}
+
+.form-input {
+    font-family: 'Ubuntu';
+    width: 98%;
+    padding: 4px;
+    font-size: 16px;
+    border-width: 1px;
+    border-color: #d1d1d1;
+    border-style: solid;
+    border-radius: 5px;
+}
+
+/* Style dropdownmenu */
+#form-subchapter-dropdown {
+    width: 100%;
+    padding: 4px;
+    font-size: 16px;
+    border-width: 1px;
+    border-color: #d1d1d1;
+    background-color: white;
+    border-style: solid;
+    border-radius: 5px;
+}
+
+/* animate the save button */
+.form-input-button {
+    padding: 25px 0px 0px 0px;
+    border-top: 2px solid #00ae9d;
+    text-align: right;
+}
+
+.create_close_button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: #00ae9d;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.25s;
+}
+
+.create_close_button:hover {
+    color: #353535;
+}
+
+.create_save_button {
+    position: relative;
+    cursor: pointer;
+    margin-left: 0.625rem;
+    padding: 0.625rem 1.25rem;
+    border: none;
+    background-color: slategray;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    font-weight: 300;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.create_save_button:before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: width 0.25s;
+    z-index: 0;
+    font-weight: bold;
+}
+
+.create_save_button:first-child {
+    background-color: #00ae9d;
+    font-weight: bold;
+}
+
+.create_save_button:last-child {
+    background-color: #00ae9d;
+    font-weight: bold;
+}
+
+.create_save_button:hover:before {
+    width: 100%;
+}
+
+.modal_text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    height: 200px;
+    font-size: 16px;
+    text-align: center;
+
+}
+
+.text-italic {
+    font-style: italic;
+}

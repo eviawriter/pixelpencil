@@ -1,0 +1,64 @@
+/* container-class for contextmenu's */
+.box-contextmenu {
+    display: flex;
+    position: absolute;
+    flex-direction: row;
+    flex: 1;
+    padding-top: 15px;
+    min-width: calc(100% - 470px);
+    max-width: calc(100% - 470px);
+    margin: 0;
+    border-bottom: 2px solid #00AE9D;
+    flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: stretch;
+    align-content: stretch;
+}
+
+/* contextmenu's per menu-item */
+#cm-dashboard {
+    visibility: hidden;
+    margin-top: 0px;
+}
+
+#cm-writing {
+    visibility: visible;
+    margin-top: 0px;
+}
+
+#cm-characters {
+    visibility: hidden;
+    margin-top: 0px;
+}
+
+#cm-locations {
+    visibility: hidden;
+    margin-top: 0px;
+}
+
+#cm-ideas {
+    visibility: hidden;
+    margin-top: 0px;
+}
+
+#cm-research {
+    visibility: hidden;
+    margin-top: 0px;
+}
+
+/* Buttons */
+.cm-button {
+    display: inline-block;
+    overflow: hidden;
+    padding: 12px 20px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    background: none;
+    border: none;
+}
+
+.cm-button:hover {
+    background-color: #00AE9D;
+}
+

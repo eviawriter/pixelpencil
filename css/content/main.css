@@ -1,0 +1,29 @@
+#box-content-dashboard {
+    visibility: hidden;
+}
+
+#box-content-writing {
+    visibility: visible;
+    position: relative;
+    left: 0;
+    top: 0;
+}
+
+#box-content-characters {
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#box-content-locations {
+    visibility: hidden;
+}
+
+#box-content-ideas {
+    visibility: hidden;
+}
+
+#box-content-research {
+    visibility: hidden;
+}

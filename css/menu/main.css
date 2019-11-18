@@ -1,0 +1,59 @@
+/* generic menu-buttons */
+.menubutton {
+    display: inline-block;
+    border: none;
+    text-align: center;
+    color: white;
+    font-family: 'Ubuntu';
+    font-size: 14px;
+    text-decoration: none;
+    padding-top: 50px;
+    width: 90px;
+    height: 75px;
+    transition: all 0.5s ease;
+    background-repeat: no-repeat;
+    background-position: 50% 25%;
+    background-size: 45px;
+    background-color: #333333;
+}
+
+.menubutton:hover {
+    background-color: #00AE9D;
+}
+
+/* menubutton options */
+#opti-button {
+    background-image: url(../images/menu-items/menu-w.png);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 35px;
+    background-color: #2a2a2a;
+}
+
+#opti-button:hover {
+    background-color: #00AE9D;
+}
+
+#menu-dashboard {
+    background-image: url(../images/menu-items/tachometer-alt-solid-white.svg);
+}
+
+#menu-writing {
+    background-image: url(../images/menu-items/pencil-alt-solid-white.svg);
+}
+
+#menu-characters {
+    background-image: url(../images/menu-items/users-solid-white.svg);
+}
+
+#menu-locations {
+    background-image: url(../images/menu-items/city-solid-white.svg);
+}
+
+#menu-ideas {
+    background-image: url(../images/menu-items/lightbulb-regular-white.svg);
+}
+
+#menu-research {
+    background-image: url(../images/menu-items/research-w.png);
+}

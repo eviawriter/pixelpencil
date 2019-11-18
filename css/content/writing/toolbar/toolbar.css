@@ -1,0 +1,121 @@
+/* Styling the toolbar */
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #00AE9D;
+    text-align: left;
+}
+
+/* styling the buttons */
+.tb-button, #tb-button {
+    border: none;
+    font-size: 16px;
+    padding: 0px 10px 0px 10px;
+    background-color: white;
+    min-width: 25px;
+    max-width: auto;
+    height: 30px;
+}
+
+.tb-button:hover {
+    color: #00AE9D;
+  }
+
+.tb-button select {
+    display: none;
+    position: relative;
+  }
+  
+  .select-selected {
+    background-color: #00AE9D;
+  }
+  
+  .select-selected:after {
+    position: absolute;
+    content: "";
+    top: 14px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: #fff transparent transparent transparent;
+  }
+  
+  .select-items {
+    position: absolute;
+    background-color: DodgerBlue;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+  }
+  
+  .select-hide {
+    display: none;
+  }
+  
+  .select-items div:hover, .same-as-selected {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+/* style the revisions button */
+.revisions {
+margin-left: auto;
+    font-family: "Ubuntu";
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.rev-button {
+    background-color: #00AE9D;
+    font-weight: bold;
+    font-size: 14px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 150px;
+    height: 30px;
+    border-radius: 6px;
+    text-align: left;
+}
+
+.rev-menu {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 150px;
+    text-indent: 10px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    line-height: 35px;
+    font-family: "Ubuntu";
+    font-weight: bold;
+    font-size: 14px;
+}
+
+  /* Hover content */
+  .rev-menu:hover {
+    background-color: white;
+  }
+  
+  /* hover dropdown, revcontent */
+  .revisions:hover .rev-menu {
+    display: block;
+    font-weight: normal;
+  }
+  
+  .revisions:hover .rev-button {
+    background-color: rgb(0, 204, 184);
+    border-radius: 5px 5px 0px 0px;
+  }
+  
+  /* Style indivual revision options */
+  #revision0:hover, #revision1:hover, #revision2:hover, #revision3:hover {
+    background-color: #00AE9D;
+    font-family: "Ubuntu";
+    font-weight: normal;
+    font-size: 14px;
+    transition: background-color 0.25s ease;
+  }

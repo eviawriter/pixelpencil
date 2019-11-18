@@ -1,0 +1,62 @@
+/* style the the actual editor, the contenteditable div */
+
+.box-editor {
+    display: flex;
+    overflow-y: auto;
+    min-height: calc(100vh - 257px);
+    max-height: calc(100vh - 257px);
+    margin: 0;
+}
+
+#editor {
+    color: #000;
+    display: block;
+    width: 100%;
+    margin: 25px;
+    flex: 1;
+    background-color: white;
+    font-size: 22px;
+    line-height: 1.6;
+    color: #555;
+}
+
+#editor:focus {
+    border: none;
+}
+
+/* scrollbars need styling too */
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+#hidden {
+    display: inline-block;
+    margin-top: 0px;
+    padding: 40px;
+    position: fixed;
+    color: #555;
+    font-family: 'Ubuntu';
+    font-size: 24px;
+    font-style: italic;
+    text-align: center;
+    z-index: 1;
+}

@@ -1,0 +1,132 @@
+body {
+    font-family: "Ubuntu";
+    font-size: 14px;
+    background-color: white;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+:focus {
+    outline: none;
+}
+
+.maincontainer {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: stretch;
+    align-content: stretch;
+    overflow: hidden;
+}
+
+/* main container contains three columns: box-sidebar, box-navibar, box-content.
+They can be changed here */
+.box-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    min-height: 100vh;
+    width: 90px;
+    background-color: #333333;
+}
+
+.box-navibar {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-width: 300px;
+    max-width: 450px;
+    background-color:#3E3E3E; 
+}
+
+.box-editing {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+}
+
+/* box-sidebar is the container for box-opti (options, box-menu 
+(menu-items) and box-logo (logo).  
+
+Note: the styles of the individual buttons are found in css/menu/main.css */
+.box-opti {
+    width: 90px;
+    height: 75px;
+}
+
+.box-menu {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    max-height: calc(100vh - 135px);
+    width: 90px;
+}
+
+.box-logo {
+    width: 90px;
+    height: 60px;
+}
+
+/* box-navibar is the container for box-search (search), box-subnav
+(the subnavigation or tree) and .box-create (area to add stuff).
+Note: the styles of these can be found in css/subnav.
+/* content of box-sidebar goes here */
+.box-search {
+    height: 75px;
+    background-color: #2a2a2a;
+}
+
+/* content of box-menu goes here */
+.box-subnav {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    max-height: calc(100vh - 135px);
+    z-index: 1;
+}
+
+/* content of box-logo goes here */
+.box-create {
+    height: 60px;
+    overflow: hidden;
+}
+
+/* box-editing is the container for .box-context (context-menu), .box-content
+(where all the writing is done) and .box-actions (the writing area).
+Note: the styles of these can be found in css/subnav. */
+.box-context {
+    height: 75px;
+    padding: 0px 40px 0px 40px;
+    background-color: #2a2a2a;
+}
+
+/* content of box-menu goes here */
+.box-content {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+    max-height: fit-content;
+    margin: 40px;
+    background-color: white;
+}
+
+/* content of box-logo goes here */
+.box-actions {
+    display: inline-block;
+    overflow: hidden;
+    min-height: 60px;
+    max-height: 60px;
+    min-width: fit-content;
+    padding: 0px 40px 0px 40px;
+}

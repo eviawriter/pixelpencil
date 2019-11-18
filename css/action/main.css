@@ -1,0 +1,38 @@
+/* counter in actionbar of writing-area */
+#ac-writing {
+    visibility: visible;
+    text-align: right;
+    padding-top: 10px;
+    height: 50px;
+    left: 0;
+    top: 0;
+}
+
+/* style the counter itself */
+#ac-countword {
+    width: 100%;
+    text-align: right;
+    color: #8b8b8b;
+    display: inline-block;
+    position: inherit;
+    left: 0;
+    top: 0;
+    margin-right: 40px;
+    padding-top: 10px;
+}
+
+/* Style the containers of different action-area's. */
+#ac-other /*, #ac-dashboard, #ac-characters, #ac-locations, #ac-ideas, #ac-research */ {
+    display: flex;
+    justify-content: center;
+    visibility: hidden;
+    margin: 0;
+    height: 60px;
+    margin-top: -60px;
+}
+
+.box-tooltip #button-general {
+    visibility: hidden;
+}
+
+/* Style of the tooltips */

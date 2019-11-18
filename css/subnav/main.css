@@ -1,0 +1,23 @@
+#subnav-dashboard {
+    visibility: hidden;
+}
+
+#subnav-writing {
+    visibility: visible;
+}
+
+#subnav-characters {
+    visibility: hidden;
+}
+
+#subnav-locations {
+    visibility: hidden;
+}
+
+#subnav-ideas {
+    visibility: hidden;
+}
+
+#subnav-research {
+    visibility: hidden;
+}

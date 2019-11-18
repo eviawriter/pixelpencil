@@ -1,0 +1,227 @@
+/* wrapper for it all */
+.ct-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    background-color: white;
+    margin-top: 0px;
+    position: fixed;
+    min-width: 500px;
+    max-width: 1000px;
+    height: calc(100% - 215px);
+    overflow-y: auto;
+    padding-right: 40px;
+}
+
+/* container for the header (name, age, bio etc.) */
+
+.ct-details {
+    display: flex;
+    width: 390px;
+    height: 175px;
+    background-color: #00AE9D;
+    padding: 25px;
+    border-radius: 15px 0px 0px 15px;
+    color: white;
+}
+
+.ct-details .ct-details-edit {
+    display: none;
+    position: fixed;
+    background-image: url('../images/general/edit.png');
+    background-repeat: no-repeat;
+    background-size: 35px;
+    width: 40px;
+    height: 40px;
+}
+
+.ct-details:hover .ct-details-edit {
+    display: block;
+    margin-left: 302px;
+    margin-top: -35px;
+}
+
+/* image of a girl */
+.ct-image {
+    width: 125px;
+    height: 125px;
+    margin-top: 25px;
+    background-image: url('../images/characters/cheergirl.jpg');
+    background-repeat: no-repeat;
+    background-color: #B3B3B3;
+    background-size: 125px;
+    border-radius: 125px;
+}
+
+/* wrapper for the left-side of the header */
+.ct-details-left {
+    width: 210px;
+    margin-top: 5px;
+    color: white;
+    padding-left: 20px;
+}
+
+/* content of the left-side of the header */
+.ct-details-name {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 30px;
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.ct-details-kind, .ct-details-age, .ct-details-gender {
+    height: 20px;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 5px;
+}
+
+.ct-details-kind:before {
+    content: "Type: ";
+}
+
+.ct-details-age:before {
+    content: "Age: ";
+}
+
+.ct-details-gender:before {
+    content: "Gender: ";
+}
+
+/* wrapper for the right-side of the header */
+
+.ct-details-right {
+    width: 390px;
+    height: 175px;
+    padding-top: 25px;
+    padding-right: 25px;
+    padding-bottom: 25px;
+    background-color: #00AE9D;
+    border-radius: 0px 15px 15px 0px;
+    overflow: hidden;
+}
+
+/* add some space between header and subject */
+.ct-space {
+    width: 100%;
+    height: 25px;
+}
+
+/* styling of the edit-button in the header */
+.ct-details-right .ct-details-edit {
+    display: none;
+    float: right;
+    background-image: url('../images/general/edit.png');
+    background-repeat: no-repeat;
+    background-size: 35px;
+    margin-right: -10px;
+    margin-top: -10px;
+    width: 40px;
+    height: 40px;
+}
+
+.ct-details-right:hover .ct-details-edit {
+    display: block;
+    cursor: pointer;
+    background-image: url('../images/general/edit-hover.png');
+    margin-right: -10px;
+    margin-top: -10px;
+}
+
+/* content of the rihgt-side of the header */
+.ct-desc-title {
+    max-height: 30px;
+    color: white;
+    padding-left: 10px;
+}
+
+.ct-desc-text {
+    max-height: 75px !important;
+    color: white;
+    padding: 5px 10px 5px 10px;
+    overflow: hidden;
+}
+
+/* wrapper for the subjects */
+.ct-subject {
+    width: 100%;
+    display: inline-block;
+    align-self: flex-start;
+    margin-bottom: 20px;
+}
+
+/* trash and edit-buttons */
+.ct-subject .ct-subject-trash {
+    display: none;
+    float: right;
+    background-image: url('../images/general/delete.png');
+    background-repeat: no-repeat;
+    background-size: 35px;
+    width: 40px;
+    height: 40px;
+}
+
+.ct-subject .ct-subject-edit {
+    display: none;
+    float: right;
+    background-image: url('../images/general/edit.png');
+    background-repeat: no-repeat;
+    background-size: 35px;
+    width: 40px;
+    height: 40px;
+}
+
+.ct-subject:hover .ct-subject-edit {
+    display: block;
+    /* background-image: url('../images/general/edit.png'); */
+    background-position: top 5px right 5px;
+}
+
+.ct-subject:hover .ct-subject-trash {
+    display: block;
+    background-position: top 5px right 5px;
+}
+
+.ct-subject-edit:hover, .ct-subject-trash:hover {
+    cursor: pointer;
+}
+
+.ct-subject-edit:hover {
+    background-image: url('../images/general/edit-hover.png');
+}
+
+.ct-subject-trash:hover {
+    background-image: url('../images/general/delete-hover.png');
+}
+
+.ct-subject p {
+    margin: 0px;
+}
+
+/* H1 -> subject header */
+.ct-subject h1 {
+    padding: 5px;
+    max-height: 42px;
+    min-height: 42px;
+    color: #00AE9D;
+}
+
+.ct-subject h1:hover {
+    overflow: hidden;
+    color: #00AE9D;
+}
+
+/* subject text */
+.ct-subject-text {
+    padding: 5px;
+    color: #484848;
+    overflow: visible;
+}
+
+.ct-subject-text:hover, .ct-subject-text:active {
+    color: #484848;
+}

@@ -1,0 +1,109 @@
+/* 
+The Magic.
+Only used when subnavmenu's need to collapse. 
+*/
+
+.sn-accordion:hover .sn-accordion-item:hover .sn-subitems, .sn-accordion-item.active .sn-subitems {
+    max-height: 2000px;
+    border-bottom: 2px solid #00AE9D;
+    border-top: 2px solid #00AE9D;
+}
+
+.sn-subitems, .sn-accordion:hover .sn-subitems {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .25s;
+}
+
+/* 
+override default collapse behaviour in favor of open subnavmenu's (add 'open' in the class sn-accordion-item)
+*/
+
+.sn-accordion-item.open .sn-subitems {
+    max-height: 2000px;
+    margin: 0 auto;
+    width: 100%;
+    font-family: "Ubuntu";
+    border-bottom: 2px solid #00AE9D;
+    border-top: 2px solid #00AE9D;
+}
+
+.sn-accordion-item.open {
+    background-color: #282828 !important;
+}
+
+/* Makeup of the accordion */
+
+.sn-accordion {
+    padding: 0;
+    max-height: 0;
+    margin: 0 auto;
+    width: 100%;
+    font-family: "Ubuntu";
+}
+
+.sn-accordion .sn-accordion-item, .sn-accordion-item--default {
+    color: #eee;
+    /*    background-color: #3E3E3E; */
+}
+
+.sn-accordion-item:hover, .sn-accordion-item.active {
+    background-color: #282828;
+}
+
+/*
+.sn-accordion h1 {
+    font-family: "Ubuntu Mono";
+    padding: 15px;
+    margin: 0;
+}
+
+.sn-accordion h2 {
+    margin: 0;
+    font-size: 14px;
+    padding: 0px 15px 15px 15px;
+    border-bottom: 1px solid #6C6C6C;
+}
+*/
+
+.sn-subitems {
+    background-color: #4F4F4F;
+}
+
+.sn-subitem {
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+    color: white;
+    padding: 20px 15px 20px 30px;
+    background: none;
+    border: none;
+}
+
+.sn-subitem:hover {
+    background-color: #282828;
+}
+
+.button_chapters {
+    text-align: left;
+    background: none;
+    border: none;
+    width: 100%;
+}
+
+.button_chapters h1 {
+    font-family: "Ubuntu Mono";
+    font-variant: small-caps;
+    font-size: 22px;
+    padding: 15px;
+    margin: 0;
+    color: white;
+}
+
+.button_chapters h2 {
+    font-family: "Ubuntu Mono";
+    color: white;
+    margin: 0;
+    font-size: 16px;
+    padding: 0px 15px 15px 15px;
+}
