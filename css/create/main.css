@@ -98,6 +98,7 @@
 }
 
 .tooltip:hover {
+    cursor: pointer;
     background-color: #00AE9D;
     transition: background-color 0.25s ease;
 }

@@ -1,4 +1,4 @@
-.sn-character-header {
+.sn-character-header, .sn-location-header {
     height: 50px;
     padding-left: 15px;
     padding-right: 15px;
@@ -6,3 +6,18 @@
     margin: 0;
 }
 
+.sn-location-header {
+    background: none;
+    border: none;
+    font-family: 'Ubuntu';
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    width: 100%;
+    text-align: left;
+}
+
+.sn-location-header:hover, .sn-character-header:hover {
+    cursor: pointer;
+    background-color: #3d3d3d;
+}

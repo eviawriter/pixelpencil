@@ -66,7 +66,8 @@ function menu(button, click) {
         // this is used by the function tooltip_visible to make the correct tooltipcontent visible
         document.getElementById('create-button').dataset.cat = "dashboard";
 
-        // make actions-button visible
+        // make actions-button visible 
+        // probably better to first check if an item is already opened before applying this. If not opened, then keep it hidden.
         document.getElementById('ac-dashboard').style.visibility = "visible";
 
     }
@@ -87,6 +88,7 @@ function menu(button, click) {
         document.getElementById('create-button').dataset.cat = "writing";
 
         // make the counter visible
+        // probably better to first check if an item is already opened before applying this. If not opened, then keep it hidden.
         document.getElementById('ac-writing').style.visibility = "visible";
     }
 
@@ -106,6 +108,7 @@ function menu(button, click) {
         document.getElementById('create-button').dataset.cat = "characters";
 
         // make actions-button visible
+        // probably better to first check if an item is already opened before applying this. If not opened, then keep it hidden.
         document.getElementById('ac-other').style.visibility = "visible";
         document.getElementById('action-button').dataset.cat = "characters";
         document.getElementById('action-button').style.visibility = "visible";
@@ -129,6 +132,7 @@ function menu(button, click) {
         document.getElementById('create-button').dataset.cat = "locations";
 
         // make actions-button visible
+        // probably better to first check if an item is already opened before applying this. If not opened, then keep it hidden.
         // document.getElementById('ac-locations').style.visibility = "visible";
         document.getElementById('ac-other').style.visibility = "visible";
         document.getElementById('action-button').dataset.cat = "locations";
@@ -152,6 +156,7 @@ function menu(button, click) {
         document.getElementById('create-button').dataset.cat = "ideas";
 
         // make actions-button visible
+        // probably better to first check if an item is already opened before applying this. If not opened, then keep it hidden.
         // document.getElementById('ac-ideas').style.visibility = "visible";
         document.getElementById('ac-other').style.visibility = "visible";
         document.getElementById('action-button').dataset.cat = "ideas";
@@ -174,6 +179,7 @@ function menu(button, click) {
         document.getElementById('create-button').dataset.cat = "research";
 
         // make actions-button visible
+        // probably better to first check if an item is already opened before applying this. If not opened, then keep it hidden.
         // document.getElementById('ac-research').style.visibility = "visible";
         document.getElementById('ac-other').style.visibility = "visible";
         document.getElementById('action-button').dataset.cat = "research";

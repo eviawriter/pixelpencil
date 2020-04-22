@@ -7,7 +7,7 @@
     margin-top: 0px;
     position: fixed;
     min-width: 500px;
-    max-width: 1000px;
+    max-width: 880px;
     height: calc(100% - 215px);
     overflow-y: auto;
     padding-right: 40px;
@@ -46,11 +46,19 @@
     width: 125px;
     height: 125px;
     margin-top: 25px;
-    background-image: url('../images/characters/cheergirl.jpg');
-    background-repeat: no-repeat;
     background-color: #B3B3B3;
     background-size: 125px;
     border-radius: 125px;
+}
+
+#ct-girl.ct-image {
+    background-image: url('../images/characters/girl.jpg');
+    background-repeat: no-repeat;
+}
+
+#ct-boy.ct-image {
+    background-image: url('../images/characters/boy.jpg');
+    background-repeat: no-repeat;
 }
 
 /* wrapper for the left-side of the header */
@@ -95,7 +103,7 @@
 /* wrapper for the right-side of the header */
 
 .ct-details-right {
-    width: 390px;
+    width: 410px;
     height: 175px;
     padding-top: 25px;
     padding-right: 25px;

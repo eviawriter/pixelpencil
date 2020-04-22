@@ -1,12 +1,12 @@
 // create all modals for every action option.
 function open_subject_modal(button, option) {
 
-//    var box = document.querySelectorAll('.box-create-form');
-//
-//    var i;
-//    for (i = 0; i < box.length; i++) {
-//        box[i].style.zIndex = "-1";
-//    }
+    //    var box = document.querySelectorAll('.box-create-form');
+    //
+    //    var i;
+    //    for (i = 0; i < box.length; i++) {
+    //        box[i].style.zIndex = "-1";
+    //    }
 
 
     // category dashboard (not used yet)
@@ -33,7 +33,7 @@ function open_subject_modal(button, option) {
 
         let create = {
             title: 'Create subject',
-            javascript: 'action_character_subject(this,' + charid + ')',
+            javascript: 'add_subject(this,' + charid + ')',
             id: charid,
             form: 'character',
             input1: 'Subject or question',
@@ -43,7 +43,7 @@ function open_subject_modal(button, option) {
         }
 
         action_modal_markup(create);
-        }
+    }
 
     // category locations
     else if (option == 'locations') {
@@ -58,7 +58,7 @@ function open_subject_modal(button, option) {
         }
 
         action_modal_markup(create);
-        }
+    }
 
     // category ideas
     else if (option == 'ideas') {
@@ -115,10 +115,10 @@ function action_modal_markup(create) {
 
 </div>
 `
-        let modal = document.getElementById('modal_action');
-        modal.innerHTML = markup;
-        modal.showModal();
-    }
+    let modal = document.getElementById('modal_action');
+    modal.innerHTML = markup;
+    modal.showModal();
+}
 
 
 // close modal

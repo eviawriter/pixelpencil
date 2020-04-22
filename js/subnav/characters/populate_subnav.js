@@ -41,7 +41,7 @@ function add_subnav_characters() {
     charlist.forEach((chartype) => {
 
         // load new content based on subid
-        let stuff = "SELECT charid, charname, chartype FROM Characters WHERE chartype=" + chartype + "";
+        let stuff = "SELECT charid, charname, chartype FROM Characters WHERE chartype=" + chartype + " AND chartrash=0";
 
         // db.all returns an object which is easily turned into a template. 
         db.all(stuff, function (err, char) {

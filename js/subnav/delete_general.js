@@ -3,9 +3,14 @@
 // Add eventlistners to the containers. 
 function delete_general() {
 
+    // container writing
     document.querySelector('#subnav-writing').addEventListener('keydown', delete_stuff, true);
 
-    // needs containers of other categories too.
+    // container characters
+    document.querySelector('#subnav-characters').addEventListener('keydown', delete_stuff, true);
+
+    // container locations
+    document.querySelector('#subnav-locations').addEventListener('keydown', delete_stuff, true);
 }
 
 
@@ -43,6 +48,39 @@ function delete_stuff(event) {
             delete_modal(name, id, 'subchapter');
         }
 
+        else if (event.target.className === 'sn-subitem characters') {
+
+            console.log('Character');
+
+            // get charid and charname
+            let id = target.dataset.charid;
+            let name = document.querySelector('.sn-subitem.characters[data-charid = "' + id +'"]').textContent;
+
+            delete_modal(name, id, 'character');
+        }
+
+        else if (event.target.className === 'sn-location-header') {
+
+            console.log('it worked on location category!');
+            let id = target.dataset.catid;
+            let name = document.querySelector('.sn-location-header[data-catid="'+ id + '"]').textContent;
+
+            delete_modal(name, id, 'location category')
+
+        }
+
+        else if (event.target.className === 'sn-subitem locations') {
+
+            console.log('Location');
+
+            // get charid and charname
+            let id = target.dataset.locid;
+            let name = document.querySelector('.sn-subitem.locations[data-locid = "' + id +'"').textContent;
+
+            delete_modal(name, id, 'location');
+
+        }
+
 
     }
 }
@@ -64,7 +102,7 @@ function delete_modal(name, id, option) {
 
     }
 
-    if (option == 'subchapter') {
+    else if (option == 'subchapter') {
 
         var del = {
             header: 'Are you sure?',
@@ -73,6 +111,45 @@ function delete_modal(name, id, option) {
             name: name,
             id: 'data-subid=' + id,
             script: 'javascript:delete_subchapter(this)'
+        }
+
+    }
+
+    else if (option == 'character') {
+
+        var del = {
+            header: 'Are you sure?',
+            text: 'character',
+            text2: '',
+            name: name,
+            id: 'data-charid=' + id,
+            script: 'javascript:delete_character(this)'
+        }
+
+    }
+
+    else if (option == 'location category') {
+
+        var del = {
+            header: 'Are you sure?',
+            text: '',
+            text2: '<p class="text-italic">Note: all locations in this category will also be deleted!</p>',
+            name: name,
+            id: 'data-catid=' + id,
+            script: 'javascript:delete_loc_category(this)'
+        }
+
+    }
+
+    else if (option == 'location') {
+
+        var del = {
+            header: 'Are you sure?',
+            text: 'location',
+            text2: '',
+            name: name,
+            id: 'data-locid=' + id,
+            script: 'javascript:delete_location(this)'
         }
 
     }

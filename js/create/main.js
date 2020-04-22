@@ -1,12 +1,12 @@
 // create all modals for every subnav option.
 function open_modal_create(option) {
 
-//    var box = document.querySelectorAll('.box-create-form');
-//
-//    var i;
-//    for (i = 0; i < box.length; i++) {
-//        box[i].style.zIndex = "-1";
-//    }
+    //    var box = document.querySelectorAll('.box-create-form');
+    //
+    //    var i;
+    //    for (i = 0; i < box.length; i++) {
+    //        box[i].style.zIndex = "-1";
+    //    }
 
 
     // category dashboard
@@ -55,16 +55,16 @@ function open_modal_create(option) {
             extrafield: '<h3 class="form-input-header">Add this subchapter to:</h3><select name="form-select" id="form-subchapter-dropdown" required=""></select>'
         }
 
-        let sub_dropdown = 'subchapter_dropdown';
+        let dropdown = 'subchapter';
 
-        create_modal_markup(create, sub_dropdown);
+        create_modal_markup(create, dropdown);
     }
 
     // category characters
     else if (option == 'ch-main') {
         let create = {
             title: 'Create main character',
-            javascript: 'create_character(this, "main")',
+            javascript: 'create_character(this, \'main\')',
             form: 'character',
             input1: 'Character name',
             input2: 'Short description',
@@ -78,7 +78,7 @@ function open_modal_create(option) {
     else if (option == 'ch-second') {
         let create = {
             title: 'Create secondary character',
-            javascript: 'create_character(this, "second")',
+            javascript: 'create_character(this, \'second\')',
             form: 'character',
             input1: 'Character name',
             input2: 'Short description',
@@ -92,7 +92,7 @@ function open_modal_create(option) {
     else if (option == 'ch-other') {
         let create = {
             title: 'Create other character',
-            javascript: 'create_character(this, "other")',
+            javascript: 'create_character(this, \'other\')',
             form: 'character',
             input1: 'Character name',
             input2: 'Short description',
@@ -107,11 +107,28 @@ function open_modal_create(option) {
     else if (option == 'lo-location') {
         let create = {
             title: 'Create location',
-            javascript: 'create_location(this)',
+            javascript: 'loc_createLocation(this)',
             form: 'location',
             input1: 'Location name',
             input2: 'Short description',
             save: 'Save location',
+            extrafield: '<h3 class="form-input-header">Select category:</h3><select name="form-select" id="form-location-dropdown" required=""></select>'
+        }
+
+        let dropdown = 'location';
+
+        create_modal_markup(create, dropdown);
+    }
+
+    // category locations
+    else if (option == 'lo-category') {
+        let create = {
+            title: 'Create category',
+            javascript: 'loc_createCategory(this)',
+            form: 'location',
+            input1: 'Category name (i.e.: world, land, kingdom etc.)',
+            input2: 'Short description',
+            save: 'Save category',
             extrafield: ''
         }
 
@@ -191,7 +208,7 @@ function open_modal_create(option) {
     }
 }
 
-function create_modal_markup(create, sub_dropdown) {
+function create_modal_markup(create, dropdown) {
 
     const markup = `
     <div class="box-create-form">
@@ -215,12 +232,20 @@ function create_modal_markup(create, sub_dropdown) {
 
 </div>
 `
-if (sub_dropdown === 'subchapter_dropdown') {
-    console.log('hoera!');
-    modal_subchapter_dropdown(markup);
-}
+    if (dropdown === 'subchapter') {
+        console.log('hoera!');
+        modal_subchapter_dropdown(markup);
+    }
 
-else {
+    else if (dropdown === 'location') {
+
+        console.log('loc_dropdown');
+
+        modal_location_dropdown(markup);
+
+    }
+
+    else {
 
         let modal = document.getElementById('modal_create');
         modal.innerHTML = markup;
@@ -232,45 +257,4 @@ else {
 function close_create_modal() {
     let modal = document.getElementById('modal_create');
     modal.close();
-}
-
-
-// function to make the tooltip of the action-button visible onmouseover
-function tooltip_visible(category) {
-
-    // first set all z-Indexes to -1
-    let a = document.querySelectorAll('.ac-tooltipcontent');
-    let i;
-    for (i = 0; i < a.length; i++) {
-        a[i].style.zIndex = "-1";
-    }
-
-    // get the current category from the button
-    let cat = category.dataset.cat;
-    console.log(category);
-
-    // based on the current category, set zIndex to 100 of the corresponding tooltipcontent-id.
-    if (cat == 'characters') {
-        document.getElementById('cr-dashboard').style.zIndex = "100";
-    }
-
-    else if (cat == 'writing') {
-        document.getElementById('cr-writing').style.zIndex = "100";
-    }
-
-    else if (cat == 'characters') {
-        document.getElementById('cr-characters').style.zIndex = "100";
-    }
-
-    else if (cat == 'locations') {
-        document.getElementById('cr-locations').style.zIndex = "100";
-    }
-
-    else if (cat == 'ideas') {
-        document.getElementById('cr-ideas').style.zIndex = "100";
-    }
-
-    else if (cat == 'research') {
-        document.getElementById('cr-research').style.zIndex = "100";
-    }
 }

@@ -119,6 +119,8 @@ Note: the styles of these can be found in css/subnav. */
     max-height: fit-content;
     margin: 40px;
     background-color: white;
+    align-self: center;
+    width: 880px;
 }
 
 /* content of box-logo goes here */

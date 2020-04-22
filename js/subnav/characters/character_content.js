@@ -2,9 +2,8 @@ function subnav_characters(options) {
 
     let charid = options.dataset.charid;
 
+    // remove all color from subnav-buttons 
     let selected = document.getElementById('subnav-characters').querySelectorAll(".sn-subitem");
-
-    let i;
 
     for (i = 0; i < selected.length; i++) {
         selected[i].style.backgroundColor = "";
@@ -12,6 +11,16 @@ function subnav_characters(options) {
 
     // set background of clicked item
     options.style.backgroundColor = "#00AE9D";
+
+    // remove all color from cm-buttons (context menu)
+    let context = document.getElementById('cm-characters').querySelectorAll('.cm-button');
+
+    for (i = 0; i < context.length; i++) {
+        context[i].style.backgroundColor = "";
+    }
+
+    // set context-button 'Character details' active.
+    document.getElementById('cm-char-details').style.backgroundColor = "#00AE9D";
 
     // make action-button visible
     document.getElementById('ac-other').style.visibility = "visible";
@@ -44,6 +53,25 @@ function subnav_characters(options) {
                 bio: char.charbio
             }
 
+            if (char.chargender == 'male') {
+                var gen = {
+                    face: 'id="ct-boy"'
+                }
+            }
+
+            else if (char.chargender == 'female') {
+           
+                var gen = {
+                    face: 'id="ct-girl"'
+                }
+            }
+
+            else {
+                var gen = {
+                    face: ""
+                }
+            }
+
             // ct is abbriviation of content. These classes can be used in all content-related categories. 
             const markup = `
             
@@ -51,7 +79,7 @@ function subnav_characters(options) {
                     
                     <div class="ct-details">
                         
-                        <div class="ct-image" data-charid=${pop.id}></div>
+                        <div ${gen.face} class="ct-image" data-charid=${pop.id}></div>
                     
                         <div class="ct-details-left">
                             <h1 class="ct-details-name" data-charid=${pop.id}>${pop.name}</h1>
@@ -62,9 +90,9 @@ function subnav_characters(options) {
                     </div>
 
                     <div class="ct-details-right" data-charid=${pop.id}>
-                        <div class="ct-details-edit" onclick="javascript:ct_characters_edit(this, key='detaildesc')" data-charid=${pop.id}></div>
+                        <div class="ct-details-edit" onclick="javascript:open_modal_content(this, key='char-details')" data-charid=${pop.id}></div>
                         <h1 class="ct-desc-title">Short bio</h1>
-                        <div class="ct-desc-text" placeholder="Click to edit..." ${pop.id}>${pop.bio}</div>
+                        <div class="ct-desc-text" placeholder="Click to edit..." data-charid=${pop.id}>${pop.bio}</div>
                     </div>
 
                     <div class="ct-space"></div>
@@ -106,8 +134,8 @@ function subnav_characters_subjects(charid) {
             const markup = `
                 ${pop.map(pop => `
                 <div class="ct-subject" data-charid=${pop.charid} data-subjectid=${pop.subjectid}>
-                    <div class="ct-subject-edit" onclick="javascript:ct_characters_edit(this, key='editsubject')" data-charid=${pop.charid} data-subjectid=${pop.subjectid}></div>
-                    <div class="ct-subject-trash" onclick="javascript:ct_characters_del(this)" data-charid=${pop.charid} data-subjectid=${pop.subjectid}></div>
+                    <div class="ct-subject-edit" onclick="javascript:open_modal_content(this, key='EditCharSub')" data-charid=${pop.charid} data-subjectid=${pop.subjectid}></div>
+                    <div class="ct-subject-trash" onclick="javascript:delete_char_subject(this)" data-charid=${pop.charid} data-subjectid=${pop.subjectid}></div>
                     <h1 class="ct-subject-header" contenteditable="false" placeholder="Click here to add a title..." data-charid=${pop.charid} data-subjectid=${pop.subjectid}>${pop.subject}</h1>
                     <div class="ct-subject-text" contenteditable="false" placeholder="Click here to add text..." data-charid=${pop.charid} data-subjectid=${pop.subjectid}>${pop.subjecttext}</div>
                 </div>
