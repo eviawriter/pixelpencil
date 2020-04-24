@@ -1,8 +1,8 @@
 function loc_createCategory(x) {
 
-    var cat = formcreatelocation['form-name'].value.replace(/\'/g, "''");
+    var cat = formcreatelocation['form-name'].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
     var catorg = formcreatelocation['form-name'].value;
-    var desc = formcreatelocation['form-desc'].value.replace(/\'/g, "''");
+    var desc = formcreatelocation['form-desc'].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
     var descor = formcreatelocation['form-desc'].value;
 
     let data = {
@@ -37,9 +37,9 @@ function loc_createCategory(x) {
 
 function loc_createLocation(x) {
 
-    var loc = formcreatelocation['form-name'].value.replace(/\'/g, "''");
+    var loc = formcreatelocation['form-name'].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
     var lorg = formcreatelocation['form-name'].value;
-    var desc = formcreatelocation['form-desc'].value.replace(/\'/g, "''");
+    var desc = formcreatelocation['form-desc'].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
     var deso = formcreatelocation['form-desc'].value;
     var catid = formcreatelocation['form-select'].value;
 
@@ -58,7 +58,7 @@ function loc_createLocation(x) {
             <button class="sn-subitem locations" onclick="subnav_locations(this)" data-locid="${result}">${lorg}</button>
         `
 
-        let add = document.querySelector('.sn-subitems[data-catid="' + catid + '"]');
+        let add = document.getElementById('subnav-locations').querySelector('.sn-subitems[data-catid="' + catid + '"]');
 
         add.insertAdjacentHTML('beforeend', markup);
 

@@ -39,11 +39,6 @@ function menu(button, click) {
     document.getElementById('ac-dashboard').style.visibility = "hidden";
     document.getElementById('ac-writing').style.visibility = "hidden";
     document.getElementById('ac-other').style.visibility = "hidden";
-    document.getElementById('action-button').style.visibility = "hidden";
-    // document.getElementById('ac-locations').style.visibility = "hidden";
-    // document.getElementById('ac-ideas').style.visibility = "hidden";
-    // document.getElementById('ac-research').style.visibility = "hidden";
-    
 
     if (button == 'options') {
         console.log('hey!');
@@ -73,6 +68,9 @@ function menu(button, click) {
     }
 
     else if (button == 'writing') {
+
+        // hide action-button
+        document.getElementById('action-button').style.visibility = "hidden";
 
         // make context-menu visible
         document.getElementById("cm-writing").style.visibility = "visible";
@@ -111,9 +109,19 @@ function menu(button, click) {
         // probably better to first check if an item is already opened before applying this. If not opened, then keep it hidden.
         document.getElementById('ac-other').style.visibility = "visible";
         document.getElementById('action-button').dataset.cat = "characters";
-        document.getElementById('action-button').style.visibility = "visible";
 
+        // add a check if there is an id. If not, do nothing, else, make visible. 
+        let check = document.getElementById('ac-characters').querySelector('.tooltip').dataset.charid;
 
+        if (check !== '') {
+            console.log('do something');
+            document.getElementById('action-button').style.visibility = "visible";
+        }
+
+        else {
+            // hide action-button
+            document.getElementById('action-button').style.visibility = "hidden";
+        }
     }
 
     else if (button == 'locations') {
@@ -136,6 +144,19 @@ function menu(button, click) {
         // document.getElementById('ac-locations').style.visibility = "visible";
         document.getElementById('ac-other').style.visibility = "visible";
         document.getElementById('action-button').dataset.cat = "locations";
+
+        // add a check if there is an id. If not, do nothing, else, make visible. 
+        let check = document.getElementById('ac-locations').querySelector('.tooltip').dataset.locid;
+
+        if (check !== '') {
+            console.log('do something');
+            document.getElementById('action-button').style.visibility = "visible";
+        }
+
+        else {
+            // hide action-button
+            document.getElementById('action-button').style.visibility = "hidden";
+        }
 
 
     }
@@ -161,6 +182,19 @@ function menu(button, click) {
         document.getElementById('ac-other').style.visibility = "visible";
         document.getElementById('action-button').dataset.cat = "ideas";
 
+        // add a check if there is an id. If not, do nothing, else, make visible. 
+        let check = document.getElementById('ac-ideas').querySelector('.tooltip').dataset.ideaid;
+
+        if (check !== '') {
+            console.log('do something');
+            document.getElementById('action-button').style.visibility = "visible";
+        }
+
+        else {
+            // hide action-button
+            document.getElementById('action-button').style.visibility = "hidden";
+        }
+
     }
 
     else if (button == 'research') {
@@ -183,6 +217,19 @@ function menu(button, click) {
         // document.getElementById('ac-research').style.visibility = "visible";
         document.getElementById('ac-other').style.visibility = "visible";
         document.getElementById('action-button').dataset.cat = "research";
+
+        // add a check if there is an id. If not, do nothing, else, make visible. 
+        let check = document.getElementById('ac-research').querySelector('.tooltip').dataset.resid;
+
+        if (check !== '') {
+            console.log('do something');
+            document.getElementById('action-button').style.visibility = "visible";
+        }
+
+        else {
+            // hide action-button
+            document.getElementById('action-button').style.visibility = "hidden";
+        }
 
     }
 

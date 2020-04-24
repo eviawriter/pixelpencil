@@ -85,9 +85,9 @@
             <div class="box-subnav">
                 <div id="subnav-dashboard"></div>
                 <div id="subnav-writing">
-
+                    <div class="sn-accordion"></div>
                     <!-- prefix subnav = sn, sn-accordion is container 
-                    This info gets replaced at load. -->
+                    This info gets replaced at load. 
                     <div class="sn-accordion">
                         <div class="sn-accordion">
                             <section class="sn-accordion-item" data-chapid="1" data-chaporder="1"
@@ -106,66 +106,30 @@
                                 </div>
                             </section>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
 
+                <!-- Subnav CHARACTERS -->
                 <div id="subnav-characters">
-
-
-                    <div class="sn-accordion">
-
-                        <section class="sn-accordion-item open">
-                            <h1 class="sn-character-header">Main characters</h1>
-                            <div class="sn-subitems">
-                                <button class="sn-subitem characters">Balu de grote beer</button>
-                                <button class="sn-subitem characters">Juffrouw Tok</button>
-                            </div>
-                        </section>
-
-                        <section class="sn-accordion-item open">
-                            <h1 class="sn-character-header">Secondary characters</h1>
-                            <div class="sn-subitems">
-                                <button class="sn-subitem">Meneer de Uil</button>
-                                <button class="sn-subitem">Meneer de Brilaap</button>
-                            </div>
-                        </section>
-
-
-                        <section class="sn-accordion-item open">
-                            <h1 class="sn-character-header">Other characters</h1>
-                            <div class="sn-subitems">
-                                <button class="sn-subitem">Meneer de Wolf</button>
-                                <button class="sn-subitem">Roodkapje</button>
-                            </div>
-                        </section>
-
-                    </div>
+                    <div class="sn-accordion"></div>
                 </div>
 
-                <!-- content for subnav LOCATIONS -->
+                <!-- Subnav LOCATIONS -->
                 <div id="subnav-locations">
-                    <div class="sn-accordion">
-
-                    </div>
+                    <div class="sn-accordion"></div>
                 </div>
 
+                <!-- Subnav IDEAS -->
                 <div id="subnav-ideas">
-                    <div class="sn-accordion">
-
-                        <section class="sn-accordion-item open">
-                            <h1 class="sn-character-header">Ideas</h1>
-                            <div class="sn-subitems">
-                                <button class="sn-subitem">Make Elora great again</button>
-                                <button class="sn-subitem">Fight the good fight</button>
-                            </div>
-                        </section>
-                    </div>
+                    <div class="sn-accordion"></div>
                 </div>
+
+                <!-- Subnav RESEARCH -->
                 <div id="subnav-research">
                     <div class="sn-accordion">
 
                         <section class="sn-accordion-item open">
-                            <h1 class="sn-character-header">Chapters</h1>
+                            <h1 class="sn-research-header">Chapters</h1>
                             <div class="sn-subitems">
                                 <button class="sn-subitem">Chapter 1</button>
                                 <button class="sn-subitem">Chapter 2</button>
@@ -220,6 +184,7 @@
                         </div>
 
                         <div class="tooltipcontent" id="cr-ideas">
+                            <button class="tooltip" onclick="open_modal_create('id-category')">Add category</button>
                             <button class="tooltip" onclick="open_modal_create('id-idea')">Add idea</button>
                         </div>
 
@@ -287,7 +252,7 @@
                 <!-- contextmenu for ideas -->
                 <div class="box-contextmenu" id="cm-ideas">
 
-                    <button class="cm-button" id="cm-ideas-###" onclick="cm_ideas('ideas')">Ideas</button>
+                    <button class="cm-button" id="cm-ideas-details" onclick="cm_ideas('ideas')">Idea details</button>
 
                 </div>
 
@@ -391,13 +356,13 @@
                     <div class="box-tooltip">
 
                         <!-- data-cat needs to be changed when clicked on a menu-category -->
-                        <button class="button-general" id="action-button" data-cat="characters"
+                        <button class="button-general" id="action-button" data-cat="characters" data-hide="hidden"
                             onmouseover="ac_tooltip_visible(this)"></button>
 
                         <!-- these are the tooltips -->
                         <div class="tooltipcontent" id="ac-characters">
 
-                            <button class="tooltip" onclick="open_subject_modal(this, 'char-subject')">Add subject
+                            <button class="tooltip" onclick="acSubjectModal(this, 'char-subject')" data-charid="">Add subject
                                 or question</button>
                             <!-- <button class="tooltip" onclick="open_subject_modal(this, 'char-thematic')">Add thematic
                                 subject</button> -->
@@ -406,19 +371,16 @@
 
                         <div class="tooltipcontent" id="ac-locations">
 
-                            <button class="tooltip" onclick="open_modal_action('loca-subject')">Add your own location
+                            <button class="tooltip" onclick="acSubjectModal(this, 'locations')" data-locid="">Add location
                                 info</button>
-                            <button class="tooltip" onclick="open_modal_action('loca-thematic')">Add thematic
-                                subject</button>
-
                         </div>
 
 
                         <div class="tooltipcontent" id="ac-ideas">
 
-                            <button class="tooltip" onclick="open_modal_action('idea-subject')">Add your own
+                            <button class="tooltip" onclick="acSubjectModal('idea-subject')" data-ideaid="">Add your own
                                 ideas</button>
-                            <button class="tooltip" onclick="open_modal_action('idea-thematic')">Add thematic
+                            <button class="tooltip" onclick="acSubjectModal('idea-thematic')" data-ideaid="">Add thematic
                                 subject</button>
 
                         </div>
@@ -426,9 +388,9 @@
 
                         <div class="tooltipcontent" id="ac-research">
 
-                            <button class="tooltip" onclick="open_modal_action('rese-subject')">Add your own
+                            <button class="tooltip" onclick="acSubjectModal('rese-subject')" data-resid="">Add your own
                                 research</button>
-                            <button class="tooltip" onclick="open_modal_action('rese-thematic')">Add thematic
+                            <button class="tooltip" onclick="acSubjectModal('rese-thematic')" data-resid="">Add thematic
                                 subject</button>
 
                         </div>
@@ -468,55 +430,87 @@
 
     <!-- here be the scripting done -->
     <!-- main script -->
-    <script src="js/global.js"></script>
-    <script src="js/subnav/characters/populate_subnav.js"></script>
-    
-    <!-- generic database transactions for create -->
+
+    <script src="js/initialize.js"></script>
+
+    <!-- generic database transactions -->
+
     <script src="js/database.js"></script>
 
     <!-- main menu scripts -->
+
     <script src="js/menu/main.js"></script>
 
-    <!-- subnav scripts -->
-    <script src="js/subnav/writing/activeclass.js"></script>
-    <script src="js/subnav/writing/loadsubchapter.js"></script>
-    <script src="js/subnav/writing/dragevents.js"></script>
-    <script src="js/subnav/locations/loc_popSubnav.js"></script>
-    <script src="js/subnav/locations/loc_popContent.js"></script>
+    <!-- main scripts -->
 
-    <!-- subnav scripts for adding -->
-    <script src="js/create/writing/modal_specific_changes.js"></script>
-    <script src="js/create/locations/modal_location.js"></script>
-    <script src="js/create/writing/add_chapter.js"></script>
-    <script src="js/create/writing/add_subchapter.js"></script>
-    <script src="js/create/characters/create_character.js"></script>
-    <script src="js/create/locations/create_location.js"></script>
-
-    <!-- subnav scripts for deleting -->
-    <script src="js/subnav/delete_general.js"></script>
-    <script src="js/subnav/writing/delete_chapter.js"></script>
-    <script src="js/subnav/writing/delete_subchapter.js"></script>
-    <script src="js/subnav/characters/delete_character.js"></script>
-    <script src="js/subnav/locations/loc_delSubnav.js"></script>
-
-    <!-- create scripts -->
     <script src="js/create/main.js"></script>
+    <script src="js/context/main.js"></script>
+    <script src="js/content/main.js"></script>
+    <script src="js/action/main.js"></script>
+
+    <!-- subnav scripts (populate) -->
+    
+    <script src="js/subnav/writing/subnavWritActivemenu.js"></script>
+    <script src="js/subnav/writing/subnavWritContent.js"></script>
+    <script src="js/subnav/writing/subnavWritMenuDragevents.js"></script>
+    
+    <script src="js/subnav/characters/subnavCharContent.js"></script>
+    <script src="js/subnav/characters/subnavCharPopulate.js"></script>
+
+    <script src="js/subnav/locations/subnavLocPopulate.js"></script>
+    <script src="js/subnav/locations/subnavLocContent.js"></script>
+
+    <script src="js/subnav/ideas/subnavIdeasPopulate.js"></script>
+    <script src="js/subnav/ideas/subnavIdeasContent.js"></script>
+
+    <!-- subnav scripts (remove) -->
+    
+    <script src="js/subnav/subnavDelMain.js"></script>
+    
+    <script src="js/subnav/writing/subnavWritChapterDel.js"></script>
+    <script src="js/subnav/writing/subnavWritSubchapterDel.js"></script>
+    
+    <script src="js/subnav/characters/subnavCharDel.js"></script>
+    
+    <script src="js/subnav/locations/SubnavLocDel.js"></script>
+      
+    <!-- create scripts (adds subnav-items) -->
+
+    <script src="js/create/writing/createWritChapter.js"></script>
+    <script src="js/create/writing/createWritSubchapter.js"></script>
+    <script src="js/create/writing/createWritModal.js"></script>
+
+    <script src="js/create/characters/createCharacter.js"></script>
+
+    <script src="js/create/locations/createLocation.js"></script>
+    <script src="js/create/locations/createLocModal.js"></script>
+
+    <script src="js/create/ideas/createIdeas.js"></script>
+    <script src="js/create/ideas/createIdeasModal.js"></script>
 
     <!-- context scripts -->
-    <script src="js/context/main.js"></script>
+    
 
-    <!-- content scripts -->
-    <script src="js/subnav/characters/character_content.js"></script>
-    <script src="js/content/characters/edit_character.js"></script>
-    <script src="js/content/main.js"></script>
-    <script src="js/content/characters/subjects.js"></script>
+    <!-- content scripts (populate) -->
+
+    <script src="js/content/characters/contCharEdit.js"></script>
+    <script src="js/content/characters/contCharSubjects.js"></script>
+    <script src="js/content/locations/contLocEdit.js"></script>
+
+    <!-- content scripts (remove) -->
+
+    <script src="js/content/locations/contLocDel.js"></script>
+    <script src="js/content/contDelMain.js"></script>
+    <script src="js/content/locations/contLocDel.js"></script>
 
     <!-- action scripts -->
-    <script src="js/action/writing/ac_countwords.js"></script>
-    <script src="js/action/main.js"></script>
-    <script src="js/action/characters/add_subject.js"></script>
+    
+    <script src="js/action/acWritCountwords.js"></script>
+    <script src="js/action/acCharAdd.js"></script>
+    <script src="js/action/acLocAdd.js"></script>
 
     <!-- scripts needed for startup -->
+
     <script src="js/body.js"></script>
 
 </body>

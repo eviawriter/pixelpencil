@@ -2,10 +2,10 @@ function add_subject() {
 
     console.log('updating database with subject and answer details');
 
-    let subj = formactioncharacter["form-name"].value.replace(/\'/g, "''");
+    let subj = formactioncharacter["form-name"].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
     let orgi = formactioncharacter["form-name"].value;
 
-    let answ = formactioncharacter["form-desc"].value.replace(/\'/g, "''");
+    let answ = formactioncharacter["form-desc"].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
     let orga = formactioncharacter["form-desc"].value;
 
     let chid = formactioncharacter.dataset.id;

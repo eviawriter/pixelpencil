@@ -135,19 +135,36 @@ function open_modal_create(option) {
         create_modal_markup(create);
     }
 
-    // category ideas
-    else if (option == 'id-idea') {
+    // category ideas (category)
+    else if (option == 'id-category') {
         let create = {
-            title: 'Add idea',
-            javascript: 'create_idea(this, "idea")',
+            title: 'Add category',
+            javascript: 'createIdeaCategory(this)',
             form: 'idea',
-            input1: 'Idea title',
+            input1: 'Category title',
             input2: 'Short description',
-            save: 'Save idea',
+            save: 'Save category',
             extrafield: ''
         }
 
         create_modal_markup(create);
+    }
+
+    // category ideas (idea)
+    else if (option == 'id-idea') {
+        let create = {
+            title: 'Add idea',
+            javascript: 'createIdea(this)',
+            form: 'idea',
+            input1: 'Idea title',
+            input2: 'Short description',
+            save: 'Save idea',
+            extrafield: '<h3 class="form-input-header">Select category:</h3><select name="form-select" id="form-ideas-dropdown" required=""></select>'
+        }
+
+        let dropdown = 'idea';
+
+        create_modal_markup(create, dropdown);
     }
 
     // category research
@@ -242,6 +259,14 @@ function create_modal_markup(create, dropdown) {
         console.log('loc_dropdown');
 
         modal_location_dropdown(markup);
+
+    }
+
+    else if (dropdown === 'idea') {
+
+        console.log('loc_dropdown');
+
+        modal_ideas_dropdown(markup);
 
     }
 

@@ -2,6 +2,7 @@
 
     populate_subnav_writing();
     populate_subnav_characters();
+    subnavIdeasPopulate();
 
 })()
 

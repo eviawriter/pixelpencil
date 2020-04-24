@@ -1,7 +1,7 @@
 function add_subchapter() {
 
-    let name = formcreatesubchapter["form-name"].value.replace(/\'/g, "''");
-    let desc = formcreatesubchapter["form-desc"].value.replace(/\'/g, "''");
+    let name = formcreatesubchapter["form-name"].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
+    let desc = formcreatesubchapter["form-desc"].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
     let orgname = formcreatesubchapter["form-name"].value;
     let chapid = formcreatesubchapter["form-select"].value;
 

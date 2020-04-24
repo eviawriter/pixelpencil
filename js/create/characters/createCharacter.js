@@ -4,9 +4,9 @@ function create_character(form, type) {
 
     // get stuff from form and replace the ' with '' to be able to save it to the database. char_org contains
     // the original name, neccessary to create the correct elements in subnav-characters.
-    let charname = formcreatecharacter["form-name"].value.replace(/\'/g, "''");
+    let charname = formcreatecharacter["form-name"].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
     let char_org = formcreatecharacter["form-name"].value;
-    let chardesc = formcreatecharacter["form-desc"].value.replace(/\'/g, "''");
+    let chardesc = formcreatecharacter["form-desc"].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
 
     console.log(charname, chardesc);
 

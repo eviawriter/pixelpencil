@@ -54,7 +54,7 @@ function set_editor(subid) {
     // get content from the editor and make the ' saveable. 
     let currentsubid = document.getElementById('editor').dataset.subid;
     let rawcontent = document.getElementById("editor").innerHTML;
-    let content = rawcontent.replace(/\'/g, "''");
+    let content = rawcontent.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
 
     // start sqlite3
     const sqlite3 = require('sqlite3').verbose();
@@ -135,7 +135,7 @@ function save_editor() {
     // get content from the editor and make the ' saveable.
     let subid = document.getElementById('editor').dataset.subid;
     let rawcontent = document.getElementById("editor").innerHTML;
-    let content = rawcontent.replace(/\'/g, "''");
+    let content = rawcontent.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
 
     // start sqlite3
     const sqlite3 = require('sqlite3').verbose();

@@ -2,9 +2,9 @@ function add_chapter() {
 
     // get stuff from form and replace the ' with '' to be able to save it to the database. chap_org contains
     // the original name, neccessary to create the correct elements in subnav-writing.
-    let chapname = formcreatechapter["form-name"].value.replace(/\'/g, "''");
+    let chapname = formcreatechapter["form-name"].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
     let chap_org = formcreatechapter["form-name"].value;
-    let chapdesc = formcreatechapter["form-desc"].value.replace(/\'/g, "''");
+    let chapdesc = formcreatechapter["form-desc"].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
 
     console.log(chapname, chapdesc);
 

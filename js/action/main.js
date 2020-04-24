@@ -1,5 +1,5 @@
 // create all modals for every action option.
-function open_subject_modal(button, option) {
+function acSubjectModal(button, option) {
 
     //    var box = document.querySelectorAll('.box-create-form');
     //
@@ -19,7 +19,8 @@ function open_subject_modal(button, option) {
             form: 'deadline',
             input1: 'Subchapter name',
             input2: 'Short description',
-            save: 'Save subchapter'
+            save: 'Save subchapter',
+            rows: '4'
         }
 
         action_modal_markup(create);
@@ -39,7 +40,8 @@ function open_subject_modal(button, option) {
             input1: 'Subject or question',
             input2: 'Answer',
             save: 'Save subject',
-            extrafield: ''
+            extrafield: '',
+            rows: '4'
         }
 
         action_modal_markup(create);
@@ -47,15 +49,22 @@ function open_subject_modal(button, option) {
 
     // category locations
     else if (option == 'locations') {
+
+        let locid = button.dataset.locid;
+
         let create = {
-            title: 'Create location',
-            javascript: 'create_location(this)',
+            title: 'Create new subject',
+            javascript: 'acLocAdd(this, ' + locid + ')',
+            id: locid,
             form: 'location',
-            input1: 'Location name',
-            input2: 'Short description',
-            save: 'Save location',
-            extrafield: ''
+            input1: 'Subject',
+            input2: 'Details',
+            save: 'Save subject',
+            extrafield: '',
+            rows: '12'
         }
+
+        console.log('ik werk!')
 
         action_modal_markup(create);
     }
@@ -69,7 +78,8 @@ function open_subject_modal(button, option) {
             input1: 'Idea title',
             input2: 'Short description',
             save: 'Save idea',
-            extrafield: ''
+            extrafield: '',
+            rows: '4'
         }
 
         action_modal_markup(create);
@@ -84,7 +94,8 @@ function open_subject_modal(button, option) {
             input1: 'Website title',
             input2: 'Short description',
             save: 'Save website',
-            extrafield: ''
+            extrafield: '',
+            rows: '4'
         }
 
         action_modal_markup(create);
@@ -102,7 +113,7 @@ function action_modal_markup(create) {
             <input name="form-name" type="text" class="form-input" required="">
 
             <h3 class="form-input-header">${create.input2}</h3>
-            <textarea name="form-desc" class="form-input" rows="4"></textarea>
+            <textarea name="form-desc" class="form-input" rows="${create.rows}"></textarea>
 
             ${create.extrafield}
 
@@ -126,7 +137,6 @@ function close_action_modal() {
     let modal = document.getElementById('modal_action');
     modal.close();
 }
-
 
 // function to make the tooltip of the action-button visible onmouseover
 function ac_tooltip_visible(category) {

@@ -124,9 +124,9 @@ function edit_char_subject() {
 
 
     let suid = editCharSub.dataset.subjectid;
-    // let subj = editCharSub["form-name"].value.replace(/\'/g, "''");
+    // let subj = editCharSub["form-name"].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
     let orgi = editCharSub["form-name"].value;
-    // let answ = editCharSub["form-desc"].value.replace(/\'/g, "''");
+    // let answ = editCharSub["form-desc"].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
     let orga = editCharSub["form-desc"].value;
 
     let data = {

@@ -1,5 +1,8 @@
 #box-content-dashboard {
     visibility: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 #box-content-writing {
@@ -18,12 +21,21 @@
 
 #box-content-locations {
     visibility: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 #box-content-ideas {
     visibility: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 #box-content-research {
     visibility: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
 }

@@ -24,6 +24,7 @@ function subnav_characters(options) {
 
     // make action-button visible
     document.getElementById('ac-other').style.visibility = "visible";
+    document.getElementById('action-button').style.visibility = "visible";
 
     console.log(charid);
 

@@ -1,4 +1,4 @@
-.sn-character-header, .sn-location-header {
+.sn-character-header, .sn-location-header, .sn-ideas-header {
     height: 50px;
     padding-left: 15px;
     padding-right: 15px;
@@ -6,7 +6,7 @@
     margin: 0;
 }
 
-.sn-location-header {
+.sn-location-header, .sn-ideas-header {
     background: none;
     border: none;
     font-family: 'Ubuntu';
@@ -17,7 +17,7 @@
     text-align: left;
 }
 
-.sn-location-header:hover, .sn-character-header:hover {
+.sn-location-header:hover, .sn-character-header:hover, .sn-ideas-header:hover {
     cursor: pointer;
     background-color: #3d3d3d;
 }

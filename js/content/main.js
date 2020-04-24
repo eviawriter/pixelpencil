@@ -102,6 +102,7 @@ function open_modal_content(ct, key) {
 
         let create = {
             id: ct.dataset.subjectid,
+            dataname: 'subjectid',
             title: 'Edit subject',
             javascript: 'edit_char_subject(this)',
             form: 'editCharSub',
@@ -133,10 +134,129 @@ function open_modal_content(ct, key) {
             console.log(results);
 
             // dedicated function to open the modal for editing subjects
-            ct_modal_EditCharSub(create, results);
+            ct_modal_editSubject(create, results);
 
         })
     }
+
+    // edit location content header
+    if (key == 'loc-header') {
+
+        let create = {
+            id: ct.dataset.locid,
+            title: 'Edit title',
+            javascript: 'editLocation(this, \'title\')',
+            form: 'editLoc',
+            input1: 'Change title',
+            // input 2 needs to be created; dropdown for selecting a new header.
+            input2: 'Change header image',
+            save: 'Save title'
+        }
+
+        let data = {
+            function: 'get',
+            records: 'locname',
+            table: 'Locations',
+            column: 'locid',
+            id: create.id,
+            and: '',
+            where: '',
+            orderby: '',
+            order: ''
+        }
+
+        database(data, function (result) {
+
+            let results = {
+                subj: result.locname
+            }
+
+            ct_modal_editLocHeader(create, results);
+
+        })
+    }
+
+    if (key == 'EditLocDesc') {
+        
+        let create = {
+            id: ct.dataset.locid,
+            title: 'Edit description',
+            javascript: 'editLocation(this, \'description\')',
+            form: 'editLoc',
+            input1: 'Change description',
+            save: 'Save description'
+        }
+
+        let data = {
+            function: 'get',
+            records: 'locdesc',
+            table: 'Locations',
+            column: 'locid',
+            id: create.id,
+            and: '',
+            where: '',
+            orderby: '',
+            order: ''
+        }
+
+        database(data, function (result) {
+
+            let results = {
+                subj: result.locdesc
+            }
+
+            console.log(results);
+
+            ct_modal_editLocDesc(create, results);
+
+        })
+    }
+
+    if (key == 'EditLocSub') {
+
+        let create = {
+            id: ct.dataset.locoid,
+            dataname: 'locoid',
+            title: 'Edit subject',
+            javascript: 'editLocation(this, \'subject\')',
+            form: 'editLoc',
+            input1: 'Edit subject or question',
+            input2: 'Answer',
+            save: 'Save subject'
+        }
+
+        // new way to get stuff from database. Database_subjects is a dedicated
+        // function specificaly made to just get stuff from the database. 
+        // it uses the object 'data' to create the sql-query. 
+        let data = {
+            function: 'get',
+            records: 'title, text',
+            table: 'LocContent',
+            column: 'locoid',
+            id: create.id,
+            and: '',
+            where: '',
+            orderby: '',
+            order: ''
+        }
+
+        // database_subjects is located in js/content/characters/subjects
+        database(data, function (result) {
+
+            let results = {
+                subj: result.title,
+                text: result.text
+            }
+
+            console.log(results);
+
+            // dedicated function to open the modal for editing subjects
+            ct_modal_editSubject(create, results);
+
+        })
+
+    }
+
 }
 
 // markup of modal (character details)
@@ -194,12 +314,12 @@ function ct_modal_markup(create, cont) {
 }
 
 // Markup modal Subject Edit
-function ct_modal_EditCharSub(create, result) {
+function ct_modal_editSubject(create, result) {
 
     const markup = `
     <div class="box-create-form">
     <h3 class="create_form_header">${create.title}</h3>
-        <form id="${create.form}" data-subjectid=${create.id} action="javascript:${create.javascript};">
+        <form id="${create.form}" data-${create.dataname}=${create.id} action="javascript:${create.javascript};">
             
             <div class="form-box-input">
                 <h3 class="form-input-header">${create.input1} *</h3>
@@ -226,6 +346,60 @@ function ct_modal_EditCharSub(create, result) {
 
     modal.showModal();
 
+}
+
+function ct_modal_editLocHeader(create, result) {
+
+    const markup = `
+    <div class="box-create-form">
+    <h3 class="create_form_header">${create.title}</h3>
+        <form id="${create.form}" data-locid=${create.id} action="javascript:${create.javascript};">
+            
+            <div class="form-box-input">
+                <h3 class="form-input-header">${create.input1} *</h3>
+                <input name="form-name" type="text" class="form-input" value="${result.subj}" required="">
+            </div>
+        
+            <div class="form-input-button">
+                <button class="create_close_button" type="button" onclick="close_action_modal()">Close</button>
+                <button class="create_save_button" type="submit">${create.save}</button>
+            </div>
+        </form>
+    </div>
+    `
+
+    let modal = document.getElementById('modal_action');
+
+    modal.innerHTML = markup;
+
+    modal.showModal();
+}
+
+function ct_modal_editLocDesc(create, result) {
+
+    const markup = `
+    <div class="box-create-form">
+    <h3 class="create_form_header">${create.title}</h3>
+        <form id="${create.form}" data-locid=${create.id} action="javascript:${create.javascript};">
+            
+            <div class="form-box-input">
+                <h3 class="form-input-header">${create.input1} *</h3>
+                <textarea name="form-desc" class="form-input" rows="4">${result.subj}</textarea>
+            </div>
+        
+            <div class="form-input-button">
+                <button class="create_close_button" type="button" onclick="close_action_modal()">Close</button>
+                <button class="create_save_button" type="submit">${create.save}</button>
+            </div>
+        </form>
+    </div>
+    `
+
+    let modal = document.getElementById('modal_action');
+
+    modal.innerHTML = markup;
+
+    modal.showModal();
 }
 
 // close modal

@@ -47,12 +47,12 @@ function database(data, result) {
     else if (data.function == 'edit') {
 
         // syntax data example:
-        // let data = {
-        //    function: 'edit',
-        //    id: locid;
-        //    table: Locations,
-        //    rows: 'locname="' + locname + '", locdesc="' + locdesc + '"',
-        //    column: 'locid',
+        // let data {
+        // function: 'edit', // specify the function
+        // table: 'table_to_edit', // specify the table to update
+        // rows: 'locname="' + locname + '", locdesc="' + locdesc + '"', // all the rows you want to update
+        // column: '', // based on which column do you want to update the rows?
+        // id: '' // id of that particular column. 
         // }
 
         let sql = "UPDATE " + data.table + " SET " + data.rows + " WHERE " + data.column + " = '" + data.id + "'";
@@ -87,7 +87,7 @@ function database(data, result) {
         //      column: 'locid',
         //      id: '13',
         //      and: 'AND',
-        //      where: '...',
+        //      where: '', // extra column inc. value; ie trash=0
         //      orderby: 'ORDER BY',
         //      order: 'locorder'
         // }
@@ -144,6 +144,8 @@ function database(data, result) {
             }
 
             else {
+
+                console.log(this);
 
                 let id = this.lastID;
 

@@ -4,9 +4,9 @@ function ct_char_edit_details(cont) {
 
     // get stuff from form and replace the ' with '' to be able to save it to the database. chap_org contains
     // the original name, neccessary to create the correct elements in subnav-writing.
-    let name = ct_characterdetails["form-name"].value.replace(/\'/g, "''");
+    let name = ct_characterdetails["form-name"].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
     let orgi = ct_characterdetails["form-name"].value;
-    let desc = ct_characterdetails["form-desc"].value.replace(/\'/g, "''");
+    let desc = ct_characterdetails["form-desc"].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
     let gend = ct_characterdetails["form-gend"].value;
     let ages = ct_characterdetails["form--age"].value;
     let type = ct_characterdetails["form-type"].value;

@@ -11,6 +11,9 @@ function delete_general() {
 
     // container locations
     document.querySelector('#subnav-locations').addEventListener('keydown', delete_stuff, true);
+
+    // container locations
+    document.querySelector('#subnav-ideas').addEventListener('keydown', delete_stuff, true);
 }
 
 
@@ -24,7 +27,7 @@ function delete_stuff(event) {
     var target = event.target;
 
     if (toets == 46) {
-        
+
         // if the chapter-button is keyed:
         if (event.target.className === 'button_chapters') {
 
@@ -54,7 +57,7 @@ function delete_stuff(event) {
 
             // get charid and charname
             let id = target.dataset.charid;
-            let name = document.querySelector('.sn-subitem.characters[data-charid = "' + id +'"]').textContent;
+            let name = document.querySelector('.sn-subitem.characters[data-charid = "' + id + '"]').textContent;
 
             delete_modal(name, id, 'character');
         }
@@ -63,7 +66,7 @@ function delete_stuff(event) {
 
             console.log('it worked on location category!');
             let id = target.dataset.catid;
-            let name = document.querySelector('.sn-location-header[data-catid="'+ id + '"]').textContent;
+            let name = document.querySelector('.sn-location-header[data-catid="' + id + '"]').textContent;
 
             delete_modal(name, id, 'location category')
 
@@ -75,9 +78,31 @@ function delete_stuff(event) {
 
             // get charid and charname
             let id = target.dataset.locid;
-            let name = document.querySelector('.sn-subitem.locations[data-locid = "' + id +'"').textContent;
+            let name = document.querySelector('.sn-subitem.locations[data-locid = "' + id + '"').textContent;
 
             delete_modal(name, id, 'location');
+
+        }
+
+        else if (event.target.className === 'sn-ideas-header') {
+
+            console.log('it worked on ideas category!');
+            let id = target.dataset.catid;
+            let name = document.querySelector('.sn-ideas-header[data-catid="' + id + '"]').textContent;
+
+            delete_modal(name, id, 'idea category')
+
+        }
+
+        else if (event.target.className === 'sn-subitem ideas') {
+
+            console.log('Ideas');
+
+            // get charid and charname
+            let id = target.dataset.ideaid;
+            let name = document.querySelector('.sn-subitem.ideas[data-ideaid = "' + id + '"').textContent;
+
+            delete_modal(name, id, 'ideas');
 
         }
 
@@ -151,7 +176,45 @@ function delete_modal(name, id, option) {
             id: 'data-locid=' + id,
             script: 'javascript:delete_location(this)'
         }
+    }
 
+    //    // needs to be written correctly
+    //    else if (option == 'location') {
+    //
+    //        var del = {
+    //            header: 'Are you sure?',
+    //            text: 'location description',
+    //            text2: '',
+    //            name: name,
+    //            // need to fix this
+    //            id: 'data-locid=' + id,
+    //            script: 'javascript:delete_location(this)'
+    //        }
+    //
+    //    }
+    else if (option == 'Idea category') {
+
+        var del = {
+            header: 'Are you sure?',
+            text: '',
+            text2: '<p class="text-italic">Note: all ideas in this category will also be deleted!</p>',
+            name: name,
+            id: 'data-catid=' + id,
+            script: 'javascript:delete_idea_category(this)'
+        }
+
+    }
+
+    else if (option == 'idea') {
+
+        var del = {
+            header: 'Are you sure?',
+            text: 'idea',
+            text2: '',
+            name: name,
+            id: 'data-ideaid=' + id,
+            script: 'javascript:delete_idea(this)'
+        }
     }
 
 
