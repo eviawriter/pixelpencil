@@ -1,5 +1,4 @@
 // this file contains stuff that gets used globally
-
 const electron = require('electron');
 const path = require('path');
 

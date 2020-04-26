@@ -192,7 +192,7 @@ function delete_modal(name, id, option) {
     //        }
     //
     //    }
-    else if (option == 'Idea category') {
+    else if (option == 'idea category') {
 
         var del = {
             header: 'Are you sure?',
@@ -205,7 +205,7 @@ function delete_modal(name, id, option) {
 
     }
 
-    else if (option == 'idea') {
+    else if (option == 'ideas') {
 
         var del = {
             header: 'Are you sure?',

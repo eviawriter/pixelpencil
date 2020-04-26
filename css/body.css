@@ -36,12 +36,26 @@ They can be changed here */
 }
 
 .box-navibar {
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     min-height: 100vh;
     min-width: 300px;
     max-width: 450px;
     background-color:#3E3E3E; 
+}
+
+.box-navibar.show {
+    display: flex;
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s, opacity 0.3s;
+}
+
+.box-navibar.hide {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
 }
 
 .box-editing {
@@ -106,7 +120,12 @@ Note: the styles of these can be found in css/subnav.
 Note: the styles of these can be found in css/subnav. */
 .box-context {
     height: 75px;
-    padding: 0px 40px 0px 40px;
+    margin: 0px 40px 0px 40px;
+    background-color: #2a2a2a;
+    background-image: url("./images/general/context-border.png");
+}
+
+.box-context-background {
     background-color: #2a2a2a;
 }
 

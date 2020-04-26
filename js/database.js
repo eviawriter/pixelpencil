@@ -1,11 +1,10 @@
+// This function is a method to use throughout the program when 
+// something needs to be retrieved, stored, changed or deleted in
+// the database. 
+// The data-object is used and passed to database(data, function(result)) {}
+// Only 'select' and 'create' return meaningful data (mostly the id)
+// 'Delete' and 'Edit' return an update. 
 function database(data, result) {
-
-    // data contains:
-    // let data = {
-    //    function: 'get',
-    //    id: '',
-    //    table: 'Characters'
-    // }
 
     // start sqlite3
     const sqlite3 = require('sqlite3').verbose();
@@ -151,10 +150,69 @@ function database(data, result) {
 
                 return result(id);
             }
-
         })
-
     }
 
+    else if (data.function == 'count') {
 
+        // SYNTAX:
+        // let data {
+        //      table: (name of table)
+        //      trash: (name of trash column)
+        // }
+        if (data.union == 'yes') {
+            var sql = `
+                SELECT COUNT(*) AS count FROM ${data.table} WHERE ${data.trash}=0 
+                UNION ALL 
+                SELECT COUNT(*) FROM ${data.table2} WHERE ${data.trash2}=0 
+                UNION ALL 
+                SELECT COUNT(*) FROM ${data.table3} WHERE ${data.trash3}=0 
+                UNION ALL 
+                SELECT COUNT(*) FROM ${data.table4} WHERE ${data.trash4}=0 
+                UNION ALL 
+                SELECT COUNT(*) FROM ${data.table5} WHERE ${data.trash5}=0
+                UNION ALL 
+                SELECT COUNT(*) FROM ${data.table6} WHERE ${data.trash6}=0
+            `
+        }
+
+        else {
+            var sql = "SELECT COUNT(*) AS count FROM " + data.table + " WHERE " + data.trash + "=0";
+        }
+
+        console.log(sql);
+
+        db.all(sql, function (err, res) {
+
+            if (err) {
+                alert(err);
+            }
+
+            else {
+                
+                console.log(res);
+
+                let chap = res[0].count;
+                let subchap = res[1].count;
+                let char = res[2].count;
+                let loc = res[3].count;
+                let idea = res[4].count;
+                let rese = res[5].count;
+
+
+                let uit = {
+                    chap: chap,
+                    subchap: subchap,
+                    char: char,
+                    loc: loc,
+                    idea: idea,
+                    rese: rese
+                }
+
+                db.close();
+
+                return result(uit);
+            }
+        })
+    }
 }

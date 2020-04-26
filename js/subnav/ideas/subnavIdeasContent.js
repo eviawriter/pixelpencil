@@ -57,7 +57,7 @@ function subnav_ideas(options) {
 
         let markup = `
         <div class="ct-wrapper" data-ideaid="${id}">            
-            <div class="ct-header">
+            <div class="ct-header ideas" data-ideaid="${id}">
                 <div class="ct-header-title" data-ideaid="${id}">${pop.name}</div>
                 <div class="ct-header-edit" onclick="javascript:open_modal_content(this, key='idea-header')" data-ideaid="${id}"></div>
             </div>
@@ -115,9 +115,9 @@ function subnavIdeasSubjects(id) {
 
         let markup = `
         ${pop.map(pop => `
-            <div class="ct-subject" data-ideaid="${id}" data-locoid="${pop.id}">
-                <div class="ct-subject-edit" onclick="javascript:open_modal_content(this, key='EditLocSub')" data-ideaid="${id}" data-id="${pop.id}"></div>
-                <div class="ct-subject-trash" onclick="javascript:delContent(this, 'locSubject')" data-ideaid="${id}" data-id="${pop.id}"></div>
+            <div class="ct-subject" data-ideaid="${id}" data-id="${pop.id}">
+                <div class="ct-subject-edit" onclick="javascript:open_modal_content(this, key='EditIdeaSub')" data-ideaid="${id}" data-id="${pop.id}"></div>
+                <div class="ct-subject-trash" onclick="javascript:delContent(this, 'ideaSubject')" data-ideaid="${id}" data-id="${pop.id}"></div>
                 <h1 class="ct-subject-header" contenteditable="false" placeholder="Click here to add a title..." data-ideaid="${id}" data-id="${pop.id}">${pop.title}</h1>
                 <div class="ct-subject-text" contenteditable="false" placeholder="Click here to add text..." data-ideaid="${id}" data-id="${pop.id}">${pop.text}</div>
             </div>

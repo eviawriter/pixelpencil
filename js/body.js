@@ -4,6 +4,13 @@
     populate_subnav_characters();
     subnavIdeasPopulate();
 
+    // make menu-button #menu-dashboard also green and set width of 
+    // box-content to 1200px;
+    document.getElementById('menu-dashboard').style.backgroundColor = "#00AE9D";
+    document.querySelector('.box-content').style.width = "1200px";
+    // document.querySelector('.box-content').style.overflow = "visible";
+    
+
 })()
 
 function populate_subnav_writing() {

@@ -16,7 +16,7 @@ function delete_idea_category(id) {
 
         console.log('Idea category', del);
 
-        let cont = document.querySelector('.sn-accordion-item.open[data-catid="' + cat + '"]');
+        let cont = document.getElementById('subnav-ideas').querySelector('.sn-accordion-item.open[data-catid="' + cat + '"]');
 
         console.log(cont);
 
@@ -32,6 +32,8 @@ function delete_idea_category(id) {
         database(data, function (delsub) {
 
             console.log('ideas', delsub);
+
+            // needs more things to do
 
         })
     })
@@ -55,7 +57,7 @@ function delete_idea(id) {
 
     database(data, function (del) {
 
-        console.log('Location', del);
+        console.log('Ideas', del);
 
         let cont = document.querySelector('.sn-subitem.ideas[data-ideaid="' + loc + '"]');
 

@@ -1,0 +1,93 @@
+.ctdash {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    background-color: white;
+    margin-top: 0px;
+    position: fixed;
+    width: 1200px;
+    height: calc(100% - 120px);
+    overflow-y: auto;
+}
+
+#box-dashboard-container {
+    display: grid;
+    align-self: center;
+    grid-template-columns: 325px 325px 325px;
+    grid-template-rows: 100px 300px 300px 300px 300px 200px;
+    gap: 70px 73px;
+    grid-template-areas: "dashheader dashheader dashheader" "dashwriter dashcharacters dashlocations" "dashideas dashresearch dashdeadline" "dashstatistics dashstatistics dashstatistics" "dashsummary dashsummary dashgoals" "dashfooter dashfooter dashfooter";
+}
+
+#dashheader {
+    grid-area: dashheader;
+    text-align: center;
+    color: #00AE9D;
+    font-size: 18px;
+    margin-top: -10px;
+}
+
+#dashwriter {
+    grid-area: dashwriter;
+    background-image: url(../images/dashboard/dashwriter);
+    background-repeat: no-repeat;
+}
+
+#dashcharacters {
+    grid-area: dashcharacters;
+    background-image: url(../images/dashboard/dashcharacter);
+    background-repeat: no-repeat;
+}
+
+#dashlocations {
+    grid-area: dashlocations;
+    background-image: url(../images/dashboard/dashlocations);
+    background-repeat: no-repeat;
+}
+
+#dashideas {
+    grid-area: dashideas;
+    background-image: url(../images/dashboard/dashideas);
+    background-repeat: no-repeat;
+}
+
+#dashresearch {
+    grid-area: dashresearch;
+    background-image: url(../images/dashboard/dashresearch);
+    background-repeat: no-repeat;
+}
+
+#dashdeadline {
+    grid-area: dashdeadline;
+    background-image: url(../images/dashboard/dashdeadline);
+    background-repeat: no-repeat;
+}
+
+#dashfooter {
+    grid-area: dashfooter;
+}
+
+.dash {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: flex-end;
+    color: #00AE9D;
+    padding-bottom: 15px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#dashstatistics {
+    grid-area: dashstatistics;
+}
+
+#dashsummary {
+    grid-area: dashsummary;
+    color: #00AE9D;
+    font-size: 18px;
+}
+
+#dashgoals {
+    grid-area: dashgoals;
+}

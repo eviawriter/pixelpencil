@@ -41,7 +41,7 @@ function acSubjectModal(button, option) {
             input2: 'Answer',
             save: 'Save subject',
             extrafield: '',
-            rows: '4'
+            rows: '12'
         }
 
         action_modal_markup(create);
@@ -70,16 +70,22 @@ function acSubjectModal(button, option) {
     }
 
     // category ideas
-    else if (option == 'ideas') {
+    else if (option == 'idea-subject') {
+
+        let id = button.dataset.ideaid;
+
+        console.log(id);
+
         let create = {
-            title: 'Add idea',
-            javascript: 'create_idea(this, "idea")',
+            title: 'Add subject',
+            javascript: 'acIdeasAdd(this, ' + id + ')',
+            id: id,
             form: 'idea',
-            input1: 'Idea title',
-            input2: 'Short description',
-            save: 'Save idea',
+            input1: 'Subject',
+            input2: 'Details',
+            save: 'Save subject',
             extrafield: '',
-            rows: '4'
+            rows: '12'
         }
 
         action_modal_markup(create);
@@ -87,9 +93,12 @@ function acSubjectModal(button, option) {
 
     // category research
     else if (option == 'research') {
+
+        let id = button.dataset.resid;
+
         let create = {
             title: 'Add website',
-            javascript: 'create_research(this, "link")',
+            javascript: 'AcResAdd(this, ' + id + ')',
             form: 'research',
             input1: 'Website title',
             input2: 'Short description',

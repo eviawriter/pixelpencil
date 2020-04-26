@@ -5,14 +5,21 @@ function subnav_writing(content) {
     // set background to empty
     let selected = document.getElementById('subnav-writing').querySelectorAll(".sn-subitem");
 
-    let i;
-
-    for (i = 0; i < selected.length; i++) {
-        selected[i].style.backgroundColor = "";
+    for (a = 0; a < selected.length; a++) {
+        selected[a].style.backgroundColor = "";
     }
 
     // set background of clicked item
     content.style.backgroundColor = "#00AE9D";
+
+    // set color of contextmenu (story)
+    let context = document.getElementById('cm-writing').querySelectorAll('.cm-button');
+
+    for (b = 0; b < context.length; b++) {
+        context[b].style.backgroundColor = "";
+    }
+
+    document.getElementById('cm-write-story').style.backgroundColor = "rgb(0, 174, 157)";
 
     // set context stuff
     set_context_nav(content);
@@ -42,11 +49,13 @@ function set_context_nav(content) {
 
     // initialize the editor with the current subid
     set_editor(subid);
-
 }
 
 // inserts data into the editor
 function set_editor(subid) {
+
+    // make toolbar and editor visible
+    document.getElementById('box-content-writing').style.visibility = "visible";
 
     var editor = document.getElementById('editor');
 

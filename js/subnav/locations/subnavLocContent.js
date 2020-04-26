@@ -57,7 +57,7 @@ function subnav_locations(options) {
 
         let markup = `
         <div class="ct-wrapper" data-locid="${locid}">            
-            <div class="ct-header">
+            <div class="ct-header locations" data-locid="${locid}">
                 <div class="ct-header-title" data-locid="${locid}">${pop.name}</div>
                 <div class="ct-header-edit" onclick="javascript:open_modal_content(this, key='loc-header')" data-locid="${locid}"></div>
             </div>

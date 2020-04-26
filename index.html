@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="css/content/writing/editor/editor.css">
     <link rel="stylesheet" href="css/content/details.css">
     <link rel="stylesheet" href="css/content/main.css">
+    <link rel="stylesheet" href="css/content/dashboard.css">
 
     <!-- styling of the context menu -->
     <link rel="stylesheet" href="css/context/main.css">
@@ -73,59 +74,46 @@
             <div class="box-logo"></div>
         </div>
 
-        <!-- left navigation bar -->
-        <div class="box-navibar">
+        <!-- MAIN NAVIGATION BAR (LEFT) -->
+        <div class="box-navibar hide">
 
-            <!-- search bar -->
+            <!-- SEARCH BAR -->
             <div class="box-search">
                 <input type="text" placeholder="Search...">
             </div>
 
-            <!-- main navigation bar on the left -->
+            <!-- SUB NAVIGATION (LEFT) -->
             <div class="box-subnav">
-                <div id="subnav-dashboard"></div>
-                <div id="subnav-writing">
-                    <div class="sn-accordion"></div>
-                    <!-- prefix subnav = sn, sn-accordion is container 
-                    This info gets replaced at load. 
-                    <div class="sn-accordion">
-                        <div class="sn-accordion">
-                            <section class="sn-accordion-item" data-chapid="1" data-chaporder="1"
-                                onmouseover="subnav_remove_active('writing', this)">
-                                <button class="button_chapters" data-chapid=${row.chapid}>
-                                    <h1>Chapter 1</h1>
-                                    <h2>Dit is een chapter!</h2>
-                                </button>
 
-                                <div class="sn-subitems" data-chapid="1">
-                                    <button class="sn-subitem writing" tabindex="0" draggable="true"
-                                        ondragstart="subdragstart(event)" ondrop="subdragdrop(event)"
-                                        ondragover="subdragover(event)" ondragenter="subdragenter(event)"
-                                        ondragleave="subdragleave(event)" onclick="subnav_writing(this)" data-chapid="1"
-                                        data-subid="1" data-suborder="1">1. Subchapter nummero uno</button>
-                                </div>
-                            </section>
-                        </div>
-                    </div>-->
+                <!-- prefix subnav = sn, sn-accordion is container -->
+
+                <!-- Subnav DASHBOARD -->
+                <div id="subnav-dashboard" class="subnav">
+                    <div class="sn-accordion"></div>
+                </div>
+
+                <!-- Subnav WRITING -->
+                <div id="subnav-writing" class="subnav">
+                    <div class="sn-accordion"></div>
                 </div>
 
                 <!-- Subnav CHARACTERS -->
-                <div id="subnav-characters">
+                <div id="subnav-characters" class="subnav">
                     <div class="sn-accordion"></div>
                 </div>
 
                 <!-- Subnav LOCATIONS -->
-                <div id="subnav-locations">
+                <div id="subnav-locations" class="subnav">
                     <div class="sn-accordion"></div>
                 </div>
 
                 <!-- Subnav IDEAS -->
-                <div id="subnav-ideas">
+                <div id="subnav-ideas" class="subnav">
                     <div class="sn-accordion"></div>
                 </div>
 
                 <!-- Subnav RESEARCH -->
-                <div id="subnav-research">
+                <div id="subnav-research" class="subnav">
                     <div class="sn-accordion">
 
                         <section class="sn-accordion-item open">
@@ -141,18 +129,19 @@
                 </div>
             </div>
 
+            <!-- CREATE BUTTON BOTTOM LEFT -->
             <div class="box-create">
-
 
                 <div class="create-container">
 
-                    <!-- tooltip with button -->
+                    <!-- tooltip with button. With this you can add buttons to subnav -->
                     <div class="box-tooltip">
-
                         <button class="button-general" id="create-button" data-cat="writing"
                             onmouseover="create_tooltip_visible(this)"></button>
 
-                        <!-- modaladdchapters creates -->
+                        <!-- Modals are created in open_modal_create -->
+
+                        <!-- DASHBOARD Modal -->
                         <div class="tooltipcontent" id="cr-dashboard">
                             <button class="tooltip" onclick="open_modal_create('da-deadline')">Add
                                 deadline</button>
@@ -160,6 +149,7 @@
                                 wordgoal</button>
                         </div>
 
+                        <!-- WRITING Modal -->
                         <div class="tooltipcontent" id="cr-writing">
                             <button class="tooltip" onclick="open_modal_create('wr-chapter')">Add
                                 chapter</button>
@@ -167,6 +157,7 @@
                                 subchapter</button>
                         </div>
 
+                        <!-- CHARACTERS Modal -->
                         <div class="tooltipcontent" id="cr-characters">
                             <button class="tooltip" onclick="open_modal_create('ch-main')">Add main
                                 character</button>
@@ -176,6 +167,7 @@
                                 character</button>
                         </div>
 
+                        <!-- LOCATIONS Modal -->
                         <div class="tooltipcontent" id="cr-locations">
                             <button class="tooltip" onclick="open_modal_create('lo-category')">Add
                                 category</button>
@@ -183,11 +175,13 @@
                                 location</button>
                         </div>
 
+                        <!-- IDEAS Modal -->
                         <div class="tooltipcontent" id="cr-ideas">
                             <button class="tooltip" onclick="open_modal_create('id-category')">Add category</button>
                             <button class="tooltip" onclick="open_modal_create('id-idea')">Add idea</button>
                         </div>
 
+                        <!-- RESEARCH Modal -->
                         <div class="tooltipcontent" id="cr-research">
                             <button class="tooltip" onclick="open_modal_create('re-link')">Add website</button>
                             <button class="tooltip" onclick="open_modal_create('re-text')">Add text</button>
@@ -197,82 +191,73 @@
                         </div>
 
                     </div>
-
                 </div>
-
             </div>
         </div>
 
         <div class="box-editing">
 
-            <!-- here starts the contextmenu -->
-            <div class="box-context">
+            <!-- CONTEXTMENU (above the main content) -->
+            <div class="box-context-background">
+                <div class="box-context">
 
-                <!-- contextmenu for dashboard -->
-                <div class="box-contextmenu" id="cm-dashboard">
+                    <!-- Contextmenu DASHBOARD -->
+                    <div class="box-contextmenu" id="cm-dashboard">
+                        <button class="cm-button" id="cm-dashboard-details"
+                            onclick="cm_dashboard('dashboard')">Dashboard</button>
+                    </div>
 
-                    <button class="cm-button" id="cm-dashboard-details"
-                        onclick="cm_dashboard('dashboard')">Dashboard</button>
+                    <!-- Contextmenu WRITING -->
+                    <div class="box-contextmenu" id="cm-writing">
+                        <button class="cm-button" id="cm-write-story" onclick="cm_write('story', this)">Story</button>
 
-                </div>
+                        <!-- the buttons below are not yet active -->
+                        <button class="cm-button" id="cm-write-characters"
+                            onclick="cm_write('characters', this)">Characters</button>
+                        <button class="cm-button" id="cm-write-locations"
+                            onclick="cm_write('locations', this)">Locations</button>
+                        <button class="cm-button" id="cm-write-ideas" onclick="cm_write('ideas', this)">Ideas</button>
+                        <button class="cm-button" id="cm-write-research"
+                            onclick="cm_write('research', this)">Research</button>
+                    </div>
 
-                <!-- contextmenu for writing -->
-                <div class="box-contextmenu" id="cm-writing">
+                    <!-- contextmenu CHARACTERS -->
+                    <div class="box-contextmenu" id="cm-characters">
+                        <button class="cm-button" id="cm-char-details" onclick="cm_characters('chardetails')">Character
+                            details</button>
+                        <button class="cm-button" id="cm-char-notes" onclick="cm_characters('notes')">Notes</button>
+                    </div>
 
-                    <button class="cm-button" id="cm-write-story" onclick="cm_write('story', this)">Story</button>
-                    <!-- these buttons are not yet active -->
+                    <!-- contextmenu LOCATIONS -->
+                    <div class="box-contextmenu" id="cm-locations">
+                        <button class="cm-button" id="cm-loca-details" onclick="cm_locations('locdetails')">Location
+                            details</button>
+                    </div>
 
-                    <button class="cm-button" id="cm-write-characters"
-                        onclick="cm_write('characters', this)">Characters</button>
-                    <button class="cm-button" id="cm-write-locations"
-                        onclick="cm_write('locations', this)">Locations</button>
-                    <button class="cm-button" id="cm-write-ideas" onclick="cm_write('ideas', this)">Ideas</button>
-                    <button class="cm-button" id="cm-write-research"
-                        onclick="cm_write('research', this)">Research</button>
+                    <!-- contextmenu IDEAS -->
+                    <div class="box-contextmenu" id="cm-ideas">
+                        <button class="cm-button" id="cm-ideas-details" onclick="cm_ideas('ideas')">Idea
+                            details</button>
+                    </div>
 
-                </div>
-
-                <!-- contextmenu for characters -->
-                <div class="box-contextmenu" id="cm-characters">
-
-                    <button class="cm-button" id="cm-char-details" onclick="cm_characters('chardetails')">Character
-                        details</button>
-                    <button class="cm-button" id="cm-char-notes" onclick="cm_characters('notes')">Notes</button>
-
-                </div>
-
-                <!-- contextmenu for locations -->
-                <div class="box-contextmenu" id="cm-locations">
-
-                    <button class="cm-button" id="cm-loca-details" onclick="cm_locations('locdetails')">Location
-                        details</button>
-
-                </div>
-
-                <!-- contextmenu for ideas -->
-                <div class="box-contextmenu" id="cm-ideas">
-
-                    <button class="cm-button" id="cm-ideas-details" onclick="cm_ideas('ideas')">Idea details</button>
-
-                </div>
-
-                <!-- contextmenu for research -->
-                <div class="box-contextmenu" id="cm-research">
-
-                    <button class="cm-button" id="cm-research-###" onclick="cm_research('research')">Notes</button>
-                    <button class="cm-button" id="cm-research-###" onclick="cm_research('research')">Websites</button>
-                    <button class="cm-button" id="cm-research-###" onclick="cm_research('research')">Books</button>
-                    <button class="cm-button" id="cm-research-###" onclick="cm_research('research')">Interviews</button>
-
+                    <!-- contextmenu RESEARCH -->
+                    <div class="box-contextmenu" id="cm-research">
+                        <button class="cm-button" id="cm-research-###" onclick="cm_research('research')">Notes</button>
+                        <button class="cm-button" id="cm-research-###"
+                            onclick="cm_research('research')">Websites</button>
+                        <button class="cm-button" id="cm-research-###" onclick="cm_research('research')">Books</button>
+                        <button class="cm-button" id="cm-research-###"
+                            onclick="cm_research('research')">Interviews</button>
+                    </div>
 
                 </div>
-
             </div>
 
+            <!-- MAIN CONTENT -->
             <div class="box-content">
 
-                <div id="box-content-writing">
-
+                <!-- WRITING CONTENT -->
+                <div id="box-content-writing" class="content-box">
                     <!-- here starts the toolbar -->
                     <div class="toolbar">
 
@@ -316,6 +301,7 @@
                         <button class="fas fa-broom" id="tb-button"
                             onclick="document.execCommand('formatBlock', false, 'div');"></button>
 
+                        <!-- Toolbar includes a special 'revisions' menu -->
                         <div class="revisions">
                             <button class="rev-button">Revisions</button>
                             <div class="rev-menu">
@@ -327,74 +313,52 @@
                         </div>
                     </div>
 
-
                     <!-- This is the actual writing area -->
                     <div class="box-editor">
                         <div id="editor" contenteditable="true"></div>
                     </div>
+
                 </div>
 
-                <div id="box-content-characters"></div>
-                <div id="box-content-locations"></div>
-                <div id="box-content-ideas"></div>
-                <div id="box-content-research"></div>
-                <div id="box-content-dashboard"></div>
 
-
-            </div>
-
-            <div class="box-actions">
-                <div class="ac-actions" id="ac-dashboard"></div>
-
-                <div class="ac-actions" id="ac-writing">
-                    <div id="ac-countword"></div>
-                </div>
-
-                <div class="ac-actions" id="ac-other">
-
-                    <!-- the box that contains the  button and the tooltips with their buttons -->
-                    <div class="box-tooltip">
-
-                        <!-- data-cat needs to be changed when clicked on a menu-category -->
-                        <button class="button-general" id="action-button" data-cat="characters" data-hide="hidden"
-                            onmouseover="ac_tooltip_visible(this)"></button>
-
-                        <!-- these are the tooltips -->
-                        <div class="tooltipcontent" id="ac-characters">
-
-                            <button class="tooltip" onclick="acSubjectModal(this, 'char-subject')" data-charid="">Add subject
-                                or question</button>
-                            <!-- <button class="tooltip" onclick="open_subject_modal(this, 'char-thematic')">Add thematic
-                                subject</button> -->
-
-                        </div>
-
-                        <div class="tooltipcontent" id="ac-locations">
-
-                            <button class="tooltip" onclick="acSubjectModal(this, 'locations')" data-locid="">Add location
-                                info</button>
-                        </div>
-
-
-                        <div class="tooltipcontent" id="ac-ideas">
-
-                            <button class="tooltip" onclick="acSubjectModal('idea-subject')" data-ideaid="">Add your own
-                                ideas</button>
-                            <button class="tooltip" onclick="acSubjectModal('idea-thematic')" data-ideaid="">Add thematic
-                                subject</button>
-
-                        </div>
-
-
-                        <div class="tooltipcontent" id="ac-research">
-
-                            <button class="tooltip" onclick="acSubjectModal('rese-subject')" data-resid="">Add your own
-                                research</button>
-                            <button class="tooltip" onclick="acSubjectModal('rese-thematic')" data-resid="">Add thematic
-                                subject</button>
-
-                        </div>
-
+                <div id="box-content-characters" class="content-box"></div>
+                <div id="box-content-locations" class="content-box"></div>
+                <div id="box-content-ideas" class="content-box"></div>
+                <div id="box-content-research" class="content-box"></div>
+                <div id="box-content-dashboard" class="content-box">
+                    <div class="ctdash">
+                        <container id="box-dashboard-container">
+                            <dashboard id="dashheader">
+                                <h1 class="ct-subject-header">Awww yeah, welcome back!<p class="ct-subject-text bold">
+                                        Check your progress and change your settings if you will.</p>
+                                </h1>
+                            </dashboard>
+                            <dashboard id="dashwriter" class="dash">You wrote<br>5 chapters and 20 subchapters
+                            </dashboard>
+                            <dashboard id="dashcharacters" class="dash">You contstructed<br>8 different characters
+                            </dashboard>
+                            <dashboard id="dashlocations" class="dash">You described<br>4 locations</dashboard>
+                            <dashboard id="dashideas" class="dash">You jot down<br>10 great ideas</dashboard>
+                            <dashboard id="dashresearch" class="dash">You added<br>25 pieces of research</dashboard>
+                            <dashboard id="dashdeadline" class="dash">You have 25 days until the<br>deadline of 1
+                                december 2020</dashboard>
+                            <dashboard id="dashstatistics"></dashboard>
+                            <dashboard id="dashsummary">
+                                <h1 class="ct-subject-header">Story outline & summary</h1>
+                                <p>In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis
+                                    eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper
+                                    nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat
+                                    vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a,
+                                    tellus. Phasellus viverra nulla ut metus varius laoreet. </p>
+                                <p>In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis
+                                    eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper
+                                    nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat
+                                    vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a,
+                                    tellus. Phasellus viverra nulla ut metus varius laoreet. </p>
+                            </dashboard>
+                            <dashboard id="dashgoals"></dashboard>
+                            <dashboard id="dashfooter"></dashboard>
+                        </container>
                     </div>
 
                 </div>
@@ -402,8 +366,59 @@
 
             </div>
 
-        </div>
+            <!-- ACTION MENU (on the bottom of the content) -->
+            <div class="box-actions">
 
+                <!-- Actionmenu DASHBOARD -->
+                <div class="ac-actions" id="ac-dashboard"></div>
+
+                <!-- Actionmenu WRITING (only used for wordcount) -->
+                <div class="ac-actions" id="ac-writing">
+                    <div id="ac-countword"></div>
+                </div>
+
+                <!-- Actionmenu OTHER CATEGORIES -->
+                <div class="ac-actions" id="ac-other">
+
+                    <!-- the box that contains the button and the tooltips with their buttons -->
+                    <div class="box-tooltip">
+
+                        <!-- data-cat is changed to the corresponding category when clicked on a side-bar menu option -->
+                        <button class="button-general" id="action-button" data-cat="characters" data-hide="hidden"
+                            onmouseover="ac_tooltip_visible(this)"></button>
+
+                        <!-- Tooltips specific per category -->
+
+                        <!-- Action CHARACTERS -->
+                        <div class="tooltipcontent" id="ac-characters">
+                            <button class="tooltip" onclick="acSubjectModal(this, 'char-subject')" data-charid="">Add
+                                subject or question</button>
+                        </div>
+
+                        <!-- Action LOCATIONS -->
+                        <div class="tooltipcontent" id="ac-locations">
+                            <button class="tooltip" onclick="acSubjectModal(this, 'locations')" data-locid="">Add
+                                location info</button>
+                        </div>
+
+                        <!-- Action IDEAS -->
+                        <div class="tooltipcontent" id="ac-ideas">
+                            <button class="tooltip" onclick="acSubjectModal(this, 'idea-subject')" data-ideaid="">Add
+                                subject</button>
+                        </div>
+
+                        <!-- Action RESEARCH -->
+                        <div class="tooltipcontent" id="ac-research">
+                            <button class="tooltip" onclick="acSubjectModal(this, 'rese-subject')" data-resid="">Add
+                                your own research</button>
+                            <button class="tooltip" onclick="acSubjectModal(this, 'rese-thematic')" data-resid="">Add
+                                thematic subject</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- here will be modals -->
@@ -424,11 +439,10 @@
 
     </div>
 
+    <!-- 
+        LOT OF SCRIPTS! 
+    -->
 
-
-
-
-    <!-- here be the scripting done -->
     <!-- main script -->
 
     <script src="js/initialize.js"></script>
@@ -449,11 +463,11 @@
     <script src="js/action/main.js"></script>
 
     <!-- subnav scripts (populate) -->
-    
+
     <script src="js/subnav/writing/subnavWritActivemenu.js"></script>
     <script src="js/subnav/writing/subnavWritContent.js"></script>
     <script src="js/subnav/writing/subnavWritMenuDragevents.js"></script>
-    
+
     <script src="js/subnav/characters/subnavCharContent.js"></script>
     <script src="js/subnav/characters/subnavCharPopulate.js"></script>
 
@@ -464,16 +478,18 @@
     <script src="js/subnav/ideas/subnavIdeasContent.js"></script>
 
     <!-- subnav scripts (remove) -->
-    
+
     <script src="js/subnav/subnavDelMain.js"></script>
-    
+
     <script src="js/subnav/writing/subnavWritChapterDel.js"></script>
     <script src="js/subnav/writing/subnavWritSubchapterDel.js"></script>
-    
+
     <script src="js/subnav/characters/subnavCharDel.js"></script>
-    
+
     <script src="js/subnav/locations/SubnavLocDel.js"></script>
-      
+
+    <script src="js/subnav/ideas/subnavIdeasDel.js"></script>
+
     <!-- create scripts (adds subnav-items) -->
 
     <script src="js/create/writing/createWritChapter.js"></script>
@@ -489,25 +505,32 @@
     <script src="js/create/ideas/createIdeasModal.js"></script>
 
     <!-- context scripts -->
-    
+
 
     <!-- content scripts (populate) -->
 
     <script src="js/content/characters/contCharEdit.js"></script>
     <script src="js/content/characters/contCharSubjects.js"></script>
+
     <script src="js/content/locations/contLocEdit.js"></script>
+
+    <script src="js/content/ideas/contIdeasEdit.js"></script>
+
+    <script src="js/content/dashboard/contDashStats.js"></script>
 
     <!-- content scripts (remove) -->
 
     <script src="js/content/locations/contLocDel.js"></script>
     <script src="js/content/contDelMain.js"></script>
     <script src="js/content/locations/contLocDel.js"></script>
+    <script src="js/content/ideas/contIdeasDel.js"></script>
 
     <!-- action scripts -->
-    
+
     <script src="js/action/acWritCountwords.js"></script>
     <script src="js/action/acCharAdd.js"></script>
     <script src="js/action/acLocAdd.js"></script>
+    <script src="js/action/acIdeasAdd.js"></script>
 
     <!-- scripts needed for startup -->
 

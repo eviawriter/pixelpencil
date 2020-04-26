@@ -1,12 +1,14 @@
 #box-content-dashboard {
-    visibility: hidden;
+    visibility: visible;
     position: absolute;
+    width: 1120px;
+    margin: 0px 40px 0px 40px;
     left: 0;
     top: 0;
 }
 
 #box-content-writing {
-    visibility: visible;
+    visibility: hidden;
     position: relative;
     left: 0;
     top: 0;

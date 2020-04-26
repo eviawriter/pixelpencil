@@ -139,7 +139,7 @@ function open_modal_content(ct, key) {
         })
     }
 
-    // edit location content header
+    // LOCATION CONTENT HEADER EDIT
     if (key == 'loc-header') {
 
         let create = {
@@ -168,16 +168,17 @@ function open_modal_content(ct, key) {
         database(data, function (result) {
 
             let results = {
-                subj: result.locname
+                subj: result.locname,
+                data: 'locid'
             }
 
-            ct_modal_editLocHeader(create, results);
+            ct_modal_editHeader(create, results);
 
         })
     }
 
     if (key == 'EditLocDesc') {
-        
+
         let create = {
             id: ct.dataset.locid,
             title: 'Edit description',
@@ -202,12 +203,13 @@ function open_modal_content(ct, key) {
         database(data, function (result) {
 
             let results = {
-                subj: result.locdesc
+                subj: result.locdesc,
+                data: 'locid'
             }
 
             console.log(results);
 
-            ct_modal_editLocDesc(create, results);
+            ct_modal_editDesc(create, results);
 
         })
     }
@@ -239,13 +241,14 @@ function open_modal_content(ct, key) {
             orderby: '',
             order: ''
         }
-
+        
         // database_subjects is located in js/content/characters/subjects
         database(data, function (result) {
 
             let results = {
                 subj: result.title,
-                text: result.text
+                text: result.text,
+                data: 'locid'
             }
 
             console.log(results);
@@ -254,6 +257,134 @@ function open_modal_content(ct, key) {
             ct_modal_editSubject(create, results);
 
         })
+    }
+
+    /* THIS IS IDEA */
+
+    if (key == 'idea-header') {
+
+        let create = {
+            id: ct.dataset.ideaid,
+            title: 'Edit title',
+            javascript: 'editIdeas(this, \'title\')',
+            form: 'editIdea',
+            input1: 'Change title',
+            // input 2 needs to be created; dropdown for selecting a new header.
+            input2: 'Change header image',
+            save: 'Save title'
+        }
+
+        let data = {
+            function: 'get',
+            records: 'title',
+            table: 'Ideas',
+            column: 'ideaid',
+            id: create.id,
+            and: '',
+            where: '',
+            orderby: '',
+            order: ''
+        }
+
+        database(data, function (result) {
+
+            let results = {
+                subj: result.title,
+                data: 'ideaid'
+
+            }
+
+            ct_modal_editHeader(create, results);
+
+        })
+    }
+
+    if (key == 'EditIdeaDesc') {
+
+        let create = {
+            id: ct.dataset.ideaid,
+            title: 'Edit description',
+            javascript: 'editIdeas(this, \'description\')',
+            form: 'editIdea',
+            input1: 'Change description',
+            save: 'Save description'
+        }
+
+        let data = {
+            function: 'get',
+            records: 'text',
+            table: 'Ideas',
+            column: 'ideaid',
+            id: create.id,
+            and: '',
+            where: '',
+            orderby: '',
+            order: ''
+        }
+
+        database(data, function (result) {
+
+            let results = {
+                subj: result.text,
+                data: 'ideaid'
+            }
+
+            console.log(results);
+
+            ct_modal_editDesc(create, results);
+
+        })
+    }
+
+    if (key == 'EditIdeaSub') {
+
+        let create = {
+            id: ct.dataset.id,
+            dataname: 'id',
+            title: 'Edit subject',
+            javascript: 'editIdeas(this, \'subject\')',
+            form: 'editIdea',
+            input1: 'Edit subject or question',
+            input2: 'Answer',
+            save: 'Save subject'
+        }
+
+        // new way to get stuff from database. Database_subjects is a dedicated
+        // function specificaly made to just get stuff from the database. 
+        // it uses the object 'data' to create the sql-query. 
+        let data = {
+            function: 'get',
+            records: 'title, text',
+            table: 'IdeasContent',
+            column: 'id',
+            id: create.id,
+            and: '',
+            where: '',
+            orderby: '',
+            order: ''
+        }
+
+        // database_subjects is located in js/content/characters/subjects
+        database(data, function (result) {
+
+            let results = {
+                subj: result.title,
+                text: result.text,
+                data: 'ideaid'
+            }
+
+            console.log(results);
+
+            // dedicated function to open the modal for editing subjects
+            ct_modal_editSubject(create, results);
+
+        })
+
+
+        /* THIS IS THE END OF IDEA */
+
+
+        
 
     }
 
@@ -348,12 +479,12 @@ function ct_modal_editSubject(create, result) {
 
 }
 
-function ct_modal_editLocHeader(create, result) {
+function ct_modal_editHeader(create, result) {
 
     const markup = `
     <div class="box-create-form">
     <h3 class="create_form_header">${create.title}</h3>
-        <form id="${create.form}" data-locid=${create.id} action="javascript:${create.javascript};">
+        <form id="${create.form}" data-${result.data}=${create.id} action="javascript:${create.javascript};">
             
             <div class="form-box-input">
                 <h3 class="form-input-header">${create.input1} *</h3>
@@ -375,12 +506,12 @@ function ct_modal_editLocHeader(create, result) {
     modal.showModal();
 }
 
-function ct_modal_editLocDesc(create, result) {
+function ct_modal_editDesc(create, result) {
 
     const markup = `
     <div class="box-create-form">
     <h3 class="create_form_header">${create.title}</h3>
-        <form id="${create.form}" data-locid=${create.id} action="javascript:${create.javascript};">
+        <form id="${create.form}" data-${result.data}=${create.id} action="javascript:${create.javascript};">
             
             <div class="form-box-input">
                 <h3 class="form-input-header">${create.input1} *</h3>

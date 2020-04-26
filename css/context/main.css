@@ -5,24 +5,18 @@
     flex-direction: row;
     flex: 1;
     padding-top: 15px;
-    min-width: calc(100% - 470px);
-    max-width: calc(100% - 470px);
     margin: 0;
-    border-bottom: 2px solid #00AE9D;
     flex-wrap: nowrap;
-	justify-content: flex-start;
-	align-items: stretch;
-    align-content: stretch;
 }
 
 /* contextmenu's per menu-item */
 #cm-dashboard {
-    visibility: hidden;
+    visibility: visible;
     margin-top: 0px;
 }
 
 #cm-writing {
-    visibility: visible;
+    visibility: hidden;
     margin-top: 0px;
 }
 

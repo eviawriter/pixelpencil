@@ -3,37 +3,40 @@ function menu(button, click) {
 
     console.log(click);
 
+    // show or hide .box-navibar (used by dashboard)
+    document.querySelector('.box-navibar').classList.remove('hide');
+    document.querySelector('.box-navibar').classList.add('show');
+
+    // reset box-content width.
+    document.querySelector('.box-content').style.width = "";
+    document.querySelector('.box-content').style.overflow = "";
+
+
     // first highlight the current button
-    let a = document.querySelectorAll(".menubutton");
-    let ai;
-    for (ai = 0; ai < a.length; ai++) {
-        a[ai].style.backgroundColor = "";
+    let menu = document.querySelectorAll(".menubutton");
+    for (a = 0; a < menu.length; a++) {
+        menu[a].style.backgroundColor = "";
     }
 
     click.style.backgroundColor = "#00AE9D";
 
     // then hide all the context-menu's
-    let b = document.querySelectorAll(".box-contextmenu");
-    let bi;
-    for (bi = 0; bi < b.length; bi++) {
-        b[bi].style.visibility = "hidden";
+    let ctx = document.querySelectorAll(".box-contextmenu");
+    for (b = 0; b < ctx.length; b++) {
+        ctx[b].style.visibility = "hidden";
     }
 
     // then hide all the subnavs
-    document.getElementById('subnav-dashboard').style.visibility = "hidden";
-    document.getElementById('subnav-writing').style.visibility = "hidden";
-    document.getElementById('subnav-characters').style.visibility = "hidden";
-    document.getElementById('subnav-locations').style.visibility = "hidden";
-    document.getElementById('subnav-ideas').style.visibility = "hidden";
-    document.getElementById('subnav-research').style.visibility = "hidden";
+    let subnav = document.querySelectorAll('.subnav'); 
+        for (c = 0; c < subnav.length; c++) {
+            subnav[c].style.visibility = "hidden";
+        }
 
     // then hide all the content
-    document.getElementById('box-content-dashboard').style.visibility = "hidden";
-    document.getElementById('box-content-writing').style.visibility = "hidden";
-    document.getElementById('box-content-characters').style.visibility = "hidden";
-    document.getElementById('box-content-locations').style.visibility = "hidden";
-    document.getElementById('box-content-ideas').style.visibility = "hidden";
-    document.getElementById('box-content-research').style.visibility = "hidden";
+    let content = document.querySelectorAll('.content-box');
+        for (d = 0; d < content.length; d++) {
+            content[d].style.visibility = "hidden";
+        }
 
     // then hide the actions-button
     document.getElementById('ac-dashboard').style.visibility = "hidden";
@@ -48,14 +51,18 @@ function menu(button, click) {
     // then depending on the clicked button, make everything belonging to the category visible
     else if (button == 'dashboard') {
 
+        // hide action-button
+        document.getElementById('action-button').style.visibility = "hidden";
+
         // make context-menu visible
-        let z = document.getElementById("cm-dashboard");
-        z.style.visibility = "visible";
-
-        // make subnavs visible
-
+        document.getElementById("cm-dashboard").style.visibility = "visible";
+        document.querySelector('.box-navibar').classList.remove('show');
+        document.querySelector('.box-navibar').classList.add('hide');
+        
         // make content visible
         document.getElementById('box-content-dashboard').style.visibility = "visible";
+        document.querySelector('.box-content').style.width = "1200px";
+        document.querySelector('.box-content').style.overflow = "visible";
 
         // add new data-cat with the category to the create-button
         // this is used by the function tooltip_visible to make the correct tooltipcontent visible
@@ -91,7 +98,7 @@ function menu(button, click) {
     }
 
     else if (button == 'characters') {
-
+        
         // make context-menu visible
         document.getElementById("cm-characters").style.visibility = "visible";
 

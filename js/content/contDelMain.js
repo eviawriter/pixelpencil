@@ -3,12 +3,13 @@ function delContent(cont, option) {
 
     console.log(cont, option);
 
+    // DELETE LOCATIONS
+
     if (option == 'locSubject') {
 
         let id = cont.dataset.locoid;
         let name = document.querySelector('.ct-subject-header[data-locoid="'+ id +'"]').innerText;
 
-        var string = "javascript:delLocContent(this)"
         // open delete-modal
         var del = {
             header: 'Are you sure?',
@@ -33,8 +34,42 @@ function delContent(cont, option) {
             id: 'data-locid=' + id,
             script: 'javascript:delLocContent(this',
             script2: '\'description\')'
+        }   
+    }
+
+    // DELETE IDEAS
+
+
+    if (option == 'ideaSubject') {
+
+        let id = cont.dataset.id;
+        let name = document.getElementById('box-content-ideas').querySelector('.ct-subject-header[data-id="'+ id +'"]').innerText;
+    
+        // open delete-modal
+        var del = {
+            header: 'Are you sure?',
+            text: 'subject',
+            text2: '',
+            name: name,
+            id: 'data-id=' + id,
+            script: 'javascript:delIdeasContent(this',
+            script2: '\'subject\')'
         }
+    }
+
+    else if (option == 'ideaShortDesc') {
         
+        let id = cont.dataset.ideaid;
+        // open delete-modal
+        var del = {
+            header: 'Are you sure?',
+            text: 'the contents of',
+            text2: 'WARNING, The bold text won\'t return after this!',
+            name: 'Short description',
+            id: 'data-ideaid=' + id,
+            script: 'javascript:delIdeasContent(this',
+            script2: '\'description\')'
+        }   
     }
 
     const markup = `
