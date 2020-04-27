@@ -145,6 +145,8 @@ function save_editor() {
     let subid = document.getElementById('editor').dataset.subid;
     let rawcontent = document.getElementById("editor").innerHTML;
     let content = rawcontent.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
+    let rawcount = document.getElementById('ac-countword').innerText;
+    let count = rawcount.replace(' words', ' ');
 
     // start sqlite3
     const sqlite3 = require('sqlite3').verbose();
@@ -155,13 +157,13 @@ function save_editor() {
     // We've already set a few global variables in setglobalvariables.js and we use 
     // these to update the database with the content of 'let content' above. The global variables
     // are chapid and subid.
-    db.run("UPDATE Subchapters SET subtext = '" + content + "' WHERE subid = '" + subid + "' ", function (err) {
+    db.run("UPDATE Subchapters SET subtext = '" + content + "', count = '"+ count +"' WHERE subid = '" + subid + "' ", function (err) {
         // db.run(sql, content, function (err) {
 
         if (err) {
             return console.error(err.message);
         }
-        console.log(content, subid)
+        console.log(content, subid, count)
     });
 
     db.close();

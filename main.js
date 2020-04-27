@@ -1,26 +1,38 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1368, height: 750, webPreferences: {nodeIntegration: true}, autoHideMenuBar: true})
+  mainWindow = new BrowserWindow({ width: 1368, height: 750, webPreferences: { nodeIntegration: true }, autoHideMenuBar: true })
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html');
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools({ mode: 'detach'})
+  mainWindow.webContents.openDevTools({ mode: 'detach' })
+
+  love_it = true;
+
+  mainWindow.on('close', (e) => {
+
+    if (love_it) {
+      e.preventDefault();
+      console.log(love_it);
+
+        mainWindow.webContents.send('love time', 'false');
+    }
+
+  })
 
   // Emitted when the window is closed.
-  mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null
+  mainWindow.on('closed', () => {
+
+    mainWindow = null;
+
   })
 }
 
@@ -30,8 +42,7 @@ function createWindow () {
 app.on('ready', createWindow)
 
 // This removes the menubar
-app.on('browser-window-created',function(e,window) 
-{
+app.on('browser-window-created', function (e, window) {
   window.setMenu(null);
   // turn of the menubar.
   window.setMenuBarVisibility(false);
@@ -52,4 +63,12 @@ app.on('activate', function () {
   if (mainWindow === null) {
     createWindow()
   }
+})
+
+
+
+// listen the 'app_quit' event
+ipcMain.on('app_quit', (event, info) => {
+  love_it = false;
+  app.quit()
 })

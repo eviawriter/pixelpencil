@@ -54,9 +54,4 @@ function contDashStats() {
         document.getElementById('dashresearch').innerHTML = research;
         
     });
-
-
-
-
-
 }

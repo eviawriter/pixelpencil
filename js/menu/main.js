@@ -72,6 +72,9 @@ function menu(button, click) {
         // probably better to first check if an item is already opened before applying this. If not opened, then keep it hidden.
         document.getElementById('ac-dashboard').style.visibility = "visible";
 
+        // reload the charts 
+        contDashChart('update');
+
     }
 
     else if (button == 'writing') {

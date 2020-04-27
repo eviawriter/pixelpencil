@@ -10,10 +10,9 @@ var fs = require('fs');
 var projectdir = path.join(userDir, '/saved');
 
 // check if the projectdir exists
-if (!fs.existsSync(projectdir))
-{
-    // if not, create the directory
-    fs.mkdirSync(projectdir);
+if (!fs.existsSync(projectdir)) {
+  // if not, create the directory
+  fs.mkdirSync(projectdir);
 }
 
 // This is the sourcedatabase, always loaded when the app starts.
@@ -23,10 +22,9 @@ var sourcedatabase = path.resolve(__dirname, 'saved/protodatabase.evv');
 var destinationdatabase = path.join(projectdir, 'protodatabase.evv');
 
 // if the destinationdatabase doesn't exists, copy the sourcedatabase to the userData.
-if (!fs.existsSync(destinationdatabase))
-{ 
-// copy the sourcedatabase to the destinationdatabase. 
-fs.copyFile(sourcedatabase, destinationdatabase, (err) => {
+if (!fs.existsSync(destinationdatabase)) {
+  // copy the sourcedatabase to the destinationdatabase. 
+  fs.copyFile(sourcedatabase, destinationdatabase, (err) => {
     if (err) throw err;
     console.log('sourcedatabase copied to destinationdatabase');
   });
@@ -47,3 +45,20 @@ var globaldeletecharacter = ["1"];
 
 // Variabele subjectid (from characters)
 chardelsubjectid = ["1"];
+
+// Add chart.js to the pipeline
+var Chart = require('chart.js');
+
+// global variable id startdate (used in function get_date to rembember
+// the startdate id. 
+var time_id = [];
+
+const { ipcRenderer } = require('electron')
+
+ipcRenderer.on('love time', (event, message) => {
+
+  get_time(message);
+  
+})
+
+

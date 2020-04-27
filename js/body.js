@@ -1,15 +1,16 @@
-(function initilize_subnav() {
+(function initilize() {
 
     populate_subnav_writing();
     populate_subnav_characters();
     subnavIdeasPopulate();
+    get_time('true');
 
     // make menu-button #menu-dashboard also green and set width of 
     // box-content to 1200px;
     document.getElementById('menu-dashboard').style.backgroundColor = "#00AE9D";
     document.querySelector('.box-content').style.width = "1200px";
     // document.querySelector('.box-content').style.overflow = "visible";
-    
+
 
 })()
 
@@ -121,3 +122,87 @@ function get_subchapters(chapidlist) {
     // finally add an eventlistener
     delete_general();
 };
+
+// calculate the 
+function get_time(love, result) {
+
+    let data = {
+        function: 'get',
+        db: 'array', // returns array with db.all instead of object with db.each
+        table: 'words',
+        records: 'words',
+        column: 'chaptrash',
+        id: '0',
+        and: '',
+        where: '', // extra column inc. value; ie trash=0
+        orderby: '',
+        order: ''
+    }
+
+    if (love == 'true') {
+
+        database(data, function (result) {
+
+            let start = [];
+
+            for (i = 0; i < result.length; i++) {
+
+                start.push(result[i].words);
+
+            }
+
+            let startdate = start.reduce((a, b) => a + b, 0);
+
+            let data = {
+                function: 'create',
+                table: 'Statistics',
+                rows: 'startdate, startcount',
+                values: '(strftime(\'%s\',\'now\')), (' + startdate + ')'
+            }
+
+            database(data, function (result) {
+
+                console.log(result);
+
+                time_id.push(result);
+
+            })
+        })
+    }
+
+    if (love == 'false') {
+
+        database(data, function (result) {
+            let end = [];
+
+            for (i = 0; i < result.length; i++) {
+
+                end.push(result[i].words);
+
+            }
+
+            let endwords = end.reduce((a, b) => a + b, 0);
+
+            let data = {
+                function: 'edit', // specify the function
+                table: 'Statistics', // specify the table to update
+                rows: 'enddate=(strftime(\'%s\',\'now\')), endcount="' + endwords + '"', // all the rows you want to update
+                column: 'id', // based on which column do you want to update the rows?
+                id: time_id // id of that particular column. 
+            }
+
+            database(data, function (resultaat) {
+
+                if (resultaat == 'updatet') {
+
+                    ipcRenderer.send('app_quit');
+
+                }
+
+                else {
+                    console.log('failed to update table Statistics');
+                }
+            })
+        })
+    }
+}

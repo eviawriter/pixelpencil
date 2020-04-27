@@ -30,7 +30,7 @@ function database(data, result) {
 
             if (err) {
 
-                alert(err);
+                alert(err, sql);
             }
 
             else {
@@ -46,7 +46,7 @@ function database(data, result) {
     else if (data.function == 'edit') {
 
         // syntax data example:
-        // let data {
+        // let data = {
         // function: 'edit', // specify the function
         // table: 'table_to_edit', // specify the table to update
         // rows: 'locname="' + locname + '", locdesc="' + locdesc + '"', // all the rows you want to update
@@ -61,7 +61,7 @@ function database(data, result) {
         db.run(sql, function (err) {
 
             if (err) {
-                alert(err);
+                alert(err, sql);
             }
 
             else {
@@ -101,7 +101,7 @@ function database(data, result) {
 
                 if (err) {
 
-                    alert(err);
+                    alert(err, sql);
                 }
 
                 else {
@@ -118,7 +118,7 @@ function database(data, result) {
 
                 if (err) {
 
-                    alert(err);
+                    alert(err, sql);
                 }
 
                 else {
@@ -132,6 +132,13 @@ function database(data, result) {
 
     else if (data.function == 'create') {
 
+        // SYNTAX:
+        // let data {
+        //     table: 'table to insert',
+        //     rows: 'columns you wanna insert',
+        //     values: 'values you wanna insert in the row'
+        // }
+
         let sql = "INSERT INTO " + data.table + " (" + data.rows + ") VALUES (" + data.values + ")";
 
         console.log(sql);
@@ -139,7 +146,7 @@ function database(data, result) {
         db.run(sql, function (err) {
 
             if (err) {
-                alert(err);
+                alert(err, sql);
             }
 
             else {
@@ -185,7 +192,7 @@ function database(data, result) {
         db.all(sql, function (err, res) {
 
             if (err) {
-                alert(err);
+                alert(err, sql);
             }
 
             else {
@@ -208,8 +215,6 @@ function database(data, result) {
                     idea: idea,
                     rese: rese
                 }
-
-                db.close();
 
                 return result(uit);
             }
