@@ -196,7 +196,7 @@ function database(data, result) {
             }
 
             else {
-                
+
                 console.log(res);
 
                 let chap = res[0].count;
@@ -219,5 +219,60 @@ function database(data, result) {
                 return result(uit);
             }
         })
+    }
+
+    else if (data.function == 'custom') {
+
+        console.log(data.sql);
+
+        console.log(data.type);
+
+        if (data.type == 'all') {
+
+            db.all(data.sql, function (err, res) {
+
+                if (err) {
+                    alert(err, data.sql);
+                }
+
+                else {
+                    console.log(res, 'all');
+
+                    return result(res);
+                }
+            })
+        }
+
+        if (data.type == 'each') {
+
+            db.each(data.sql, function (err, res) {
+
+                if (err) {
+                    alert(err, data.sql);
+                }
+
+                else {
+                    console.log(res, 'each');
+
+                    return result(res);
+                }
+            })
+        }
+
+        if (data.type == 'get') {
+
+            db.get(data.sql, function (err, res) {
+
+                if (err) {
+                    alert(err, data.sql);
+                }
+
+                else {
+                    console.log(res, 'get');
+
+                    return result(res);
+                }
+            })
+        }
     }
 }

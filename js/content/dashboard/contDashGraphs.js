@@ -132,7 +132,6 @@ function contDashLoadCharts(title, count, update) {
 
     // add graph to dashboard
     var ctw = document.getElementById('dashword');
-    var ctt = document.getElementById('dashtime');
 
     var dashword = new Chart(ctw, {
         type: 'bar',
@@ -172,13 +171,30 @@ function contDashLoadCharts(title, count, update) {
         }
     });
 
+    dashword.canvas.parentNode.style.height = '300px';
+    dashword.canvas.parentNode.style.width = '500px';
+
+    if (update == 'update') {
+        dashword.data.datasets.data = [];
+        dashword.data.datasets.forEach((dataset) => {
+            dataset.data.push(count);
+        });
+
+        dashword.update();
+    }
+};
+
+function contDashTime(date, numb, update) {
+
+    var ctt = document.getElementById('dashtime');
+
     var dashtime = new Chart(ctt, {
         type: 'line',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: date,
             datasets: [{
                 label: 'Number of words per day',
-                data: [12, 19, 3, 5, 2, 3],
+                data: numb,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -211,18 +227,6 @@ function contDashLoadCharts(title, count, update) {
 
     })
 
-    dashword.canvas.parentNode.style.height = '300px';
-    dashword.canvas.parentNode.style.width = '500px';
     dashtime.canvas.parentNode.style.height = '300px';
     dashtime.canvas.parentNode.style.width = '500px';
-
-
-    if (update == 'update') {
-        dashword.data.datasets.data = [];
-        dashword.data.datasets.forEach((dataset) => {
-            dataset.data.push(count);
-        });
-
-        dashword.update();
-    }
-};
+} 

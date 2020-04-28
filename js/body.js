@@ -124,7 +124,7 @@ function get_subchapters(chapidlist) {
 };
 
 // calculate the 
-function get_time(love, result) {
+function get_time(love) {
 
     let data = {
         function: 'get',
