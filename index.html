@@ -319,8 +319,6 @@
                     </div>
 
                 </div>
-
-
                 <div id="box-content-characters" class="content-box"></div>
                 <div id="box-content-locations" class="content-box"></div>
                 <div id="box-content-ideas" class="content-box"></div>
@@ -347,26 +345,25 @@
                                 <canvas id="dashtime" width="250" height="300"></canvas>
                             </dashboard>
                             <dashboard id="dashsummary">
+                                <div class="ct-subject-edit" onclick="javascript:open_modal_content(this, key='EditDashDesc')"></div>
                                 <h1 class="ct-subject-header">Story outline & summary</h1>
-                                <p>In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis
-                                    eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper
-                                    nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat
-                                    vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a,
-                                    tellus. Phasellus viverra nulla ut metus varius laoreet. </p>
-                                <p>In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis
-                                    eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper
-                                    nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat
-                                    vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a,
-                                    tellus. Phasellus viverra nulla ut metus varius laoreet. </p>
+                                <div class="ct-subject-text bold" id="proj-desc" style="white-space: pre-line"></div>
                             </dashboard>
-                            <dashboard id="dashgoals"></dashboard>
+                            <dashboard id="dashgoals">
+                                <h1>Your project goals</h1>
+                                <container>
+                                    <dashtitle>Total words</dashtitle><dashcontent id="dash_words">1</dashcontent>
+                                    <dashtitle>Deadline concept</dashtitle><dashcontent id="dash_dead1">2</dashcontent>
+                                    <dashtitle>Deadline revision</dashtitle><dashcontent id="dash_revis">3</dashcontent>
+                                    <dashtitle>Deadline project</dashtitle><dashcontent id="dash_dead2">4</dashcontent>
+                                    <div class="ct-details-edit" onclick="javascript:open_modal_content(this, key='project-details')"></div>
+                                </container>
+                            </dashboard>
                             <dashboard id="dashfooter"></dashboard>
                         </container>
                     </div>
 
                 </div>
-
-
             </div>
 
             <!-- ACTION MENU (on the bottom of the content) -->
@@ -464,6 +461,7 @@
     <script src="js/context/main.js"></script>
     <script src="js/content/main.js"></script>
     <script src="js/action/main.js"></script>
+    <script src="js/content/contModalMarkup.js"></script>
 
     <!-- subnav scripts (populate) -->
 
@@ -521,6 +519,7 @@
 
     <script src="js/content/dashboard/contDashStats.js"></script>
     <script src="js/content/dashboard/contDashGraphs.js"></script>
+    <script src="js/content/dashboard/contDashSumm.js"></script>
 
     <!-- content scripts (remove) -->
 

@@ -1,10 +1,3 @@
-(function contDashStart() {
-
-    // execute on first load
-    contDashChart();
-
-})()
-
 function contDashChart(update) {
 
     // first get the content from the database.
@@ -13,64 +6,64 @@ function contDashChart(update) {
     // the subchapter-content and counting the words per chapter
     let data = {
         function: 'get',
-        db: 'array', // returns array with db.all instead of object with db.each
+        db: 'array',
         table: 'words',
         records: 'chapid, chapname',
         column: 'chaptrash',
         id: '0',
         and: '',
-        where: '', // extra column inc. value; ie trash=0
+        where: '',
         orderby: 'ORDER BY',
         order: 'chaporder'
     }
 
+
     database(data, function (result) {
 
-        for (i = 0; i < result.length; i++) {
+        // iterate over each chapter and extract the words-column of
+        // every subchapter beloning to it. 
+        for (let i = 0; i < result.length; i++) {
 
             let data = {
                 function: 'get',
-                db: 'array', // returns array with db.all instead of object with db.each
+                db: 'array',
                 table: 'words',
                 records: 'chapid, words',
                 column: 'chaptrash',
                 id: '0',
                 and: 'AND',
-                where: 'chapid=' + result[i].chapid, // extra column inc. value; ie trash=0
+                where: 'chapid=' + result[i].chapid,
                 orderby: 'ORDER BY',
                 order: 'chaporder'
             }
 
-            database(data, function (result, chapid) {
+            database(data, function(result) {
 
-                console.log(result);
+                var words = [];
 
-                let words = [];
-
+                // push all the words in that variable.
                 for (i = 0; i < result.length; i++) {
 
                     words.push(result[i].words);
 
                 };
 
-                console.log(words);
-
+                // get thet total number of words for that chapter
                 let count = words.reduce((a, b) => a + b, 0);
 
-                console.log(count);
-
+                // update the number total in the Chapters-table.
                 let data = {
-                    function: 'edit', // specify the function
-                    table: 'Chapters', // specify the table to update
-                    rows: 'count="' + count + '"', // all the rows you want to update
-                    column: 'chapid', // based on which column do you want to update the rows?
-                    id: result[0].chapid // id of that particular column. 
+                    function: 'edit',
+                    table: 'Chapters',
+                    rows: 'count="' + count + '"',
+                    column: 'chapid',
+                    id: result[0].chapid
                 }
 
+                // wordt per hoofdstuk uitgevoerd en geüpdatet, maar
+                // heb geen idee hoe ik dat kan voorkomen :) 
                 database(data, function (result) {
-
-                    contDashArrays(update);
-
+                        contDashArrays(update);
                 })
             })
         }
@@ -229,4 +222,54 @@ function contDashTime(date, numb, update) {
 
     dashtime.canvas.parentNode.style.height = '300px';
     dashtime.canvas.parentNode.style.width = '500px';
-} 
+}
+
+// function to calculate how much words are written per day. Updates every day.
+function contDashWordDate() {
+
+    // sql extracts startcount, endcount and the enddate from te database. 
+    // strftime puts enddate in European readable date-format. 
+    let data = {
+        function: 'custom',
+        type: 'all',
+        sql: 'SELECT startcount, endcount, strftime(\'%d-%m-%Y\', date(enddate, \'unixepoch\', \'localtime\')) AS date FROM Statistics WHERE startcount NOT NULL AND endcount NOT NULL AND enddate NOT NULL ORDER BY enddate'
+    }
+
+    database(data, (result) => {
+
+        let date = [];
+        let numb = [];
+
+        // for loop iterates over the results from the database. 
+        for (i = 0; i < result.length; i++) {
+
+            // since people can open and close the software all day, it's bound to happen
+            // that the enddate contains multiple times the same date. So, we check first if the 
+            // date has been pushed to [date] earlier in the for loop.
+            if (date.includes(result[i].date)) {
+
+                // If so, we take the last entry of [numb] and add endcount an startcount to it.
+                let count = numb.slice(-1)[0] + result[i].endcount - result[i].startcount;
+
+                // we remove that last entry from [numb].
+                numb.pop();
+
+                // and push count to [numb]. Since [date] is already correctly set, we don't push
+                // anything to date.
+                numb.push(count);
+            }
+
+            else {
+
+                // Well, if it's a new date, we calculate the total words written for that specific
+                // entry and push [result[i].date] and [total] to the corresponding variables. 
+                let total = (result[i].endcount - result[i].startcount);
+                date.push(result[i].date);
+                numb.push(total);
+            }
+        }
+
+        // Let's put our Charts.js to work!
+        contDashTime(date, numb);
+    })
+}

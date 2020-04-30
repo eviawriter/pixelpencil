@@ -213,7 +213,7 @@
     height: 40px;
 }
 
-.ct-subject .ct-subject-edit {
+.ct-subject .ct-subject-edit, #dashsummary .ct-subject-edit  {
     display: none;
     float: right;
     background-image: url('../images/general/edit.png');
@@ -223,7 +223,7 @@
     height: 40px;
 }
 
-.ct-subject:hover .ct-subject-edit {
+.ct-subject:hover .ct-subject-edit, #dashsummary:hover .ct-subject-edit {
     display: block;
     /* background-image: url('../images/general/edit.png'); */
     background-position: top 5px right 5px;

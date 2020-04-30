@@ -7,12 +7,13 @@ function open_modal_content(ct, key) {
 
     console.log(key);
 
-    // edit character details
+    /* THIS IS CHARACTER */
+
     if (key == 'char-details') {
 
         // create object with all the info neccessary for opening the modal
         let create = {
-            id: ct.dataset.charid,
+            id: 'data-charid=' + ct.dataset.charid,
             title: 'Edit character details',
             javascript: 'ct_char_edit_details(this)',
             form: 'ct_characterdetails',
@@ -24,85 +25,82 @@ function open_modal_content(ct, key) {
             save: 'Save character',
         }
 
-        console.log(create);
-
         // Since it's an edit button, we need to get all the stuff belonging
         // to the character from the database. 
-        let get = "SELECT charname, charkind, charage, chargender, charbio FROM Characters WHERE charid=" + create.id + ""
+        let data = {
+            function: 'get',
+            simple: 'yes',
+            records: 'charname, charkind, charage, chargender, charbio',
+            table: 'Characters',
+            column: 'charid',
+            expression: 'WHERE charid =' + ct.dataset.charid
+        }
 
-        db.each(get, function (err, char) {
+        database(data, (char) => {
 
-            if (err) {
-                alert(err);
-                return;
+            // there are some caveats here. Two entries are dropdown
+            // who need te be correctly selected when opening the modal
+            if (char.charkind == 'protagonist') {
+                var prot_type = 'selected';
+            }
+
+            else if (char.charkind == 'antagonist') {
+                var ant_type = 'selected';
             }
 
             else {
-
-                // there are some caveats here. Two entries are dropdown
-                // who need te be correctly selected when opening the modal
-                if (char.charkind == 'protagonist') {
-                    var prot_type = 'selected';
-                }
-
-                else if (char.charkind == 'antagonist') {
-                    var ant_type = 'selected';
-                }
-
-                else {
-                    var unkn_type = 'selected';
-                }
-
-                // Bad practise, but char.charage returns null if it's 
-                // first entered in the database. Check if that's the case
-                // and make it empty if so. 
-                if (char.charage == null) {
-                    var charage = '';
-                }
-
-                else {
-                    var charage = char.charage;
-                }
-
-                // gender needs to be selected. Also unknown if it's not 
-                // known at the time.
-                if (char.chargender == 'male') {
-                    var male = 'selected';
-                }
-
-                else if (char.chargender == 'female') {
-                    var female = 'selected';
-                }
-
-                else {
-                    var gend = 'selected';
-                }
-
-                // create the object used to create the modal, based on the
-                // information above.
-                let cont = {
-                    name: char.charname,
-                    type1: prot_type,
-                    type2: ant_type,
-                    type3: unkn_type,
-                    age: charage,
-                    male: male,
-                    female: female,
-                    gend: gend,
-                    bio: char.charbio
-                }
-
-                ct_modal_markup(create, cont);
+                var unkn_type = 'selected';
             }
+
+            // Bad practise, but char.charage returns null if it's 
+            // first entered in the database. Check if that's the case
+            // and make it empty if so. 
+            if (char.charage == null) {
+                var charage = '';
+            }
+
+            else {
+                var charage = char.charage;
+            }
+
+            // gender needs to be selected. Also unknown if it's not 
+            // known at the time.
+            if (char.chargender == 'male') {
+                var male = 'selected';
+            }
+
+            else if (char.chargender == 'female') {
+                var female = 'selected';
+            }
+
+            else {
+                var gend = 'selected';
+            }
+
+            // create the object used to create the modal, based on the
+            // information above.
+            let cont = {
+                name: char.charname,
+                type1: prot_type,
+                type2: ant_type,
+                type3: unkn_type,
+                age: charage,
+                male: male,
+                female: female,
+                gend: gend,
+                bio: char.charbio
+            }
+
+            let type = 'char-details';
+
+            ct_modal_markup(create, cont, type);
         })
     }
-
-    // edit subjects based on key. 
+ 
     if (key == 'EditCharSub') {
 
         let create = {
-            id: ct.dataset.subjectid,
-            dataname: 'subjectid',
+            id: 'data-subjectid=' + ct.dataset.subjectid,
             title: 'Edit subject',
             javascript: 'edit_char_subject(this)',
             form: 'editCharSub',
@@ -118,7 +116,7 @@ function open_modal_content(ct, key) {
             records: 'subject, subjecttext',
             table: 'Charactercontent',
             column: 'subjectid',
-            id: create.id,
+            id: ct.dataset.subjectid,
             orderby: '',
             order: ''
         }
@@ -133,17 +131,19 @@ function open_modal_content(ct, key) {
 
             console.log(results);
 
-            // dedicated function to open the modal for editing subjects
-            ct_modal_editSubject(create, results);
+            let type = 'edit-subject';
+
+            ct_modal_markup(create, results, type);
 
         })
     }
 
-    // LOCATION CONTENT HEADER EDIT
+    /* THIS IS LOCATION */
+    
     if (key == 'loc-header') {
 
         let create = {
-            id: ct.dataset.locid,
+            id: 'data-locid=' + ct.dataset.locid,
             title: 'Edit title',
             javascript: 'editLocation(this, \'title\')',
             form: 'editLoc',
@@ -158,7 +158,7 @@ function open_modal_content(ct, key) {
             records: 'locname',
             table: 'Locations',
             column: 'locid',
-            id: create.id,
+            id: ct.dataset.locid,
             and: '',
             where: '',
             orderby: '',
@@ -169,18 +169,18 @@ function open_modal_content(ct, key) {
 
             let results = {
                 subj: result.locname,
-                data: 'locid'
             }
 
-            ct_modal_editHeader(create, results);
+            let type = 'edit-description';
 
+            ct_modal_markup(create, results, type);
         })
     }
 
     if (key == 'EditLocDesc') {
 
         let create = {
-            id: ct.dataset.locid,
+            id: 'data-locid=' + ct.dataset.locid,
             title: 'Edit description',
             javascript: 'editLocation(this, \'description\')',
             form: 'editLoc',
@@ -193,7 +193,7 @@ function open_modal_content(ct, key) {
             records: 'locdesc',
             table: 'Locations',
             column: 'locid',
-            id: create.id,
+            id: ct.dataset.locid,
             and: '',
             where: '',
             orderby: '',
@@ -204,20 +204,18 @@ function open_modal_content(ct, key) {
 
             let results = {
                 subj: result.locdesc,
-                data: 'locid'
             }
 
-            console.log(results);
+            let type = 'edit-description';
 
-            ct_modal_editDesc(create, results);
-
+            ct_modal_markup(create, results, type);
         })
     }
 
     if (key == 'EditLocSub') {
 
         let create = {
-            id: ct.dataset.locoid,
+            id: 'data-locoid=' + ct.dataset.locoid,
             dataname: 'locoid',
             title: 'Edit subject',
             javascript: 'editLocation(this, \'subject\')',
@@ -235,13 +233,13 @@ function open_modal_content(ct, key) {
             records: 'title, text',
             table: 'LocContent',
             column: 'locoid',
-            id: create.id,
+            id: ct.dataset.locoid,
             and: '',
             where: '',
             orderby: '',
             order: ''
         }
-        
+
         // database_subjects is located in js/content/characters/subjects
         database(data, function (result) {
 
@@ -253,8 +251,9 @@ function open_modal_content(ct, key) {
 
             console.log(results);
 
-            // dedicated function to open the modal for editing subjects
-            ct_modal_editSubject(create, results);
+            let type = 'edit-subject';
+
+            ct_modal_markup(create, results, type);
 
         })
     }
@@ -264,7 +263,7 @@ function open_modal_content(ct, key) {
     if (key == 'idea-header') {
 
         let create = {
-            id: ct.dataset.ideaid,
+            id: 'data-ideaid' + ct.dataset.ideaid,
             title: 'Edit title',
             javascript: 'editIdeas(this, \'title\')',
             form: 'editIdea',
@@ -279,7 +278,7 @@ function open_modal_content(ct, key) {
             records: 'title',
             table: 'Ideas',
             column: 'ideaid',
-            id: create.id,
+            id: ct.dataset.ideaid,
             and: '',
             where: '',
             orderby: '',
@@ -290,19 +289,18 @@ function open_modal_content(ct, key) {
 
             let results = {
                 subj: result.title,
-                data: 'ideaid'
-
             }
 
-            ct_modal_editHeader(create, results);
+            let type = 'edit-description';
 
+            ct_modal_markup(create, results, type);
         })
     }
 
     if (key == 'EditIdeaDesc') {
 
         let create = {
-            id: ct.dataset.ideaid,
+            id: 'data-ideaid=' + ct.dataset.ideaid,
             title: 'Edit description',
             javascript: 'editIdeas(this, \'description\')',
             form: 'editIdea',
@@ -315,7 +313,7 @@ function open_modal_content(ct, key) {
             records: 'text',
             table: 'Ideas',
             column: 'ideaid',
-            id: create.id,
+            id: ct.dataset.ideaid,
             and: '',
             where: '',
             orderby: '',
@@ -326,12 +324,11 @@ function open_modal_content(ct, key) {
 
             let results = {
                 subj: result.text,
-                data: 'ideaid'
             }
 
-            console.log(results);
+            let type = 'edit-description';
 
-            ct_modal_editDesc(create, results);
+            ct_modal_markup(create, results, type);
 
         })
     }
@@ -339,8 +336,7 @@ function open_modal_content(ct, key) {
     if (key == 'EditIdeaSub') {
 
         let create = {
-            id: ct.dataset.id,
-            dataname: 'id',
+            id: 'data-id=' + ct.dataset.id,
             title: 'Edit subject',
             javascript: 'editIdeas(this, \'subject\')',
             form: 'editIdea',
@@ -349,15 +345,12 @@ function open_modal_content(ct, key) {
             save: 'Save subject'
         }
 
-        // new way to get stuff from database. Database_subjects is a dedicated
-        // function specificaly made to just get stuff from the database. 
-        // it uses the object 'data' to create the sql-query. 
         let data = {
             function: 'get',
             records: 'title, text',
             table: 'IdeasContent',
             column: 'id',
-            id: create.id,
+            id: ct.dataset.id,
             and: '',
             where: '',
             orderby: '',
@@ -370,171 +363,93 @@ function open_modal_content(ct, key) {
             let results = {
                 subj: result.title,
                 text: result.text,
-                data: 'ideaid'
             }
 
             console.log(results);
 
-            // dedicated function to open the modal for editing subjects
-            ct_modal_editSubject(create, results);
+            let type = 'edit-subject';
+
+            ct_modal_markup(create, results, type);
 
         })
 
 
         /* THIS IS THE END OF IDEA */
-
-
-        
-
     }
 
-}
+    /* THIS IS DASHBOARD */
 
-// markup of modal (character details)
-function ct_modal_markup(create, cont) {
+    if (key == 'EditDashDesc') {
 
-    const markup = `
-    <div class="box-create-form">
-    <h3 class="create_form_header">${create.title}</h3>
-    <form id="${create.form}" data-id=${create.id} action="javascript:${create.javascript};">
-        <div class="form-box-input">
-            <h3 class="form-input-header">Name *</h3>
-            <input name="form-name" type="text" class="form-input" value="${cont.name}" required="">
+        let create = {
+            id: '',
+            title: 'Edit summary',
+            javascript: 'editSummary(this)',
+            form: 'editSum',
+            input1: 'Add or edit summary',
+            save: 'Save summary',
+            rows: '16'
+        }
 
-            <div class="form-box-input-columns">
-            <span class="form-box-3-columns"> 
-                <h3 class="form-input-header">Gender</h3>
-                <select name="form-gend" id="form-input-gender" class="form-input">
-                    <option value="male" ${cont.male}>Male</option>
-                    <option value="female" ${cont.female}>Female</option>                    
-                    <option value="unknown" ${cont.gend}>Unknown</option>
-                </select>
-            </span>
-            
-            <span class="form-box-3-columns"> 
-                <h3 class="form-input-header">Age</h3>
-                <input name="form--age" type="text" class="form-input" value="${cont.age}">
-            </span>
+        let data = {
+            function: 'get',
+            simple: 'yes',
+            records: 'projectdesc',
+            table: 'Project',
+            expression: ''
+        }
 
-            <span class="form-box-3-columns"> 
-                <h3 class="form-input-header">Type</h3>
-                <select name="form-type" class="form-input" id="form-input-type">
-                <option value="protagonist" ${cont.type1}>Protagonist</option>
-                <option value="antagonist" ${cont.type2}>Antagonist</option>
-                <option value="unknown" ${cont.type3}>Unknown</option>
-                </select>
-            </span>
-            </div>
+        database(data, (result) => {
 
-            
-            <h3 class="form-input-header">Short description (max. 260 characters)</h3>
-            <textarea name="form-desc" class="form-input" rows="4" maxlength="260">${cont.bio}</textarea>
+            let results = {
+                subj: result.projectdesc,
+                id: ''
+            }
 
-        </div>
-        <div class="form-input-button">
-            <button class="create_close_button" type="button" onclick="close_action_modal()">Close</button>
-            <button class="create_save_button" type="submit">${create.save}</button>
-        </div>
-    </form>
+            console.log(results);
 
-</div>
-`
-    let modal = document.getElementById('modal_action');
-    modal.innerHTML = markup;
-    modal.showModal();
-}
+            let type = 'edit-description';
 
-// Markup modal Subject Edit
-function ct_modal_editSubject(create, result) {
+            ct_modal_markup(create, results, type);
 
-    const markup = `
-    <div class="box-create-form">
-    <h3 class="create_form_header">${create.title}</h3>
-        <form id="${create.form}" data-${create.dataname}=${create.id} action="javascript:${create.javascript};">
-            
-            <div class="form-box-input">
-                <h3 class="form-input-header">${create.input1} *</h3>
-                <input name="form-name" type="text" class="form-input" value="${result.subj}" required="">
+        })
+    }
 
-                <h3 class="form-input-header">${create.input2}</h3>
-                <textarea name="form-desc" class="form-input" rows="4">${result.text}</textarea>
-            
-            </div>
-            
-            <div class="form-input-button">
-                <button class="create_close_button" type="button" onclick="close_action_modal()">Close</button>
-                <button class="create_save_button" type="submit">${create.save}</button>
-            </div>
+    if (key == 'project-details') {
 
-        </form>
-    </div>
+        let create = {
+            id: '',
+            title: 'Edit project goals',
+            javascript: 'contDashGoalsEdit(this)',
+            form: 'editGoals',
+            words: 'How many words do you wish to write?',
+            concept: 'When do you wish your first concept will be ready?',
+            revision: 'What will be the  deadline of the first revision?',
+            project: 'When is the deadline of your entire project?',
+            save: 'Save project goals',
+            rows: '1'
+        }
 
-    `
+        let data = {
+            function: 'get',
+            simple: 'yes',
+            records: 'projectdate, deadconcept, deadrevision, deadwords',
+            table: 'Project',
+            expression: ''
+        }
 
-    let modal = document.getElementById('modal_action');
+        database(data, (result) => {
 
-    modal.innerHTML = markup;
+            let results = {
+                project: result.projectdate,
+                revision: result.deadrevision,
+                concept: result.deadconcept,
+                words: result.deadwords,
+            }
 
-    modal.showModal();
+            let type = 'edit-projectgoals';
 
-}
-
-function ct_modal_editHeader(create, result) {
-
-    const markup = `
-    <div class="box-create-form">
-    <h3 class="create_form_header">${create.title}</h3>
-        <form id="${create.form}" data-${result.data}=${create.id} action="javascript:${create.javascript};">
-            
-            <div class="form-box-input">
-                <h3 class="form-input-header">${create.input1} *</h3>
-                <input name="form-name" type="text" class="form-input" value="${result.subj}" required="">
-            </div>
-        
-            <div class="form-input-button">
-                <button class="create_close_button" type="button" onclick="close_action_modal()">Close</button>
-                <button class="create_save_button" type="submit">${create.save}</button>
-            </div>
-        </form>
-    </div>
-    `
-
-    let modal = document.getElementById('modal_action');
-
-    modal.innerHTML = markup;
-
-    modal.showModal();
-}
-
-function ct_modal_editDesc(create, result) {
-
-    const markup = `
-    <div class="box-create-form">
-    <h3 class="create_form_header">${create.title}</h3>
-        <form id="${create.form}" data-${result.data}=${create.id} action="javascript:${create.javascript};">
-            
-            <div class="form-box-input">
-                <h3 class="form-input-header">${create.input1} *</h3>
-                <textarea name="form-desc" class="form-input" rows="4">${result.subj}</textarea>
-            </div>
-        
-            <div class="form-input-button">
-                <button class="create_close_button" type="button" onclick="close_action_modal()">Close</button>
-                <button class="create_save_button" type="submit">${create.save}</button>
-            </div>
-        </form>
-    </div>
-    `
-
-    let modal = document.getElementById('modal_action');
-
-    modal.innerHTML = markup;
-
-    modal.showModal();
-}
-
-// close modal
-function close_action_modal() {
-    let modal = document.getElementById('modal_action');
-    modal.close();
+            ct_modal_markup(create, results, type);
+        })
+    }
 }

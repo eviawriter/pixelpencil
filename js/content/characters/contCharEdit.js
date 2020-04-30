@@ -10,7 +10,7 @@ function ct_char_edit_details(cont) {
     let gend = ct_characterdetails["form-gend"].value;
     let ages = ct_characterdetails["form--age"].value;
     let type = ct_characterdetails["form-type"].value;
-    let chid = ct_characterdetails.dataset.id;
+    let chid = ct_characterdetails.dataset.charid;
 
     // start sqlite3
     const sqlite3 = require('sqlite3').verbose();

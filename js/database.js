@@ -76,9 +76,17 @@ function database(data, result) {
     }
 
     else if (data.function == 'get') {
+        // syntax easy form of get-function:
+        // function: 'get',
+        // db: 'array',             // array = db.all, empty = db.each
+        // records: 'column 1, column 2' 
+        // table: 'table'
+        // expression: 'ORDER BY pizza'  // custom queries like WHERE and ORDER BY
+        if (data.simple == 'yes') {
+            var sql = "SELECT DISTINCT " + data.records + " FROM " + data.table + " " + data.expression + "";
+        }
 
-        // syntax data example:
-        // let data = {
+        //      syntax with 'WHERE' clause: 
         //      function: 'get',
         //      db: 'array', // returns array with db.all instead of object with db.each
         //      table: 'tablename',
@@ -90,11 +98,13 @@ function database(data, result) {
         //      orderby: 'ORDER BY',
         //      order: 'locorder'
         // }
-
-        let sql = "SELECT DISTINCT " + data.records + " FROM " + data.table + " WHERE " + data.column + " = '" + data.id + "' " + data.and + " " + data.where + " " + data.orderby + " " + data.order + "";
+        else {
+            var sql = "SELECT DISTINCT " + data.records + " FROM " + data.table + " WHERE " + data.column + " = '" + data.id + "' " + data.and + " " + data.where + " " + data.orderby + " " + data.order + "";
+        }
 
         console.log(sql);
 
+        // returns array with content.
         if (data.db == 'array') {
 
             db.all(sql, function (err, records) {
@@ -112,6 +122,7 @@ function database(data, result) {
             })
         }
 
+        // returns objects. 
         else {
 
             db.each(sql, function (err, records) {

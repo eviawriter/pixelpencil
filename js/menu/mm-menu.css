@@ -1,0 +1,352 @@
+/* GENERIC STYLING OF THE MENU-MODALS */
+
+/* z-indexes of the menu-modals */
+#modal_menu_create {
+  z-index: -1;
+}
+
+#menu_create_project {
+  z-index: 250;
+}
+
+#menu_open_project, #menu_export_project, #menu_options {
+  z-index: -1;
+}
+
+#menu_create_project, #menu_open_project, #menu_export_project, #menu_options {
+  display: block;
+  position: fixed;
+  width: 650px;
+  margin-top: 0px;
+  background-color: white;
+}
+
+/* menu-buttons */
+.menu-buttons {
+    background-color: inherit;
+    border: none;
+    width: 250px;
+    height: 50px;
+    color: white;
+    font-size: 18px;
+    font-style: bold;   
+    opacity: 1;
+    transition: 0.3s; 
+}
+
+.menu-buttons:hover {
+    opacity: 1;
+    background-color: #00ae9d;
+}
+
+/* THIS IS THE MODAL CREATE MENU */
+
+.menu_grid-container {
+  display: grid;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.25);  
+  grid-template-columns: 250px 750px;
+  border-radius: 10px;
+  grid-template-rows: 575px;
+  grid-template-areas: "menu-sidebar menu-content";
+}
+
+.menu-sidebar { 
+  grid-area: menu-sidebar; 
+  background-color: #242424;
+  border-radius: 10px 0px 0px 10px;
+  padding: 25px 0px;
+}
+
+.menu-content { 
+  grid-area: menu-content; 
+  background-color: white;
+  padding: 0px 50px 0px 50px;
+  border-radius: 0px 10px 10px 0px;
+}
+
+.menu-header {
+  height: 100px;
+  text-align: center;
+  color: #606060;
+  padding-top: 25px;
+}
+
+.menu-title-100px {
+  height: 100px;
+}
+
+.menu-title-100px, .menu-title-200px {
+  margin-top: -20px;
+}
+
+.menu-title-200px {
+  height: 200px;
+}
+
+.menu_two_columns_100px {
+  display: flex;
+  height: 100px;
+}
+
+.menu_two_columns_150px {
+  display: flex;
+  height: 150px;
+}
+
+.menu_column_one {
+  width: 50%;
+  padding-right: 20px;
+}
+
+.menu_column_two {
+  width: 50%;
+  padding-left: 20px;
+}
+
+#menu_column_one_fix, #menu_column_two_fix {
+  margin-top: -20px;
+}
+
+.open_dir_headers {
+  display: flex;
+}
+
+.open_dir_header, .open_dir_details {
+  width: 50%;
+  height: 50px;  
+}
+
+.open_dir_details {
+  padding-left: 20px;
+}
+
+.menu_two_columns_250px {
+  font-size: 14px;
+  line-height: 1.3em;
+  display: flex;
+  height: 250px;
+}
+
+.menu_column_one_250px {
+  width: 50%;
+  background-color: #EBEBEB;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.menu_column_two_250px {
+  width: 50%;
+  padding-left: 20px;
+}
+
+.menu_column_two_250px h5 {
+  color: #242424;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.menu_two_columns_200px {
+  font-size: 14px;
+  line-height: 1.3em;
+  display: flex;
+  height: 200px;
+}
+
+.menu_column_200px {
+  width: 300px;
+  background-color: #EBEBEB;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.menu_arrow {
+  height: 200px;
+  padding: 70px 10px 10px 10px;
+  width: 50px;
+  vertical-align: middle;
+}
+
+.btn_arrow_forward, .btn_arrow_back {
+  width: 30px;
+  height: 22px;
+  border: 0;
+  padding: 0;
+  opacity: 1;
+  transition: 0.2s ease-in-out;
+}
+
+.btn_arrow_forward {
+  background-image: url('./../images/general/arrow.png');
+}
+
+.btn_arrow_back {
+  background-image: url('./../images/general/arrow-back.png');
+}
+
+.btn_arrow_forward:hover, .btn_arrow_back:hover {
+  opacity: 0.5;
+}
+
+#menu_open_desc {
+  display: block;
+  display: -webkit-box;
+  overflow: hidden;
+  line-height: 1.4em;
+  min-height: 115px;
+  max-height: 115px;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+}
+
+#menu_open_deadline, #menu_open_goal {
+  font-style: italic;
+  font-size: 12px;
+  color: #242424;
+}
+
+#menu_open_dir, .menu_open_dir {
+  background-color: white;
+  width: 100%;
+  height: 220px;
+  overflow: auto;
+  border: none;
+}
+
+.menu_export_dir {
+  background-color: white;
+  width: 100%;
+  height: 170px;
+  overflow: auto;
+  border: none;
+}
+
+#menu_open_dir option, .menu_open_dir option, .menu_export_dir option {
+  display: flex;
+  font-size: 16px;
+  align-items: center;
+  padding-left: 5px;
+  padding-right: 5px;
+  height: 30px;
+  font-size: 14px;
+  opacity: 1;
+  transition: 0.3s; 
+}
+
+#menu_open_dir option:hover, .menu_open_dir option:hover, .menu_export_dir option:hover {
+  opacity: 1;
+  background-color: #00ae9d;
+  color: white;
+}
+
+#menu_open_dir option:focus, .menu_open_dir option:focus, .menu_export_dir option:focus {
+  background-color: #00ae9d;
+  color: white;
+}
+
+#menu_open_dir select, .menu_open_dir select, .menu_export_dir select {
+  background-color: #00ae9d;
+  color: white;
+}
+
+.menu_open_file {
+  width: 100%;
+  height: 75px;
+  vertical-align: middle;
+}
+
+.menu-save {
+  height: 75px;
+  padding-top: 5px;
+  text-align: right;
+}
+
+.menu_title_small {
+  font-size: 10px;
+}
+
+/* Styling of the form fields and save-button */
+
+/* fields in menu-content */
+.menu-content-name, .menu-content-desc, .menu-content-date, .menu-content-words {
+  font-family: 'Ubuntu';
+  padding: 4px;
+  height: 30px;
+  font-size: 14px;
+  border-width: 1px;
+  width: 100%;
+  border-color: 1px solid #606060;
+  background-color: #FFFFFF;
+  color: #000000;
+  border-radius: 5px;
+  }
+  
+  .menu-content-desc {
+    height: 125px;
+  }
+  
+  /* save-button */
+  .action {
+    position: relative;
+    margin-left: 0.625rem;
+    padding: 0.625rem 1.25rem;
+    border: none;
+    background-color: slategray;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    font-weight: 300;
+    overflow: hidden;
+    z-index: 1;
+    }
+    
+  .action:before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: width 0.25s;
+    z-index: 0;
+    font-weight: bold;
+    }
+    
+  .action:first-child {
+    background-color: #00ae9d;
+    font-weight: bold;
+    }
+    
+  .action:last-child {
+    background-color: #00ae9d;
+    font-weight: bold;
+    }
+    
+  .action:hover:before {
+    width: 100%;
+    }
+  
+    .export_format_container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .export_format {
+      width: 150px;
+      height: 35px;
+    }
+
+    .export_text {
+      float: left; 
+      font-style: italic; 
+      color: #606060; 
+      font-size: 12px; 
+      margin-top: 10px;
+    }
+    
