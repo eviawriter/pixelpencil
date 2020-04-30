@@ -161,7 +161,7 @@ function exportproject() {
         width: 500, 
         height: 200, 
         transparant: true, 
-        frame: false, 
+        frame: true, 
     
         webPreferences: {
         nodeIntegration: true

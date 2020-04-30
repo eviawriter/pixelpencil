@@ -65,10 +65,10 @@ app.on('activate', function () {
   }
 })
 
-
-
 // listen the 'app_quit' event
 ipcMain.on('app_quit', (event, info) => {
   love_it = false;
   app.quit()
 })
+
+// create a way to print 

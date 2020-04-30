@@ -58,7 +58,5 @@ const { ipcRenderer } = require('electron')
 ipcRenderer.on('love time', (event, message) => {
 
   get_time(message);
-  
+
 })
-
-
