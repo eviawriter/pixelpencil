@@ -10,8 +10,8 @@ function editLocation(content, form) {
     if (form == 'title') {
 
         // title
-        let title_esc = editLoc["form-name"].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
-        let title = editLoc["form-name"].value;
+        let title_esc = editLoc["form-desc"].value.replace(/\'/g, "&apos;").replace(/\"/g, "&quot;");
+        let title = editLoc["form-desc"].value;
 
         let data = {
             function: 'edit', // specify the function

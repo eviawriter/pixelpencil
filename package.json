@@ -1,7 +1,7 @@
 {
   "name": "pixelpencil",
   "version": "0.3.0",
-  "description": "PixelPencil Editor is a powerfull tool to help you write the best content in an organised manner",
+  "description": "PixelPencil Editor is a powerful tool to help you write the best content in an organised manner",
   "main": "main.js",
   "dependencies": {
     "chart.js": "^2.9.3",

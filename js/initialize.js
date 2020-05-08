@@ -3,16 +3,25 @@ const electron = require('electron');
 const path = require('path');
 
 // create the userDir where all the user data of PixelPencil is stored
-const userDir = (electron.app || electron.remote.app).getPath('userData');
+const userDir = (electron.app || electron.remote.app).getPath('documents');
 
 // attach the project-directory and create a new one if it doesn't exist
 var fs = require('fs');
-var projectdir = path.join(userDir, '/saved');
+var projectdir = path.join(userDir, '/PixelPencil/projects');
 
 // check if the projectdir exists
-if (!fs.existsSync(projectdir)) {
+if (!fs.existsSync(`${projectdir}`)) {
   // if not, create the directory
-  fs.mkdirSync(projectdir);
+  fs.mkdirSync(`${projectdir}`, { recursive: true });
+}
+
+// create export-dir
+var exportdir = path.join(userDir, '/PixelPencil/exports');
+
+// check if the export-dir exists
+if (!fs.existsSync(`${exportdir}`)) {
+  // if not, create the directory
+  fs.mkdirSync(`${exportdir}`, { recursive: true });
 }
 
 // This is the sourcedatabase, always loaded when the app starts.
@@ -58,5 +67,20 @@ const { ipcRenderer } = require('electron')
 ipcRenderer.on('love time', (event, message) => {
 
   get_time(message);
+
+})
+
+ipcRenderer.on('database created', (name) => {
+
+  console.log(name);
+
+  console.log('dit werkt!')
+
+  var newlocation = projectdir + '/' + name + '.evv';
+  databaselocation = "";
+  databaselocation = newlocation;
+  db = new sqlite3.Database(databaselocation);
+
+  reloadContent();
 
 })

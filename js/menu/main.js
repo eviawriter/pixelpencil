@@ -45,7 +45,17 @@ function menu(button, click) {
 
     if (button == 'options') {
         console.log('hey!');
-        // modal_overlay('modal_menu_create');
+
+        // make navibar invisible
+        document.querySelector('.box-navibar').classList.remove('show');
+        document.querySelector('.box-navibar').classList.add('hide');
+
+        // make content visible
+        document.getElementById('box-content-menu').style.visibility = "visible";
+        document.querySelector('.box-content').style.width = "1200px";
+        document.querySelector('.box-content').style.overflow = "visible";
+
+        mainHamburgerModal();
     }
 
     // then depending on the clicked button, make everything belonging to the category visible
@@ -66,11 +76,11 @@ function menu(button, click) {
 
         // add new data-cat with the category to the create-button
         // this is used by the function tooltip_visible to make the correct tooltipcontent visible
-        document.getElementById('create-button').dataset.cat = "dashboard";
+        // document.getElementById('create-button').dataset.cat = "dashboard";
 
         // make actions-button visible 
         // probably better to first check if an item is already opened before applying this. If not opened, then keep it hidden.
-        document.getElementById('ac-dashboard').style.visibility = "visible";
+        // document.getElementById('ac-dashboard').style.visibility = "visible";
 
         // reload the charts 
         contDashChart('update');

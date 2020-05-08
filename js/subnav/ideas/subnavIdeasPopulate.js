@@ -21,15 +21,23 @@ function subnavIdeasPopulate() {
 
     database(data, function (result) {
 
-        console.log(result);
-
-        result.forEach((love) => {
-
+        if (result == "") {
+            console.log('No ideas present');
             let container = document.getElementById('subnav-ideas').querySelector('.sn-accordion');
+            container.innerHTML = "";
+        }
 
-            console.log(love);
+        else {
 
-            let markup = `
+            console.log(result);
+
+            result.forEach((love) => {
+
+                let container = document.getElementById('subnav-ideas').querySelector('.sn-accordion');
+
+                console.log(love);
+
+                let markup = `
                 <section class="sn-accordion-item open" data-catid="${love.catid}">
                     <button class="sn-ideas-header" data-catid="${love.catid}">${love.title}</button>
                     <div class="sn-subitems" data-catid="${love.catid}">
@@ -38,10 +46,11 @@ function subnavIdeasPopulate() {
             
             `
 
-            container.insertAdjacentHTML('beforeend', markup);
+                container.insertAdjacentHTML('beforeend', markup);
 
-            ideas_popSubnavSubitems(love.catid)
-        });
+                ideas_popSubnavSubitems(love.catid)
+            });
+        }
     });
 }
 

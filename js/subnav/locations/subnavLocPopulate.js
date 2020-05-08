@@ -1,4 +1,10 @@
-(function loc_popSubnav() {
+(function initializelocsubnav() {
+
+    loc_popSubnav();
+
+})()
+
+function loc_popSubnav() {
 
     // function to populate subnav of locations
 
@@ -18,15 +24,23 @@
 
     database(data, function (result) {
 
-        console.log(result);
+        console.log('RESULT!!!!', result)
 
-        result.forEach((love) => {
-
+        if (result == "") {
+            console.log('No locations present');
             let container = document.getElementById('subnav-locations').querySelector('.sn-accordion');
+            container.innerHTML = "";
+        }
 
-            console.log(love);
+        else {
 
-            let markup = `
+            result.forEach((love) => {
+
+                let container = document.getElementById('subnav-locations').querySelector('.sn-accordion');
+
+                console.log(love);
+
+                let markup = `
                 <section class="sn-accordion-item open" data-catid="${love.catid}">
                     <button class="sn-location-header" data-catid="${love.catid}">${love.catname}</button>
                     <div class="sn-subitems" data-catid="${love.catid}">
@@ -35,13 +49,13 @@
             
             `
 
-            container.insertAdjacentHTML('beforeend', markup);
+                container.insertAdjacentHTML('beforeend', markup);
 
-            loc_popSubnavSubitems(love.catid)
-        });
+                loc_popSubnavSubitems(love.catid)
+            });
+        }
     });
-
-})()
+}
 
 function loc_popSubnavSubitems(id) {
 

@@ -32,13 +32,20 @@ function populate_subnav_writing() {
         }
 
         else {
-            console.log(chaps);
 
-            // first get the element used for writing
-            let chapters = document.getElementById('subnav-writing');
+            if (chaps == "") {
+                console.log('RESULT: no chapters available');
+                document.getElementById('subnav-writing').innerHTML = "";
+            }
 
-            // add the HTML-markup. With chaps.map we create an array with for every chapter a new <section>. 
-            const markup = `
+            else {
+                console.log(chaps);
+
+                // first get the element used for writing
+                let chapters = document.getElementById('subnav-writing');
+
+                // add the HTML-markup. With chaps.map we create an array with for every chapter a new <section>. 
+                const markup = `
             <div class="sn-accordion">
                 ${chaps.map(row => `
                 <section class="sn-accordion-item" data-chapid=${row.chapid} data-chaporder=${row.chaporder} onmouseover="subnav_remove_active('writing', this)">
@@ -50,21 +57,22 @@ function populate_subnav_writing() {
                 `).join('')}
             </div>
             `
-            // The chapid is needed to add the subchapters to the correct chapter.
-            let chapidlist = [];
+                // The chapid is needed to add the subchapters to the correct chapter.
+                let chapidlist = [];
 
-            chaps.forEach((row) => {
-                chapidlist.push(row.chapid);
-            });
+                chaps.forEach((row) => {
+                    chapidlist.push(row.chapid);
+                });
 
-            // Add the content of markup to subnav-writing (chapters);
-            chapters.innerHTML = markup;
+                // Add the content of markup to subnav-writing (chapters);
+                chapters.innerHTML = markup;
 
-            db.close();
+                db.close();
 
-            // excute a new function to add the subchapters.
-            get_subchapters(chapidlist);
+                // excute a new function to add the subchapters.
+                get_subchapters(chapidlist);
 
+            }
         }
     })
 

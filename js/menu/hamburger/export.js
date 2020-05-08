@@ -31,40 +31,41 @@ function print_to_pdf() {
         win.webContents.openDevTools({ mode: 'detach' })
 
         // Load the HTML for the window.
-        win.loadURL('file://' + __dirname + '/js/menu/mainmenu/export.html');
+        win.loadURL('file://' + __dirname + '/js/menu/hamburger/export.html');
 
-        let omg = '<div>OMG!</div>';
         // Send a message to the window.
         win.webContents.on('did-finish-load', () => {
 
             let data = {
                 function: 'get',
+                db: 'array',
                 simple: 'yes',
-                records: 'subtext',
+                records: 'subname, subtext',
                 table: 'Subchapters',
-                expression: 'WHERE subid=2'
+                expression: 'WHERE subid IN (1,2,3,4) AND subtrash=0'
             }
 
             database(data, (result) => {
 
                 console.log(result);
-                var html = result.subtext;
+                var html = result;
 
                 win.webContents.send('ping', html);
 
                 win.webContents.printToPDF({}).then(data => {
-                    fs.writeFile('/tmp/print.pdf', data, (error) => {
+
+                    console.log(exportdir);
+                    
+                    fs.writeFile(exportdir + '/print.pdf', data, (error) => {
+                    
                         if (error) throw error
                         console.log('Write PDF successfully.')
                     })
+
                 }).catch(error => {
                     console.log(error)
-
                 });
-
             })
-
-
         }
         )
     }

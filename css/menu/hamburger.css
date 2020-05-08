@@ -1,0 +1,230 @@
+.hamcontainer {
+    display: flex;
+    justify-content: center;
+    border-bottom: 2px solid #00AD9D;
+    flex-wrap: nowrap;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.hamcontainer .cm-button {
+    color: #484848;
+}
+
+.hamcontainer .cm-button:hover {
+    color: white;
+}
+
+.hamcontainer .cm-button.active {
+    color: white;
+    background-color: #00AD9D;
+}
+
+.hamcreate .form-input-button {
+    margin-top: 50px;
+}
+
+.hamcreate .form-box-input {
+    padding-bottom: 0px;
+}
+
+#hamcontent {
+    align-content: center;
+}
+
+/* OPEN PROJECT styling */
+
+#formopenproject, #formexportproject {
+    padding: 30px 50px 0px 50px;
+}
+
+.open_dir_headers {
+    display: flex;
+}
+
+.open_dir_header, .open_dir_details {
+    width: 50%;
+    height: 50px;
+}
+
+.menu_two_columns_250px {
+    font-size: 14px;
+    line-height: 1.3em;
+    display: flex;
+    height: 250px;
+}
+
+.menu_column_one_250px {
+    width: 50%;
+    background-color: #EBEBEB;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+#menu_open_dir, .menu_open_dir {
+    background-color: white;
+    width: 100%;
+    height: 220px;
+    overflow: auto;
+    border: none;
+}
+
+#menu_open_dir option, .menu_open_dir option, .menu_export_dir option {
+    display: flex;
+    font-size: 16px;
+    align-items: center;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 30px;
+    font-size: 14px;
+    opacity: 1;
+    transition: 0.3s;
+}
+
+#menu_open_dir option:hover, .menu_open_dir option:hover, .menu_export_dir option:hover {
+    opacity: 1;
+    background-color: #00ae9d;
+    color: white;
+}
+
+#menu_open_dir option:focus, .menu_open_dir option:focus, .menu_export_dir option:focus {
+    background-color: #00ae9d;
+    color: white;
+}
+
+#menu_open_dir select, .menu_open_dir select, .menu_export_dir select {
+    background-color: #00ae9d;
+    color: white;
+}
+
+.menu_column_two_250px {
+    width: 50%;
+    padding-left: 20px;
+}
+
+.menu_column_two_250px h5 {
+    color: #242424;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#menu_open_desc {
+    display: block;
+    display: -webkit-box;
+    overflow: hidden;
+    line-height: 1.4em;
+    min-height: 115px;
+    max-height: 115px;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+}
+
+#menu_open_deadline, #menu_open_goal {
+    font-style: italic;
+    font-size: 12px;
+    color: #242424;
+}
+
+.menu_open_file {
+    width: 100%;
+    height: 105px;
+    margin-top: 35px;
+    vertical-align: middle;
+}
+
+/* EXPORT PROJECT styling */
+
+.open_fill {
+    width: 70px;
+    height: 50px;
+}
+
+.menu_two_columns_200px {
+    font-size: 14px;
+    line-height: 1.3em;
+    display: flex;
+    height: 200px;
+  }
+  
+  .menu_column_200px {
+    width: 50%;
+    background-color: #EBEBEB;
+    padding: 15px;
+    border-radius: 10px;
+  }
+
+  .menu_arrow {
+    display: flex;
+    align-content: space-evenly;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 200px;
+    padding: 0px 10px 0px 10px;
+    width: 50px;
+  }
+  
+  .btn_arrow_forward, .btn_arrow_back {
+    width: 30px;
+    height: 22px;
+    border: 0;
+    padding: 0;
+    opacity: 1;
+    transition: 0.2s ease-in-out;
+  }
+  
+  .btn_arrow_forward {
+    background-image: url('./../images/general/arrow.png');
+  }
+  
+  .btn_arrow_back {
+    background-image: url('./../images/general/arrow-back.png');
+  }
+  
+  .btn_arrow_forward:hover, .btn_arrow_back:hover {
+    opacity: 0.5;
+  }
+  
+  .menu_export_dir {
+    background-color: white;
+    width: 100%;
+    height: 170px;
+    overflow: auto;
+    border: none;
+  }
+
+  .menu_two_columns_150px {
+    display: flex;
+    height: 150px;
+  }
+  
+  .menu_column_one {
+    width: 50%;
+  }
+  
+.menu_fill {
+    width: 70px;
+    height: auto;
+}
+
+  .menu_column_two {
+    width: 50%;
+  }
+  
+  #menu_column_one_fix, #menu_column_two_fix {
+    margin-top: -20px;
+  }
+  
+  .export_format_container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .export_format {
+    width: 145px;
+    height: 35px;
+  }
+
+  .export_text {
+      margin-bottom: 25px;
+  }

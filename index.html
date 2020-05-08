@@ -15,6 +15,8 @@
 
     <!-- styling of the menu bar on the left -->
     <link rel="stylesheet" href="css/menu/main.css">
+    <link rel="stylesheet" href="css/menu/hamburger.css">
+    <link rel="stylesheet" href="css/menu/loading.css">
 
     <!-- styling of the search bar -->
     <link rel="stylesheet" href="css/search/main.css">
@@ -364,6 +366,7 @@
                     </div>
 
                 </div>
+                <div id="box-content-menu" class="content-box"></div>
             </div>
 
             <!-- ACTION MENU (on the bottom of the content) -->
@@ -423,19 +426,20 @@
 
     <!-- here will be modals -->
 
-    <!-- 
-            Modal used to create new stuff with the create-button 
-            markup and text is found in js/create/main.js
-        -->
+    <!-- Modal used to create new stuff with the create-button 
+        markup and text is found in js/create/main.js -->
     <dialog id="modal_create"></dialog>
 
-    <!-- 
-            Modal used to delete stuff from the database. It's content is found in js/subnav
-        -->
+    <!-- Modal used to delete stuff from the database. 
+        It's content is found in js/subnav -->
     <dialog id="modal_delete"></dialog>
 
-    <!-- Modal used for creating new subjects and other stuff (in box-actions) -->
+    <!-- Modal used for creatingdocument.getElementById('box-content-dashboard').style.visibility = "visible";new subjects and other stuff 
+        (in box-actions) -->
     <dialog id="modal_action"></dialog>
+
+    <!-- Modal used for hamburger menu -->
+    <dialog id="modal_hamburger"></dialog>
 
     </div>
 
@@ -446,6 +450,7 @@
     <!-- main script -->
 
     <script src="js/initialize.js"></script>
+    <script src="js/reloadContent.js"></script>
 
     <!-- generic database transactions -->
 
@@ -454,7 +459,15 @@
     <!-- main menu scripts -->
 
     <script src="js/menu/main.js"></script>
-    <script src="js/menu/mainmenu/mainmenu.js"></script>
+
+    <script src="js/menu/hamburger/mainHamburger.js"></script>
+    <script src="js/menu/hamburger/menuHamburgerParts.js"></script>
+    
+    <script src="js/menu/hamburger/menuCreateProject.js"></script>
+    
+    <script src="js/menu/hamburger/menuOpenProject.js"></script>
+    <script src="js/menu/hamburger/menuExportProject.js"></script>
+    <script src="js/menu/hamburger/export.js"></script>
 
     <!-- main scripts -->
 

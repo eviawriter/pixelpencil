@@ -20,52 +20,66 @@ function contDashChart(update) {
 
     database(data, function (result) {
 
-        // iterate over each chapter and extract the words-column of
-        // every subchapter beloning to it. 
-        for (let i = 0; i < result.length; i++) {
+        if (result == "") {
+            let chapters = [];
+            let count = [];
+            let update = 'update';
 
-            let data = {
-                function: 'get',
-                db: 'array',
-                table: 'words',
-                records: 'chapid, words',
-                column: 'chaptrash',
-                id: '0',
-                and: 'AND',
-                where: 'chapid=' + result[i].chapid,
-                orderby: 'ORDER BY',
-                order: 'chaporder'
-            }
+            console.log('it is empty!')
 
-            database(data, function(result) {
+            contDashLoadCharts(chapters, count, update);
 
-                var words = [];
+        }
 
-                // push all the words in that variable.
-                for (i = 0; i < result.length; i++) {
+        else {
 
-                    words.push(result[i].words);
+            // iterate over each chapter and extract the words-column of
+            // every subchapter beloning to it. 
+            for (let i = 0; i < result.length; i++) {
 
-                };
-
-                // get thet total number of words for that chapter
-                let count = words.reduce((a, b) => a + b, 0);
-
-                // update the number total in the Chapters-table.
                 let data = {
-                    function: 'edit',
-                    table: 'Chapters',
-                    rows: 'count="' + count + '"',
-                    column: 'chapid',
-                    id: result[0].chapid
+                    function: 'get',
+                    db: 'array',
+                    table: 'words',
+                    records: 'chapid, words',
+                    column: 'chaptrash',
+                    id: '0',
+                    and: 'AND',
+                    where: 'chapid=' + result[i].chapid,
+                    orderby: 'ORDER BY',
+                    order: 'chaporder'
                 }
 
-                // wordt per hoofdstuk uitgevoerd en geüpdatet, maar
-                // heb geen idee hoe ik dat kan voorkomen :) 
                 database(data, function (result) {
+
+                    var words = [];
+
+                    // push all the words in that variable.
+                    for (i = 0; i < result.length; i++) {
+
+                        words.push(result[i].words);
+
+                    };
+
+                    // get thet total number of words for that chapter
+                    let count = words.reduce((a, b) => a + b, 0);
+
+                    // update the number total in the Chapters-table.
+                    let data = {
+                        function: 'edit',
+                        table: 'Chapters',
+                        rows: 'count="' + count + '"',
+                        column: 'chapid',
+                        id: result[0].chapid
+                    }
+
+                    // wordt per hoofdstuk uitgevoerd en geüpdatet, maar
+                    // heb geen idee hoe ik dat kan voorkomen :) 
+                    database(data, function (result) {
                         contDashArrays(update);
+                    })
                 })
-            })
+            }
         }
     })
 }
@@ -103,6 +117,8 @@ function contDashArrays(update) {
         if (update == 'update') {
 
             let update = "update";
+
+            console.log('yes, update is working!!!!!!')
 
             contDashLoadCharts(chapters, count, update);
             count = [];
