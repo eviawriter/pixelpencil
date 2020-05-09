@@ -36,8 +36,36 @@ function menuExportSelectNotReady(chapter) {
     document.getElementById('menu_export_chapterlist').appendChild(old);
 }
 
+// Create new dialogue, that accepts user input. 
+function menuExportGetName() {
+
+    const { remote } = require('electron')
+
+    const { BrowserWindow } = remote
+    // call the new window with some options. Transparant doesn't work on Nvidia Linux.
+    const win = new BrowserWindow({
+        width: 500,
+        height: 200,
+        transparant: false,
+        frame: false,
+        show: true,
+
+        webPreferences: {
+            nodeIntegration: true
+        }
+    });
+
+    // Open the dev-tools for this particular window.
+    win.webContents.openDevTools({ mode: 'detach' })
+
+    // Load the HTML for the window.
+    win.loadURL('file://' + __dirname + '/js/menu/hamburger/export-name.html');
+
+}
+
+
 // here be the exporting done. 
-function menuExportProject() {
+function menuExportProject(filename) {
 
     // get the currently added options from the element
     let chaplist = document.getElementById("menu_export_chapters");
@@ -72,13 +100,13 @@ function menuExportProject() {
     const { remote } = require('electron')
 
     const { BrowserWindow } = remote
-
     // call the new window with some options. Transparant doesn't work on Nvidia Linux.
     const win = new BrowserWindow({
         width: 500,
         height: 200,
-        transparant: true,
-        frame: true,
+        transparant: false,
+        frame: false,
+        show: false,
 
         webPreferences: {
             nodeIntegration: true
@@ -111,38 +139,71 @@ function menuExportProject() {
 
             console.log(result);
 
+            let chapnum = 0;
+            let chapter = [];
             let html = [];
 
             for (i = 0; i < result.length; i++) {
 
-                
+                if (chapter.includes(result[i].chapname)) {
 
-                let markup = `
-                <h1 class="chapter">Chapter: ${result[i].chapname}</h1>
+                    let markup = `
+                    <h2>${result[i].subname}</h2>
+                    <p>${result[i].subtext}</p>`
 
-                <h2>Subchapter: ${result[i].subname}</h2>
+                    html.push(markup);
+                }
+
+                else {
+                    let chapnumber = chapnum + 1;
+                    chapnum = chapnumber;
+                    chapter.push(result[i].chapname);
+
+                    let markup = `
+                <h1 class="chapter">Chapter ${chapnumber}: ${result[i].chapname}</h1>
+
+                <h2>${result[i].subname}</h2>
 
                 <p>${result[i].subtext}</p>
             `
 
-                html.push(markup);
+                    html.push(markup);
+                }
             }
 
-            win.webContents.send('ping', html);
+            // get projectname from the database
+            let data = {
+                function: 'get',
+                db: 'array',
+                simple: 'yes',
+                records: 'projectname',
+                table: 'Project',
+                expression: ''
+            }
 
-            win.webContents.printToPDF({}).then(data => {
+            database(data, (result) => {
 
-                console.log(exportdir);
+                console.log(result[0].projectname);
 
-                fs.writeFile(exportdir + '/print.pdf', data, (error) => {
+                win.webContents.send('ping', html);
 
-                    if (error) throw error
-                    console.log('Write PDF successfully.')
-                })
+                win.webContents.printToPDF({}).then(data => {
 
-            }).catch(error => {
-                console.log(error)
-            });
+                    console.log(exportdir);
+
+                    fs.writeFile(exportdir + '/' + result[0].projectname + '.pdf', data, (error) => {
+
+                        if (error) throw error
+                        console.log('Write PDF successfully.')
+
+                        win.webContents.destroy();
+                    })
+
+                }).catch(error => {
+                    console.log(error)
+                });
+
+            })
 
         })
 
