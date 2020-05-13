@@ -84,3 +84,9 @@ ipcRenderer.on('database created', (name) => {
   reloadContent();
 
 })
+
+ipcRenderer.on('export name', (name) => {
+
+  
+
+})

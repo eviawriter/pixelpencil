@@ -36,34 +36,6 @@ function menuExportSelectNotReady(chapter) {
     document.getElementById('menu_export_chapterlist').appendChild(old);
 }
 
-// Create new dialogue, that accepts user input. 
-function menuExportGetName() {
-
-    const { remote } = require('electron')
-
-    const { BrowserWindow } = remote
-    // call the new window with some options. Transparant doesn't work on Nvidia Linux.
-    const win = new BrowserWindow({
-        width: 500,
-        height: 200,
-        transparant: false,
-        frame: false,
-        show: true,
-
-        webPreferences: {
-            nodeIntegration: true
-        }
-    });
-
-    // Open the dev-tools for this particular window.
-    win.webContents.openDevTools({ mode: 'detach' })
-
-    // Load the HTML for the window.
-    win.loadURL('file://' + __dirname + '/js/menu/hamburger/export-name.html');
-
-}
-
-
 // here be the exporting done. 
 function menuExportProject(filename) {
 
@@ -95,32 +67,15 @@ function menuExportProject(filename) {
     let loca = formexportproject["locations"].checked;
     let idea = formexportproject["ideas"].checked;
 
-    // create a new HTML-document to push all the chapters and subchapters in.
-    // first require remote and attach it BrowserWindow
-    const { remote } = require('electron')
+    console.log(char, rese, loca, idea);
 
-    const { BrowserWindow } = remote
-    // call the new window with some options. Transparant doesn't work on Nvidia Linux.
-    const win = new BrowserWindow({
-        width: 500,
-        height: 200,
-        transparant: false,
-        frame: false,
-        show: false,
+    menuExportProjectContent(array, format, char, rese, loca, idea);
+}
 
-        webPreferences: {
-            nodeIntegration: true
-        }
-    });
+function menuExportProjectContent(array, format, char, rese, loca, idea) {
 
-    // Open the dev-tools for this particular window.
-    win.webContents.openDevTools({ mode: 'detach' })
-
-    // Load the HTML for the window.
-    win.loadURL('file://' + __dirname + '/js/menu/hamburger/export.html');
-
-    // Send a message to the window.
-    win.webContents.on('did-finish-load', () => {
+    // first get stuff from the database.
+    const content = new Promise(function (resolve, reject) {
 
         // get stuff from the database.
         let data = {
@@ -171,41 +126,443 @@ function menuExportProject(filename) {
                 }
             }
 
-            // get projectname from the database
-            let data = {
-                function: 'get',
-                db: 'array',
-                simple: 'yes',
-                records: 'projectname',
-                table: 'Project',
-                expression: ''
+            menuExportWindow(html, format, 'content');
+
+            resolve('done');
+        })
+    })
+
+    content
+        .then(menuExportCharacters(char, format))
+        .then(menuExportLocations(loca, format))
+        .then(menuExportIdeas(idea, format))
+    // .then(menuExportResearch(rese, format))
+    // .then(killmodal)
+    // .catch(handleErrors)
+}
+
+function menuExportCharacters(char, format) {
+
+    if (char) {
+
+        let data = {
+            function: 'get',
+            db: 'array',
+            simple: 'yes',
+            records: 'charname, charbio, charage, chargender, charkind, subject, chartext',
+            table: 'exportchar',
+            expression: ''
+        }
+
+        database(data, (result) => {
+
+            let character = [];
+            let html = [];
+
+            for (i = 0; i < result.length; i++) {
+
+                if (character.includes(result[i].charname)) {
+
+                    let markup = `
+                            <h2>${result[i].subject}</h2>
+                            <p>${result[i].chartext}</p>`
+
+                    html.push(markup);
+                }
+
+                else {
+
+                    character.push(result[i].charname);
+
+                    let markup = `
+                        <h1 class="chapter">Character: ${result[i].charname}</h1>
+                        <p>Age: ${result[i].charage}</p>
+                        <p>Gender: ${result[i].chargender}</p>
+                        <p>Kind: ${result[i].charkind}</p>
+
+                        <h2>Charbio</h2>
+                        <p>${result[i].charbio}</p>
+                    
+                        <h2>${result[i].subject}</h2>
+        
+                        <p>${result[i].chartext}</p>
+                    `
+
+                    html.push(markup);
+                    // win.webContents.on('did-finish-load', () => {
+                    //     win.webContents.send('export char', html);
+                    // })
+                }
             }
 
-            database(data, (result) => {
+            menuExportWindow(html, format, 'characters')
+        })
+    }
+}
 
-                console.log(result[0].projectname);
+function menuExportLocations(loca, format) {
 
-                win.webContents.send('ping', html);
+    // Check if locations is selected
+    if (loca) {
 
-                win.webContents.printToPDF({}).then(data => {
+        // get stuff from the database (using a sqlite VIEW)
+        let data = {
+            function: 'get',
+            db: 'array',
+            simple: 'yes',
+            records: 'locname, locdesc, catname, conttitle, conttext',
+            table: 'exportloca',
+            expression: ''
+        }
 
-                    console.log(exportdir);
+        database(data, (result) => {
 
-                    fs.writeFile(exportdir + '/' + result[0].projectname + '.pdf', data, (error) => {
+            console.log(result);
 
-                        if (error) throw error
-                        console.log('Write PDF successfully.')
+            // Need some empty variables.
+            let category = [];
+            let location = [];
+            let html = [];
 
-                        win.webContents.destroy();
-                    })
+            for (i = 0; i < result.length; i++) {
 
-                }).catch(error => {
-                    console.log(error)
-                });
+                // the result always contains a catname. If it's not present in
+                // the variable category, we create a new variable with the html.
+                if (!category.includes(result[i].catname)) {
 
+                    var cat = `<h1>Category: ${result[i].catname}</h1>`
+
+                    // push the catname into the variable category. It's not
+                    // neccessary for the category to be added every time, 
+                    // so the next item in the loop from this category will ignore
+                    // this part. 
+                    category.push(result[i].catname);
+                }
+
+                else {
+                    // cat needs to be empty for the next location in this category.
+                    var cat = [];
+                }
+
+                // see !category.includes(...)
+                if (!location.includes(result[i].locname)) {
+
+                    var loc = `
+                        <h2>Location: ${result[i].locname}</h2>
+                        <p>Description: ${result[i].locdesc}</p>            
+                    `
+
+                    location.push(result[i].locname);
+                }
+
+                else {
+                    var loc = [];
+                }
+
+                // create the markup, add the variables cat and loc. they are
+                // either empty or filled with content.
+                let markup = `
+                    ${cat} ${loc}
+                    <h3>${result[i].conttitle}</h3>
+                    <p>${result[i].conttext}</p>
+                `
+                html.push(markup);
+            }
+
+            // go to the next function
+            menuExportWindow(html, format, 'locations');
+
+        })
+    }
+}
+
+function menuExportIdeas(cat, format) {
+
+    // Check if locations is selected
+    if (cat) {
+
+        // get stuff from the database (using a sqlite VIEW)
+        let data = {
+            function: 'get',
+            db: 'array',
+            simple: 'yes',
+            records: 'title, text, catname, conttitle, conttext',
+            table: 'exportidea',
+            expression: ''
+        }
+
+        database(data, (result) => {
+
+            console.log(result);
+
+            // Need some empty variables.
+            let category = [];
+            let idea = [];
+            let html = [];
+
+            for (i = 0; i < result.length; i++) {
+
+                // the result always contains a catname. If it's not present in
+                // the variable category, we create a new variable with the html.
+                if (!category.includes(result[i].catname)) {
+
+                    var cat = `<h1>Category: ${result[i].catname}</h1>`
+
+                    // push the catname into the variable category. It's not
+                    // neccessary for the category to be added every time, 
+                    // so the next item in the loop from this category will ignore
+                    // this part. 
+                    category.push(result[i].catname);
+                }
+
+                else {
+                    // cat needs to be empty for the next location in this category.
+                    var cat = [];
+                }
+
+                // see !category.includes(...)
+                if (!idea.includes(result[i].title)) {
+
+                    var head = `
+                        <h2>Idea: ${result[i].title}</h2>
+                        <p>Description: ${result[i].text}</p>            
+                    `
+
+                    idea.push(result[i].title);
+                }
+
+                else {
+                    var head = [];
+                }
+
+                // create the markup, add the variables cat and loc. they are
+                // either empty or filled with content.
+                let markup = `
+                    ${cat} ${head}
+                    <h3>Idea content:</h3>
+                    <h4>${result[i].conttitle}</h4>
+                    <p>${result[i].conttext}</p>
+                `
+                html.push(markup);
+            }
+
+            // go to the next function
+            menuExportWindow(html, format, 'ideas');
+
+        })
+    }
+}
+
+function menuExportWindow(html, format, type) {
+
+    // Create a new browser window:
+    // create a new HTML-document to push all the chapters and subchapters in.
+    // first require remote and attach it BrowserWindow
+    const { remote } = require('electron')
+
+    const { BrowserWindow } = remote
+    // call the new window with some options. Transparant doesn't work on Nvidia Linux.
+    const win = new BrowserWindow({
+        width: 500,
+        height: 200,
+        transparant: false,
+        frame: true,
+        show: true,
+
+        webPreferences: {
+            nodeIntegration: true
+        }
+    });
+
+    // Open the dev-tools for this particular window.
+    win.webContents.openDevTools({ mode: 'detach' })
+
+    // Load the HTML for the window.
+    if (type == 'characters') {
+        console.log('characters');
+        console.log(html);
+
+        win.loadURL('file://' + __dirname + '/js/menu/hamburger/html/characters.html');
+
+        win.webContents.on('did-finish-load', () => {
+            win.webContents.send('export char', html);
+            if (format == 'pdf') {
+                console.log('format is: ', format);
+                menuExportPDF(win, 'characters');
+            }
+
+            if (format == 'doc') {
+                console.log('format is: ', format);
+                menuExportDOC(win, 'characters');
+            }
+        })
+
+
+    }
+
+    if (type == 'content') {
+        console.log('content');
+        win.loadURL('file://' + __dirname + '/js/menu/hamburger/html/chapters.html');
+
+        win.webContents.on('did-finish-load', () => {
+            win.webContents.send('export chapters', html);
+            if (format == 'pdf') {
+                console.log('format is: ', format);
+                menuExportPDF(win, 'story');
+            }
+
+            if (format == 'doc') {
+                console.log('format is: ', format);
+                menuExportDOC(win, 'story');
+            }
+        })
+    }
+
+    if (type == 'locations') {
+        console.log('locations');
+
+        win.loadURL('file://' + __dirname + '/js/menu/hamburger/html/locations.html');
+
+        win.webContents.on('did-finish-load', () => {
+            win.webContents.send('export locations', html);
+            if (format == 'pdf') {
+                console.log('format is: ', format);
+                menuExportPDF(win, 'locations');
+            }
+
+            if (format == 'doc') {
+                console.log('format is: ', format);
+                menuExportDOC(win, 'locations');
+            }
+
+        })
+    }
+
+
+    if (type == 'ideas') {
+        console.log('ideas');
+
+        win.loadURL('file://' + __dirname + '/js/menu/hamburger/html/ideas.html');
+
+        win.webContents.on('did-finish-load', () => {
+            win.webContents.send('export ideas', html);
+            if (format == 'pdf') {
+                console.log('format is: ', format)
+                menuExportPDF(win, 'ideas');
+            }
+
+            if (format == 'doc') {
+                console.log('format is: ', format)
+                menuExportDOC(win, 'ideas');
+            }
+        })
+    }
+
+}
+
+function menuExportPDF(win, map) {
+
+    win.webContents.printToPDF({}).then(fun => {
+
+        // get projectname from the database
+        let data = {
+            function: 'get',
+            db: 'array',
+            simple: 'yes',
+            records: 'projectname',
+            table: 'Project',
+            expression: ''
+        }
+
+        database(data, (result) => {
+
+            var time = Date.now() / 1000 | 0;
+
+            var dir1 = exportdir + '/' + result[0].projectname;
+            
+            if (!fs.existsSync(dir1)) {
+                fs.mkdirSync(dir1);
+            }
+
+            var dir2 = dir1 + '/' + time + '/';
+
+            if (!fs.existsSync(dir2)) {
+                fs.mkdirSync(dir2);
+            }
+
+            var dir = dir2 + '/pdf/';
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir);
+            }
+
+            console.log(exportdir);
+
+            fs.writeFile(dir + '/' + map + '.pdf', fun, (error) => {
+
+                if (error) throw error
+
+                console.log('Write PDF successfully.')
+                // win.webContents.destroy();
             })
 
         })
 
+    }).catch(error => {
+
+        console.log(error);
+    })
+}
+
+function menuExportDOC(win, map) {
+
+    console.log('ik word geroepen!')
+
+    // get projectname from the database
+    let data = {
+        function: 'get',
+        db: 'array',
+        simple: 'yes',
+        records: 'projectname',
+        table: 'Project',
+        expression: ''
+    }
+
+    database(data, (result) => {
+
+        console.log(result);
+
+        var time = Date.now() / 1000 | 0;
+
+        var dir1 = exportdir + '/' + result[0].projectname;
+        
+        if (!fs.existsSync(dir1)) {
+            fs.mkdirSync(dir1);
+        }
+
+        var dir2 = dir1 + '/' + time + '/';
+
+        if (!fs.existsSync(dir2)) {
+            fs.mkdirSync(dir2);
+        }
+
+        var dir = dir2 + '/doc/';
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir);
+        }
+
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir);
+        }
+
+        let html = dir + '/' + map + '.doc';
+
+        console.log(html);
+
+        win.webContents.savePage(html, 'HTMLComplete').then(() => {
+            console.log('page successfully saved');
+            //    win.webContents.destroy();
+        }).catch(err => {
+            console.log(err)
+        })
     })
 }

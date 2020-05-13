@@ -1,5 +1,6 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, screen } = require('electron')
+require('electron-reload')(__dirname);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -7,7 +8,7 @@ let mainWindow
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 1368, height: 750, webPreferences: { nodeIntegration: true }, autoHideMenuBar: true })
+  mainWindow = new BrowserWindow({ width: 1366, height: 768, webPreferences: { nodeIntegration: true }, autoHideMenuBar: true })
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html');
@@ -39,7 +40,20 @@ function createWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', createWindow);
+
+//
+// NEEDS TO BE REMOVED WHEN LIVE!!!!
+//
+app.on('ready', () => {
+  const { getCursorScreenPoint, getDisplayNearestPoint } = screen
+
+  const currentScreen = getDisplayNearestPoint(getCursorScreenPoint())
+  
+  mainWindow.setBounds(currentScreen.bounds);
+  mainWindow.setSize(1366, 768);
+
+})
 
 // This removes the menubar
 app.on('browser-window-created', function (e, window) {

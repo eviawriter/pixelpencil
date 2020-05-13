@@ -17,6 +17,12 @@
 
 <body>
 
+    <div id="writing"></div>
+    <div id="characters"></div>
+    <div id="locations"></div>
+    <div id="ideas"></div>
+    <div id="research"></div>
+
     <script>require('electron').ipcRenderer.on('ping', (event, message) => {
             console.log(message) // Prints 'whoooooooh!'
 
@@ -24,16 +30,26 @@
 
             for (i = 0; i < message.length; i++) {
 
-                // let header = `<h1>${message[i].subname}</h1>${message[i].subtext}`
-
-                document.body.insertAdjacentHTML("beforeend", message[i]);
+                document.getElementById('writing').insertAdjacentHTML("beforeend", message[i]);
 
             }
 
-            document.querySelectorAll('.chapter')
-
         })
     </script>
+
+<script>require('electron').ipcRenderer.on('export char', (event, message) => {
+    console.log(message) // Prints 'whoooooooh!'
+
+    let funny = message;
+
+    for (i = 0; i < message.length; i++) {
+
+        document.getElementById('characters').insertAdjacentHTML("beforeend", message[i]);
+
+    }
+
+})
+</script>
 
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
