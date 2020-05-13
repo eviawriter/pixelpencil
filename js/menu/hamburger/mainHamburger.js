@@ -6,7 +6,7 @@ function mainHamburgerModal() {
         <button class="cm-button active" id="hamburger_create" onclick="menuHamburger(this, 'fry')">Create new project</button>
         <button class="cm-button" id="hamburger_open" onclick="menuHamburger(this, 'topping')">Open project</button>
         <button class="cm-button" id="hamburger_export" onclick="menuHamburger(this, 'eat')">Export project</button>
-        <button class="cm-button" id="hamburger_settings" onclick="menuHamburger(this, 'cheese')">Settings</button>
+        <!-- <button class="cm-button" id="hamburger_settings" onclick="menuHamburger(this, 'cheese')">Settings</button> -->
     </div>
 
     <div id="hamcontent">

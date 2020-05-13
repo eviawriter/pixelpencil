@@ -228,3 +228,15 @@
   .export_text {
       margin-bottom: 25px;
   }
+
+  .export_ok {
+    padding-top: 40px;
+    padding-left: 50px;
+    padding-right: 50px;
+    text-align: center;
+  }
+
+  .export_ok p:nth-child(3) {
+    font-weight: bold;
+    padding-bottom: 40px;
+  }

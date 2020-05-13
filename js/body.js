@@ -35,7 +35,7 @@ function populate_subnav_writing() {
 
             if (chaps == "") {
                 console.log('RESULT: no chapters available');
-                document.getElementById('subnav-writing').innerHTML = "";
+                document.getElementById('subnav-writing').innerHTML = "<div class=\"sn-accordion\"></div>";
             }
 
             else {

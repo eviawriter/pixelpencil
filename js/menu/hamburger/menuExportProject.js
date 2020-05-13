@@ -39,10 +39,24 @@ function menuExportSelectNotReady(chapter) {
 // here be the exporting done. 
 function menuExportProject(filename) {
 
+    // get the form stuff.
+    let format = formexportproject["format"].value;
+
+    let char = formexportproject["characters"].checked;
+    // let rese = formexportproject["research"].checked;
+    let loca = formexportproject["locations"].checked;
+    let idea = formexportproject["ideas"].checked;
+
     // get the currently added options from the element
     let chaplist = document.getElementById("menu_export_chapters");
 
-    console.log(chaplist);
+    // let's add some loading screen.
+    let markup = `
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    `
+
+    document.getElementById('hamcontent').innerHTML = markup;
+
     // push these options in an object. 
     let chap = [];
 
@@ -59,20 +73,14 @@ function menuExportProject(filename) {
 
     }
 
-    // get the rest of the form stuff.
-    let format = formexportproject["format"].value;
+    // get timestamp, used for naming the folders where the export
+    // will be saved. 
+    var time = Date.now() / 1000 | 0;
 
-    let char = formexportproject["characters"].checked;
-    let rese = formexportproject["research"].checked;
-    let loca = formexportproject["locations"].checked;
-    let idea = formexportproject["ideas"].checked;
-
-    console.log(char, rese, loca, idea);
-
-    menuExportProjectContent(array, format, char, rese, loca, idea);
+    menuExportProjectContent(array, format, char, loca, idea, time);
 }
 
-function menuExportProjectContent(array, format, char, rese, loca, idea) {
+function menuExportProjectContent(array, format, char, loca, idea, time) {
 
     // first get stuff from the database.
     const content = new Promise(function (resolve, reject) {
@@ -126,22 +134,22 @@ function menuExportProjectContent(array, format, char, rese, loca, idea) {
                 }
             }
 
-            menuExportWindow(html, format, 'content');
+            menuExportWindow(html, format, 'content', time);
 
             resolve('done');
         })
     })
 
     content
-        .then(menuExportCharacters(char, format))
-        .then(menuExportLocations(loca, format))
-        .then(menuExportIdeas(idea, format))
+        .then(menuExportCharacters(char, format, time))
+        .then(menuExportLocations(loca, format, time))
+        .then(menuExportIdeas(idea, format, time))
     // .then(menuExportResearch(rese, format))
-    // .then(killmodal)
+        .then(killmodal(time))
     // .catch(handleErrors)
 }
 
-function menuExportCharacters(char, format) {
+function menuExportCharacters(char, format, time) {
 
     if (char) {
 
@@ -195,12 +203,12 @@ function menuExportCharacters(char, format) {
                 }
             }
 
-            menuExportWindow(html, format, 'characters')
+            menuExportWindow(html, format, 'characters', time)
         })
     }
 }
 
-function menuExportLocations(loca, format) {
+function menuExportLocations(loca, format, time) {
 
     // Check if locations is selected
     if (loca) {
@@ -270,13 +278,13 @@ function menuExportLocations(loca, format) {
             }
 
             // go to the next function
-            menuExportWindow(html, format, 'locations');
+            menuExportWindow(html, format, 'locations', time);
 
         })
     }
 }
 
-function menuExportIdeas(cat, format) {
+function menuExportIdeas(cat, format, time) {
 
     // Check if locations is selected
     if (cat) {
@@ -347,13 +355,13 @@ function menuExportIdeas(cat, format) {
             }
 
             // go to the next function
-            menuExportWindow(html, format, 'ideas');
+            menuExportWindow(html, format, 'ideas', time);
 
         })
     }
 }
 
-function menuExportWindow(html, format, type) {
+function menuExportWindow(html, format, type, time) {
 
     // Create a new browser window:
     // create a new HTML-document to push all the chapters and subchapters in.
@@ -365,9 +373,7 @@ function menuExportWindow(html, format, type) {
     const win = new BrowserWindow({
         width: 500,
         height: 200,
-        transparant: false,
-        frame: true,
-        show: true,
+        show: false,
 
         webPreferences: {
             nodeIntegration: true
@@ -388,12 +394,12 @@ function menuExportWindow(html, format, type) {
             win.webContents.send('export char', html);
             if (format == 'pdf') {
                 console.log('format is: ', format);
-                menuExportPDF(win, 'characters');
+                menuExportPDF(win, 'characters', time);
             }
 
             if (format == 'doc') {
                 console.log('format is: ', format);
-                menuExportDOC(win, 'characters');
+                menuExportDOC(win, 'characters', time);
             }
         })
 
@@ -408,12 +414,12 @@ function menuExportWindow(html, format, type) {
             win.webContents.send('export chapters', html);
             if (format == 'pdf') {
                 console.log('format is: ', format);
-                menuExportPDF(win, 'story');
+                menuExportPDF(win, 'story', time);
             }
 
             if (format == 'doc') {
                 console.log('format is: ', format);
-                menuExportDOC(win, 'story');
+                menuExportDOC(win, 'story', time);
             }
         })
     }
@@ -427,12 +433,12 @@ function menuExportWindow(html, format, type) {
             win.webContents.send('export locations', html);
             if (format == 'pdf') {
                 console.log('format is: ', format);
-                menuExportPDF(win, 'locations');
+                menuExportPDF(win, 'locations', time);
             }
 
             if (format == 'doc') {
                 console.log('format is: ', format);
-                menuExportDOC(win, 'locations');
+                menuExportDOC(win, 'locations', time);
             }
 
         })
@@ -448,19 +454,19 @@ function menuExportWindow(html, format, type) {
             win.webContents.send('export ideas', html);
             if (format == 'pdf') {
                 console.log('format is: ', format)
-                menuExportPDF(win, 'ideas');
+                menuExportPDF(win, 'ideas', time);
             }
 
             if (format == 'doc') {
                 console.log('format is: ', format)
-                menuExportDOC(win, 'ideas');
+                menuExportDOC(win, 'ideas', time);
             }
         })
     }
 
 }
 
-function menuExportPDF(win, map) {
+function menuExportPDF(win, map, time) {
 
     win.webContents.printToPDF({}).then(fun => {
 
@@ -475,8 +481,6 @@ function menuExportPDF(win, map) {
         }
 
         database(data, (result) => {
-
-            var time = Date.now() / 1000 | 0;
 
             var dir1 = exportdir + '/' + result[0].projectname;
             
@@ -502,7 +506,7 @@ function menuExportPDF(win, map) {
                 if (error) throw error
 
                 console.log('Write PDF successfully.')
-                // win.webContents.destroy();
+                win.webContents.destroy();
             })
 
         })
@@ -513,7 +517,7 @@ function menuExportPDF(win, map) {
     })
 }
 
-function menuExportDOC(win, map) {
+function menuExportDOC(win, map, time) {
 
     console.log('ik word geroepen!')
 
@@ -530,8 +534,6 @@ function menuExportDOC(win, map) {
     database(data, (result) => {
 
         console.log(result);
-
-        var time = Date.now() / 1000 | 0;
 
         var dir1 = exportdir + '/' + result[0].projectname;
         
@@ -560,9 +562,45 @@ function menuExportDOC(win, map) {
 
         win.webContents.savePage(html, 'HTMLComplete').then(() => {
             console.log('page successfully saved');
-            //    win.webContents.destroy();
+            win.webContents.destroy();
         }).catch(err => {
             console.log(err)
         })
+    })
+}
+
+function killmodal(time) {
+
+     // get projectname from the database
+     let data = {
+        function: 'get',
+        db: 'array',
+        simple: 'yes',
+        records: 'projectname',
+        table: 'Project',
+        expression: ''
+    }
+
+    database(data, (result) => {
+
+    let click = document.getElementById('menu-dashboard');
+
+    setTimeout(() => {
+
+        let markup = `
+        <div class="export_ok">
+            <h1 class="ct-subject-header">Export created!</h1>
+            <p>You can find the exported files in your documents-directory under:</p>
+            <p>/PixelPencil/exports/${result[0].projectname}/${time}/</p>
+    
+            <div class="form-input-button">
+                <button class="create_save_button" type="button" onclick="close_mainHamburgerModal()">Close dialog</button>
+            </div>
+        </div>
+        `
+
+        document.getElementById('hamcontent').innerHTML = markup;
+        menu('dashboard', click);
+    }, 1500);
     })
 }
