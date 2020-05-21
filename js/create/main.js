@@ -168,61 +168,63 @@ function open_modal_create(option) {
     }
 
     // category research
-    else if (option == 're-link') {
+    else if (option == 're-category') {
         let create = {
-            title: 'Add website',
-            javascript: 'create_research(this, "link")',
+            title: 'Add research category',
+            javascript: 'createResCategory(this)',
             form: 'research',
-            input1: 'Website title',
-            input2: 'Short description',
-            save: 'Save website',
+            input1: 'Category title',
+            input2: 'Category description',
+            save: 'Save category',
             extrafield: ''
         }
 
         create_modal_markup(create);
     }
 
-    else if (option == 're-text') {
+    else if (option == 're-subject') {
         let create = {
-            title: 'Add text',
-            javascript: 'create_research(this, "text")',
+            title: 'Add research subject',
+            javascript: 'createResSubject(this)',
             form: 'research',
-            input1: 'Title',
+            input1: 'Subject title',
             input2: 'Short description',
-            save: 'Save text',
-            extrafield: ''
+            save: 'Save subject',
+            extrafield: '<h3 class="form-input-header">Select category:</h3><select name="form-select" id="form-research-dropdown" required=""></select>'
         }
 
-        create_modal_markup(create);
+        let dropdown = 'research';
+
+        create_modal_markup(create, dropdown);
     }
 
-    else if (option == 're-book') {
-        let create = {
-            title: 'Add book',
-            javascript: 'create_research(this, "book")',
-            form: 'research',
-            input1: 'Title',
-            input2: 'Short description',
-            save: 'Save book',
-            extrafield: ''
-        }
-
-        create_modal_markup(create);
-    }
-
-    else if (option == 're-interview') {
-        let create = {
-            title: 'Add interview',
-            javascript: 'create_research(this, "interview")',
-            form: 'research',
-            input1: 'Title',
-            input2: 'Short description',
-            save: 'Save interview',
-            extrafield: ''
-        }
-
-        create_modal_markup(create);
-    }
+//    else if (option == 're-book') {
+//        let create = {
+//            title: 'Add book',
+//            javascript: 'create_research(this, "book")',
+//            form: 'research',
+//            input1: 'Title',
+//            input2: 'Short description',
+//            save: 'Save book',
+//            extrafield: ''
+//        }
+//
+//        create_modal_markup(create);
+//    }
+//
+//    else if (option == 're-interview') {
+//        let create = {
+//            title: 'Add interview',
+//            javascript: 'create_research(this, "interview")',
+//            form: 'research',
+//            input1: 'Title',
+//            input2: 'Short description',
+//            save: 'Save interview',
+//            extrafield: ''
+//        }
+//
+//        create_modal_markup(create);
+//    }
 }
 
 function create_modal_markup(create, dropdown) {
@@ -267,6 +269,14 @@ function create_modal_markup(create, dropdown) {
         console.log('loc_dropdown');
 
         modal_ideas_dropdown(markup);
+
+    }
+
+    else if (dropdown === 'research') {
+
+        console.log('research dropdown');
+
+        modal_research_dropdown(markup);
 
     }
 

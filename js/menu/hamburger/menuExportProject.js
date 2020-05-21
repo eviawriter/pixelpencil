@@ -47,17 +47,17 @@ function menuExportProject(filename) {
     let loca = formexportproject["locations"].checked;
     let idea = formexportproject["ideas"].checked;
 
-    // get the currently added options from the element
+    // get the currently added options from the 'ready for export' box
     let chaplist = document.getElementById("menu_export_chapters");
 
-    // let's add some loading screen.
+    // let's add a loading screen.
     let markup = `
     <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
     `
 
     document.getElementById('hamcontent').innerHTML = markup;
 
-    // push these options in an object. 
+    // push the 'ready for export' options in an object. 
     let chap = [];
 
     for (i = 0; i < chaplist.length; i++) {
@@ -66,6 +66,7 @@ function menuExportProject(filename) {
 
     console.log(chap);
 
+    // push the chapid's into an array we can use later.
     let array = [];
     for (i = 0; i < chap.length; i++) {
 
@@ -77,15 +78,19 @@ function menuExportProject(filename) {
     // will be saved. 
     var time = Date.now() / 1000 | 0;
 
+    // execute a new function with all the variables. 
     menuExportProjectContent(array, format, char, loca, idea, time);
 }
 
+// Get the content from the database
 function menuExportProjectContent(array, format, char, loca, idea, time) {
 
     // first get stuff from the database.
     const content = new Promise(function (resolve, reject) {
 
         // get stuff from the database.
+        // We get chapname, subname and subtext based on all the 
+        // chapid's in the array
         let data = {
             function: 'get',
             db: 'array',
@@ -97,17 +102,22 @@ function menuExportProjectContent(array, format, char, loca, idea, time) {
 
         console.log(data);
 
-
         database(data, (result) => {
 
             console.log(result);
 
+            // variable used to number the chapters
             let chapnum = 0;
+
+            // create two empty variables
             let chapter = [];
             let html = [];
 
+            // result is an object we need to iterate over
             for (i = 0; i < result.length; i++) {
 
+                // check if the chapname is in the variable chapter.
+                // If so, add a different markup to the variable html.
                 if (chapter.includes(result[i].chapname)) {
 
                     let markup = `
@@ -117,6 +127,10 @@ function menuExportProjectContent(array, format, char, loca, idea, time) {
                     html.push(markup);
                 }
 
+                // create new variable and add 1 to chapnum, 
+                // make chapnumber the new chapnum and add the 
+                // chapname in result to the variable chapter. 
+                // Then add the new markup to the variable html.
                 else {
                     let chapnumber = chapnum + 1;
                     chapnum = chapnumber;
@@ -134,6 +148,7 @@ function menuExportProjectContent(array, format, char, loca, idea, time) {
                 }
             }
 
+            // execute function to create new invisible window.
             menuExportWindow(html, format, 'content', time);
 
             resolve('done');
@@ -148,6 +163,7 @@ function menuExportProjectContent(array, format, char, loca, idea, time) {
         .then(killmodal(time))
     // .catch(handleErrors)
 }
+
 
 function menuExportCharacters(char, format, time) {
 

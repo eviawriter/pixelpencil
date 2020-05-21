@@ -190,6 +190,61 @@ function createProject() {
             PRIMARY KEY("subid")
         )`);
 
+        // need to fix these, tables has changed
+        console.log('from this line, things need to be fixed');
+
+        // create RESEARCH NOTES
+        db.run(`
+        CREATE TABLE "ResNotes" (
+            "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            "title"	INTEGER,
+            "text"	INTEGER,
+            "date"	INTEGER,
+            "trash"	INTEGER NOT NULL
+        )`);
+
+        // create RESEARCH WEBSITES
+        db.run(`
+        CREATE TABLE "ResWeb" (
+            "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            "title"	INTEGER,
+            "address"	INTEGER,
+            "desc"	INTEGER,
+            "date"	INTEGER,
+            "trash"	INTEGER NOT NULL
+        )`);
+
+        // create RESEARCH BOOKS
+        db.run(`
+        CREATE TABLE "ResBooks" (
+            "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            "title"	INTEGER,
+            "desc"	INTEGER,
+            "date"	INTEGER,
+            "trash"	INTEGER NOT NULL
+        )`);
+
+        // create RESEARCH INTERVIEWS
+        db.run(`
+        CREATE TABLE "ResInt" (
+            "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            "title"	INTEGER,
+            "desc"	INTEGER,
+            "date"	INTEGER,
+            "trash"	INTEGER NOT NULL
+        )`);
+
+        // create RESEARCH INTERVIEWS CONTENT
+        db.run(`
+        CREATE TABLE "ResIntContent" (
+            "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            "intID"	INTEGER,
+            "title"	INTEGER,
+            "text"	INTEGER,
+            "trash"	INTEGER NOT NULL
+        )`);
+
+
         // create VIEW words
         db.run(`
         CREATE VIEW words AS SELECT Chapters.chapname, Chapters.chapid, Chapters.chaporder, Chapters.chaptrash, Subchapters.subname AS subname, Subchapters.subid AS subid, Subchapters.count AS words from Chapters Left JOIN Subchapters ON Subchapters.chapid = Chapters.chapid WHERE Chapters.chaptrash = 0 AND Subchapters.count IS NOT NULL Order by chaporder, suborder  

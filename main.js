@@ -2,13 +2,15 @@
 const { app, BrowserWindow, ipcMain, screen } = require('electron')
 require('electron-reload')(__dirname);
 
+// this allows the native module to be loaded. Will be removed in Electron 10. 
+app.allowRendererProcessReuse = false;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
 function createWindow() {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 1366, height: 768, webPreferences: { nodeIntegration: true }, autoHideMenuBar: true })
+  // Create the browser window. enableRemoteModule removes warning from console - this wont work anymore with Electron 10.
+  mainWindow = new BrowserWindow({ width: 1366, height: 768, webPreferences: { nodeIntegration: true, enableRemoteModule: true }, autoHideMenuBar: true })
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html');

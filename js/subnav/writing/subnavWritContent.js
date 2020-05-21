@@ -40,10 +40,10 @@ function set_context_nav(content) {
     let rese = document.getElementById('cm-write-research');
 
     stor.dataset.subid = subid;
-    char.dataset.subid = subid;
-    loca.dataset.subid = subid;
-    idea.dataset.subid = subid;
-    rese.dataset.subid = subid;
+//    char.dataset.subid = subid;
+//    loca.dataset.subid = subid;
+//    idea.dataset.subid = subid;
+//    rese.dataset.subid = subid;
 
     console.log(stor, char, loca, idea, rese);
 
