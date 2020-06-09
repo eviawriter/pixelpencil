@@ -1,5 +1,3 @@
-document.body.addEventListener('keydown', print_to_pdf, true);
-
 function print_to_pdf() {
 
     var toets = event.keyCode;

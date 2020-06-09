@@ -1,0 +1,29 @@
+{
+  "name": "pixelpencil",
+  "version": "0.3.0",
+  "description": "PixelPencil Editor is a powerful tool to help you organize your writing effectively",
+  "main": "main.js",
+  "dependencies": {
+    "chart.js": "^2.9.3",
+    "electron-reload": "^1.5.0",
+    "sqlite3": "^4.1.0"
+  },
+  "build": {
+    "appId": "com.pixelpencil.app"
+  },
+  "devDependencies": {
+    "electron-builder": "^22.6.1",
+    "electron-installer-snap": "^5.1.0",
+    "electron-packager": "^14.2.1",
+    "electron-rebuild": "^1.10.1"
+  },
+  "scripts": {
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "start": "electron . --disable-gpu",
+    "rebuild": "electron-rebuild -f -w sqlite3"
+  },
+  "keywords": [],
+  "author": "Johan Schutten",
+  "license": "ISC"
+}

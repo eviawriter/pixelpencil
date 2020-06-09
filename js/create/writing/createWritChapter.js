@@ -81,8 +81,14 @@ function update_database_chapter(chapname, chapdesc, chaporder, chap_org) {
                         chapnr: chapnr
                     }
 
+                    let active = document.getElementById('subnav-writing').querySelectorAll('.sn-accordion-item');
+
+                    for (let i = 0; i < active.length; i++) {
+                        active[i].classList.remove('active');
+                    }
+
                     const markup = `
-                             <section class="sn-accordion-item" data-chapid=${create.chapid} data-chaporder=${create.chaporder} onmouseover="subnav_remove_active('writing', this)">
+                             <section class="sn-accordion-item active" data-chapid=${create.chapid} data-chaporder=${create.chaporder} onmouseover="subnav_remove_active('writing', this)">
                                 <button class="button_chapters" data-chapid=${create.chapid}>    
                                     <h1>Chapter ${create.chapnr}</h1>
                                     <h2>${create.chapname}</h2>

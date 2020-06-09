@@ -69,7 +69,7 @@
                 <button class="menubutton" id="menu-characters" onclick="menu('characters', this)">Characters</button>
                 <button class="menubutton" id="menu-locations" onclick="menu('locations', this)">Locations</button>
                 <button class="menubutton" id="menu-ideas" onclick="menu('ideas', this)">Ideas</button>
-                <button class="menubutton" id="menu-research" onclick="menu('research', this)">Research</button>
+                <!-- <button class="menubutton" id="menu-research" onclick="menu('research', this)">Research</button> -->
             </div>
 
             <!-- sidebar-logo -->
@@ -81,7 +81,9 @@
 
             <!-- SEARCH BAR -->
             <div class="box-search">
-                <input type="text" placeholder="Search...">
+                <form id="formsearch">
+                <input name="search" type="text" placeholder="Search..." onkeypress="if (event.keyCode==13){ getSearchContent(this.value);return false;}">
+            </form>
             </div>
 
             <!-- SUB NAVIGATION (LEFT) -->
@@ -116,18 +118,7 @@
 
                 <!-- Subnav RESEARCH -->
                 <div id="subnav-research" class="subnav">
-                    <div class="sn-accordion">
-
-                        <section class="sn-accordion-item open">
-                            <h1 class="sn-research-header">Chapters</h1>
-                            <div class="sn-subitems">
-                                <button class="sn-subitem">Chapter 1</button>
-                                <button class="sn-subitem">Chapter 2</button>
-                                <button class="sn-subitem">Chapter 3</button>
-                            </div>
-                        </section>
-
-                    </div>
+                    <div class="sn-accordion"></div>
                 </div>
             </div>
 
@@ -185,11 +176,8 @@
 
                         <!-- RESEARCH Modal -->
                         <div class="tooltipcontent" id="cr-research">
-                            <button class="tooltip" onclick="open_modal_create('re-link')">Add website</button>
-                            <button class="tooltip" onclick="open_modal_create('re-text')">Add text</button>
-                            <button class="tooltip" onclick="open_modal_create('re-book')">Add book</button>
-                            <button class="tooltip" onclick="open_modal_create('re-interview')">Add
-                                interview</button>
+                            <button class="tooltip" onclick="open_modal_create('re-category')">Add research category</button>
+                            <button class="tooltip" onclick="open_modal_create('re-subject')">Add research subject</button>
                         </div>
 
                     </div>
@@ -213,7 +201,7 @@
                     <div class="box-contextmenu" id="cm-writing">
                         <button class="cm-button" id="cm-write-story" onclick="cm_write('story', this)">Story</button>
 
-                        <!-- the buttons below are not yet active -->
+                        <!-- the buttons below are not yet active 
                         <button class="cm-button" id="cm-write-characters"
                             onclick="cm_write('characters', this)">Characters</button>
                         <button class="cm-button" id="cm-write-locations"
@@ -221,13 +209,14 @@
                         <button class="cm-button" id="cm-write-ideas" onclick="cm_write('ideas', this)">Ideas</button>
                         <button class="cm-button" id="cm-write-research"
                             onclick="cm_write('research', this)">Research</button>
+                            -->
                     </div>
 
                     <!-- contextmenu CHARACTERS -->
                     <div class="box-contextmenu" id="cm-characters">
                         <button class="cm-button" id="cm-char-details" onclick="cm_characters('chardetails')">Character
                             details</button>
-                        <button class="cm-button" id="cm-char-notes" onclick="cm_characters('notes')">Notes</button>
+                        <!-- <button class="cm-button" id="cm-char-notes" onclick="cm_characters('notes')">Notes</button> -->
                     </div>
 
                     <!-- contextmenu LOCATIONS -->
@@ -244,6 +233,7 @@
 
                     <!-- contextmenu RESEARCH -->
                     <div class="box-contextmenu" id="cm-research">
+                        <button class="cm-button" id="cm-research-###" onclick="cm_research('research')">Overview</button>
                         <button class="cm-button" id="cm-research-###" onclick="cm_research('research')">Notes</button>
                         <button class="cm-button" id="cm-research-###"
                             onclick="cm_research('research')">Websites</button>
@@ -292,18 +282,18 @@
                         <button class="tb-button" onclick="document.execCommand('bold', false, '');">B</button>
                         <button class="tb-button" onclick="document.execCommand('italic', false, '');">I</button>
                         <button class="tb-button" onclick="document.execCommand('underline', false, '');">U</button>
-                        <button class="fas fa-indent" id="tb-button"
+                        <!-- <button class="fas fa-indent" id="tb-button"
                             onclick="document.execCommand('indent', false, '');"></button>
                         <button class="fas fa-outdent" id="tb-button"
                             onclick="document.execCommand('outdent', false, '');"></button>
                         <button class="fa fa-list-ul" id="tb-button"
                             onclick="document.execCommand('insertUnorderedList', false, '');"></button>
                         <button class="fa fa-list-ol" id="tb-button"
-                            onclick="document.execCommand('insertOrderedList', false, '');"></button>
+                            onclick="document.execCommand('insertOrderedList', false, '');"></button>-->
                         <button class="fas fa-broom" id="tb-button"
-                            onclick="document.execCommand('formatBlock', false, 'div');"></button>
+                            onclick="subnavWritRemoveFormatting() //document.execCommand('removeFormat', false, '');"></button>
 
-                        <!-- Toolbar includes a special 'revisions' menu -->
+                        <!-- Toolbar includes a special 'revisions' menu
                         <div class="revisions">
                             <button class="rev-button">Revisions</button>
                             <div class="rev-menu">
@@ -311,8 +301,10 @@
                                 <div id="revision1">Revision 1</div>
                                 <div id="revision2">Revision 2</div>
                                 <div id="revision3">Revision 3</div>
+                                <div id="addrevision">Add new revision</div>
                             </div>
                         </div>
+                         -->
                     </div>
 
                     <!-- This is the actual writing area -->
@@ -481,6 +473,7 @@
 
     <script src="js/subnav/writing/subnavWritActivemenu.js"></script>
     <script src="js/subnav/writing/subnavWritContent.js"></script>
+    <script src="js/subnav/writing/subnavWritChangeFormatting.js"></script>
     <script src="js/subnav/writing/subnavWritMenuDragevents.js"></script>
 
     <script src="js/subnav/characters/subnavCharContent.js"></script>
@@ -491,6 +484,9 @@
 
     <script src="js/subnav/ideas/subnavIdeasPopulate.js"></script>
     <script src="js/subnav/ideas/subnavIdeasContent.js"></script>
+
+    <script src="js/subnav/research/subnavResPopulate.js"></script>
+    <script src="js/subnav/research/subnavResContent.js"></script>
 
     <!-- subnav scripts (remove) -->
 
@@ -505,6 +501,8 @@
 
     <script src="js/subnav/ideas/subnavIdeasDel.js"></script>
 
+    <script src="js/subnav/research/subnavResDel.js"></script>
+
     <!-- create scripts (adds subnav-items) -->
 
     <script src="js/create/writing/createWritChapter.js"></script>
@@ -518,6 +516,9 @@
 
     <script src="js/create/ideas/createIdeas.js"></script>
     <script src="js/create/ideas/createIdeasModal.js"></script>
+
+    <script src="js/create/research/createResearch.js"></script>
+    <script src="js/create/research/createResModal.js"></script>
 
     <!-- context scripts -->
 
@@ -548,6 +549,10 @@
     <script src="js/action/acCharAdd.js"></script>
     <script src="js/action/acLocAdd.js"></script>
     <script src="js/action/acIdeasAdd.js"></script>
+
+    <!-- search scripts -->
+    <script src="js/search/searchInput.js"></script>
+    <script src="js/search/searchOutput.js"></script>
 
     <!-- scripts needed for startup -->
 

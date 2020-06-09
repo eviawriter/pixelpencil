@@ -1,13 +1,17 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, screen } = require('electron')
+require('electron-reload')(__dirname);
+
+// this allows the native module to be loaded. Will be removed in Electron 10. 
+app.allowRendererProcessReuse = false;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
 function createWindow() {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 1368, height: 750, webPreferences: { nodeIntegration: true }, autoHideMenuBar: true })
+  // Create the browser window. enableRemoteModule removes warning from console - this wont work anymore with Electron 10.
+  mainWindow = new BrowserWindow({ width: 1366, height: 768, webPreferences: { nodeIntegration: true, enableRemoteModule: true }, autoHideMenuBar: true })
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html');
@@ -23,10 +27,17 @@ function createWindow() {
       e.preventDefault();
       console.log(love_it);
 
-        mainWindow.webContents.send('love time', 'false');
+      mainWindow.webContents.send('love time', 'false');
     }
 
   })
+
+  mainWindow.webContents.on('found-in-page', (event, result) => {
+
+    if (result.finalUpdate) {
+      mainWindow.webContents.stopFindInPage('clearSelection');
+    }
+  });
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
@@ -39,7 +50,23 @@ function createWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', createWindow);
+
+//
+// NEEDS TO BE REMOVED WHEN LIVE!!!!
+//
+app.on('ready', () => {
+  const { getCursorScreenPoint, getDisplayNearestPoint } = screen
+
+  const currentScreen = getDisplayNearestPoint(getCursorScreenPoint())
+
+  mainWindow.setBounds(currentScreen.bounds);
+  mainWindow.setSize(1366, 768);
+
+
+
+
+})
 
 // This removes the menubar
 app.on('browser-window-created', function (e, window) {
@@ -71,4 +98,11 @@ ipcMain.on('app_quit', (event, info) => {
   app.quit()
 })
 
-// create a way to print 
+ipcMain.on('search', (event, arg) => {
+  console.log(arg);
+  console.log(event);
+  mainWindow.webContents.unselect();
+  
+  mainWindow.webContents.findInPage(arg, {findNext: true});
+
+});

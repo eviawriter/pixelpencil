@@ -1,7 +1,7 @@
 // this happens when you click on a menu-button
-function menu(button, click) {
+function menu(button, item) {
 
-    console.log(click);
+    console.log(item);
 
     // show or hide .box-navibar (used by dashboard)
     document.querySelector('.box-navibar').classList.remove('hide');
@@ -18,7 +18,13 @@ function menu(button, click) {
         menu[a].style.backgroundColor = "";
     }
 
-    click.style.backgroundColor = "#00AE9D";
+    if (item == 'hamburger') {
+        document.getElementById('menu-dashboard').style.backgroundColor = "#00AE9D";
+    }
+
+    else {
+        item.style.backgroundColor = "#00AE9D";
+    }
 
     // then hide all the context-menu's
     let ctx = document.querySelectorAll(".box-contextmenu");
@@ -27,16 +33,16 @@ function menu(button, click) {
     }
 
     // then hide all the subnavs
-    let subnav = document.querySelectorAll('.subnav'); 
-        for (c = 0; c < subnav.length; c++) {
-            subnav[c].style.visibility = "hidden";
-        }
+    let subnav = document.querySelectorAll('.subnav');
+    for (c = 0; c < subnav.length; c++) {
+        subnav[c].style.visibility = "hidden";
+    }
 
     // then hide all the content
     let content = document.querySelectorAll('.content-box');
-        for (d = 0; d < content.length; d++) {
-            content[d].style.visibility = "hidden";
-        }
+    for (d = 0; d < content.length; d++) {
+        content[d].style.visibility = "hidden";
+    }
 
     // then hide the actions-button
     document.getElementById('ac-dashboard').style.visibility = "hidden";
@@ -68,7 +74,7 @@ function menu(button, click) {
         document.getElementById("cm-dashboard").style.visibility = "visible";
         document.querySelector('.box-navibar').classList.remove('show');
         document.querySelector('.box-navibar').classList.add('hide');
-        
+
         // make content visible
         document.getElementById('box-content-dashboard').style.visibility = "visible";
         document.querySelector('.box-content').style.width = "1200px";
@@ -111,7 +117,7 @@ function menu(button, click) {
     }
 
     else if (button == 'characters') {
-        
+
         // make context-menu visible
         document.getElementById("cm-characters").style.visibility = "visible";
 

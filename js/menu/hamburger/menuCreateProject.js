@@ -190,19 +190,85 @@ function createProject() {
             PRIMARY KEY("subid")
         )`);
 
+        // need to fix these, tables has changed
+        console.log('from this line, things need to be fixed');
+
+        // create RESEARCH NOTES
+        db.run(`
+        CREATE TABLE "ResNotes" (
+            "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            "title"	INTEGER,
+            "text"	INTEGER,
+            "date"	INTEGER,
+            "trash"	INTEGER NOT NULL
+        )`);
+
+        // create RESEARCH WEBSITES
+        db.run(`
+        CREATE TABLE "ResWeb" (
+            "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            "title"	INTEGER,
+            "address"	INTEGER,
+            "desc"	INTEGER,
+            "date"	INTEGER,
+            "trash"	INTEGER NOT NULL
+        )`);
+
+        // create RESEARCH BOOKS
+        db.run(`
+        CREATE TABLE "ResBooks" (
+            "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            "title"	INTEGER,
+            "desc"	INTEGER,
+            "date"	INTEGER,
+            "trash"	INTEGER NOT NULL
+        )`);
+
+        // create RESEARCH INTERVIEWS
+        db.run(`
+        CREATE TABLE "ResInt" (
+            "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            "title"	INTEGER,
+            "desc"	INTEGER,
+            "date"	INTEGER,
+            "trash"	INTEGER NOT NULL
+        )`);
+
+        // create RESEARCH INTERVIEWS CONTENT
+        db.run(`
+        CREATE TABLE "ResIntContent" (
+            "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            "intID"	INTEGER,
+            "title"	INTEGER,
+            "text"	INTEGER,
+            "trash"	INTEGER NOT NULL
+        )`);
+
+
         // create VIEW words
         db.run(`
         CREATE VIEW words AS SELECT Chapters.chapname, Chapters.chapid, Chapters.chaporder, Chapters.chaptrash, Subchapters.subname AS subname, Subchapters.subid AS subid, Subchapters.count AS words from Chapters Left JOIN Subchapters ON Subchapters.chapid = Chapters.chapid WHERE Chapters.chaptrash = 0 AND Subchapters.count IS NOT NULL Order by chaporder, suborder  
         `);
 
+        // create VIEW export
+        db.run(`CREATE VIEW export AS SELECT Chapters.chapname, Chapters.chapid, Chapters.chaporder, Subchapters.subname AS subname, Subchapters.subtext AS subtext, Subchapters.suborder AS suborder, Subchapters.subid AS subid from Chapters Left JOIN Subchapters ON Subchapters.chapid = Chapters.chapid WHERE Subchapters.subtrash = 0 AND Chapters.chaptrash = 0 Order by chaporder, suborder`);
+
+        // create VIEW exportchar
+        db.run(`CREATE VIEW exportchar AS SELECT Characters.charname, Characters.charage, Characters.chargender, Characters.charkind, Characters.charbio, Charactercontent.subject AS subject, Charactercontent.subjecttext AS chartext from Characters Left JOIN Charactercontent ON Charactercontent.charid = Characters.charid WHERE Charactercontent.subjecttrash = 0 AND Characters.chartrash = 0`);
+
+        // create VIEW exportidea
+        db.run(`CREATE VIEW exportidea AS SELECT Ideas.title, Ideas.text, Ideas.catid AS catid, IdeasCategory.title AS catname, IdeasContent.title AS conttitle, IdeasContent.text AS conttext from Ideas Left JOIN IdeasContent, IdeasCategory ON IdeasContent.ideaid = Ideas.ideaid AND IdeasCategory.catid = Ideas.catid WHERE Ideas.trash = 0 AND IdeasContent.trash = 0`);
+
+        // create VIEW exportloca
+        db.run(`CREATE VIEW exportloca AS SELECT Locations.locname, Locations.locdesc, Locations.catid AS catid, LocCategory.catname AS catname, LocContent.title AS conttitle, LocContent.text AS conttext from Locations Left JOIN LocContent, LocCategory ON LocContent.locid = Locations.locid AND LocCategory.catid = Locations.catid WHERE Locations.trash = 0 AND LocContent.trash = 0`);
+
+        // add project details to the database.
         db.run(`
         INSERT INTO Project (projectname, projectdesc, projectdate, deadwords) VALUES ('${name_esc}', '${desc_esc}', '${dead}', '${word}')
         `, (err) => {
             if (err) {
                 console.log(err);
             }
-
-            console.log('humor');
 
             ipcRenderer.emit('database created', name);
         })

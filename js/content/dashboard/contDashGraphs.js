@@ -57,9 +57,17 @@ function contDashChart(update) {
                     // push all the words in that variable.
                     for (i = 0; i < result.length; i++) {
 
-                        words.push(result[i].words);
+                        if (result[i].words == '') {
+                            console.log('no words given');
+                        }
+
+                        else {
+                            words.push(result[i].words);
+                        }
 
                     };
+
+                    console.log(words);
 
                     // get thet total number of words for that chapter
                     let count = words.reduce((a, b) => a + b, 0);
@@ -72,6 +80,8 @@ function contDashChart(update) {
                         column: 'chapid',
                         id: result[0].chapid
                     }
+
+                    console.log(count);
 
                     // wordt per hoofdstuk uitgevoerd en geüpdatet, maar
                     // heb geen idee hoe ik dat kan voorkomen :) 
@@ -103,16 +113,18 @@ function contDashArrays(update) {
 
         console.log(result);
 
-
         let chapters = [];
         let count = [];
 
         for (i = 0; i < result.length; i++) {
 
             chapters.push(result[i].chapname);
+
             count.push(result[i].count);
 
         }
+
+        console.log(count);
 
         if (update == 'update') {
 

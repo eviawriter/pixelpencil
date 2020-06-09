@@ -112,6 +112,7 @@ function database(data, result) {
                 if (err) {
 
                     alert(err, sql);
+                    console.log(err, sql);
                 }
 
                 else {
@@ -130,6 +131,7 @@ function database(data, result) {
                 if (err) {
 
                     alert(err, sql);
+                    console.log(err, sql);
                 }
 
                 else {

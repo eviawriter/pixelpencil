@@ -1,12 +1,24 @@
-function subnav_characters(options) {
+function subnav_characters(options, search) {
 
-    let charid = options.dataset.charid;
+    var charid = options.dataset.charid;
+    console.log(charid);
 
     // remove all color from subnav-buttons 
     let selected = document.getElementById('subnav-characters').querySelectorAll(".sn-subitem");
 
     for (i = 0; i < selected.length; i++) {
         selected[i].style.backgroundColor = "";
+    }
+
+    // only neccessary if you search stuff
+    if (search != '') {
+        let select = document.getElementById('subnav-characters').querySelector('.sn-subitem[data-charid="'+charid+'"]');
+        console.log(select);
+        select.style.backgroundColor = "#00AE9D";
+
+        // open the whole character-menu
+        let stuff = document.getElementById('menu-characters');
+        menu('characters', stuff)
     }
 
     // set background of clicked item
@@ -34,11 +46,11 @@ function subnav_characters(options) {
     // attach database or create a new one
     let db = new sqlite3.Database(databaselocation);
 
-    let stuff = "SELECT charname, charkind, charage, chargender, charbio FROM Characters WHERE charid="+charid+" AND chartrash=0"
+    let stuff = "SELECT charname, charkind, charage, chargender, charbio FROM Characters WHERE charid=" + charid + " AND chartrash=0"
 
-    db.each(stuff, function (err, char){
+    db.each(stuff, function (err, char) {
 
-        if(err) {
+        if (err) {
             alert(err);
             return;
         }
@@ -61,7 +73,7 @@ function subnav_characters(options) {
             }
 
             else if (char.chargender == 'female') {
-           
+
                 var gen = {
                     face: 'id="ct-girl"'
                 }
@@ -104,7 +116,7 @@ function subnav_characters(options) {
 
             document.getElementById('box-content-characters').innerHTML = markup;
 
-            subnav_characters_subjects(charid);
+            subnav_characters_subjects(charid, search);
 
         }
 
@@ -113,7 +125,7 @@ function subnav_characters(options) {
 }
 
 // Add the subjects
-function subnav_characters_subjects(charid) {
+function subnav_characters_subjects(charid, search) {
 
     // start sqlite3
     const sqlite3 = require('sqlite3').verbose();
@@ -121,9 +133,9 @@ function subnav_characters_subjects(charid) {
     // attach database or create a new one
     let db = new sqlite3.Database(databaselocation);
 
-    let stuff = "SELECT subjectid, subject, subjecttext, charid FROM Charactercontent WHERE subjecttrash=0 AND charid=" +charid+ " ORDER BY subjectorder";
+    let stuff = "SELECT subjectid, subject, subjecttext, charid FROM Charactercontent WHERE subjecttrash=0 AND charid=" + charid + " ORDER BY subjectorder";
 
-    db.all(stuff, function(err, pop){
+    db.all(stuff, function (err, pop) {
 
         if (err) {
             alert(err);
@@ -144,7 +156,7 @@ function subnav_characters_subjects(charid) {
             `
 
             // attach it at the end of the ct-wrapper (with the correct charid).
-            document.getElementById('box-content-characters').querySelector('.ct-wrapper[data-charid="'+ charid + '"]').insertAdjacentHTML('beforeend', markup);
+            document.getElementById('box-content-characters').querySelector('.ct-wrapper[data-charid="' + charid + '"]').insertAdjacentHTML('beforeend', markup);
         }
 
     })
@@ -158,4 +170,62 @@ function subnav_characters_subjects(charid) {
     for (it = 0; it < tooltip.length; it++) {
         tooltip[it].dataset.charid = charid;
     }
+
+    if (search != undefined) {
+        console.log(search);
+        subnavCharHighlight(search);
+    }
+}
+
+function subnavCharHighlight(search) {
+
+    // make cont a string
+    let innerhtml = document.getElementById('box-content-characters').innerHTML;
+    console.log(innerhtml);
+    let content = innerhtml.toString();
+    console.log(content);
+
+    let pattern = new RegExp("(" + search + ")", "gi");
+    let new_text = content.replace(pattern, "<span class='highlight'>" + search + "</span>");
+
+    document.getElementById('box-content-characters').innerHTML = new_text;
+
+    console.log(pattern);
+    console.log(new_text);
+
+    // add eventlistener to the editor
+    document.getElementById('box-content-characters').addEventListener('click', function subnavCharClicked() {
+
+        document.getElementById('box-content-characters').removeEventListener('click', subnavCharClicked, false);
+
+        //  get innerhtml of editor
+        let inner = document.getElementById('box-content-characters').innerHTML;
+
+        // make it a string
+        let string = inner.toString();
+
+        console.log(string);
+
+        // make a regexp as searchpattern
+        let pattern2 = new RegExp("<span class=\"highlight\">" + search + "</span>", "gi");
+        console.log(pattern2);
+
+        // replace every instance of pattern2 in string
+        let new_text2 = string.replace(pattern2, search);
+        console.log(new_text2);
+
+        // replace current content with new_text2.
+        document.getElementById('box-content-characters').innerHTML = new_text2;
+
+    }, false);
+
+    let high = document.querySelector('.highlight');
+
+    console.log(high);
+
+    high.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
 }

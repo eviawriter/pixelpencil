@@ -1,23 +1,35 @@
 {
   "name": "pixelpencil",
-  "version": "0.3.0",
-  "description": "PixelPencil Editor is a powerful tool to help you write the best content in an organised manner",
+  "version": "0.4.0",
+  "description": "PixelPencil is a powerful tool to help you organize your writing effectively",
   "main": "main.js",
   "dependencies": {
     "chart.js": "^2.9.3",
-    "electron-version": "^2.0.1",
-    "sqlite3": "^4.1.0"
+    "electron-installer-snap": "^5.1.0",
+    "electron-packager": "^14.2.1",
+    "electron-rebuild": "^1.11.0",
+    "electron-reload": "^1.5.0",
+    "sqlite3": "^4.2.0"
   },
   "devDependencies": {
-    "electron-builder": "^22.1.0",
-    "electron-rebuild": "^1.8.6"
+    "electron": "^9.0.0",
+    "electron-builder": "^22.6.1"
   },
   "scripts": {
-    "start": "electron . --disable-gpu",
-    "postinstall": "install-app-deps",
-    "rebuild": "electron-rebuild -f -w sqlite3"
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "start": "electron .",
+    "rebuild": "electron-rebuild -f -w sqlite3",
+    "postinstall": "install-app-deps"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eviawriter/pixelpencil.git"
+  },
   "author": "Johan Schutten",
-  "license": "ISC"
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/eviawriter/pixelpencil/issues"
+  },
+  "homepage": "https://github.com/eviawriter/pixelpencil#readme"
 }
