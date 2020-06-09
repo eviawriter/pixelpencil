@@ -84,11 +84,11 @@
 }
 
 .s-content:before {
-    content: "...";
+    content: "(...) ";
 }
 
 .s-content:after {
-    content: "...";
+    content: " (...)";
 }
 
 .s-header {
@@ -100,4 +100,8 @@
 
 .s-notfound {
     margin-bottom: 30px;
+}
+
+.highlight {
+    background-color: yellow;
 }

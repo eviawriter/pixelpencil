@@ -155,9 +155,16 @@ function get_time(love) {
 
             for (i = 0; i < result.length; i++) {
 
-                start.push(result[i].words);
+                if (result[i].words == '') {
+                    console.log('number of words not calculated')
+                }
 
+                else {
+                    start.push(result[i].words);
+                }
             }
+
+            console.log(start);
 
             let startdate = start.reduce((a, b) => a + b, 0);
 
@@ -181,12 +188,18 @@ function get_time(love) {
     if (love == 'false') {
 
         database(data, function (result) {
+
             let end = [];
 
             for (i = 0; i < result.length; i++) {
 
-                end.push(result[i].words);
+                if (result[i].words == '') {
+                    console.log('No words counted at the end')
+                }
 
+                else {
+                    end.push(result[i].words);
+                }
             }
 
             let endwords = end.reduce((a, b) => a + b, 0);

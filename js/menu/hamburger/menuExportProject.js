@@ -397,7 +397,7 @@ function menuExportWindow(html, format, type, time) {
     });
 
     // Open the dev-tools for this particular window.
-    win.webContents.openDevTools({ mode: 'detach' })
+    // win.webContents.openDevTools({ mode: 'detach' })
 
     // Load the HTML for the window.
     if (type == 'characters') {

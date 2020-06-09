@@ -20,7 +20,7 @@ function get_hamburger_parts(whopper) {
             <input name="form-dead" type="date" class="form-input">
 
         <div class="form-input-button">
-            <button class="create_close_button" type="button" onclick="close_mainHamburgerModal()">Close</button>
+            <button class="create_close_button" type="button" onclick="close_mainHamburgerModal(), menu('dashboard', 'hamburger')">Close</button>
             <button class="create_save_button" type="button" onclick="javascript:createProject(this)">Create project</button>
         </div>
     </form>
@@ -78,7 +78,7 @@ function get_hamburger_parts(whopper) {
           </div>
 
           <div class="form-input-button">
-          <button class="create_close_button" type="button" onclick="close_mainHamburgerModal()">Close</button>
+          <button class="create_close_button" type="button" onclick="close_mainHamburgerModal(), menu('dashboard', 'hamburger')">Close</button>
           <button class="create_save_button" type="button" onclick="javascript:menuOpenProject(this)">Open project</button>
       </div>
         </form>
@@ -184,7 +184,7 @@ function get_hamburger_parts(whopper) {
               </div>
                 <div class="export_text">Note: the file is saved to /PixelPencil/exports in your Documents folder.</div>
               <div class="form-input-button">
-                <button class="create_close_button" type="button" onclick="close_mainHamburgerModal()">Close</button>
+                <button class="create_close_button" type="button" onclick="close_mainHamburgerModal(), menu('dashboard', 'hamburger')">Close</button>
                 <button class="create_save_button" type="button" onclick="javascript:menuExportProject(this)">Export project</button>
               </div>
             </form>

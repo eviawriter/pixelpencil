@@ -68,29 +68,29 @@ function getSearchContent(value) {
 
     // retrieve content from database
     let markup = `
-        <div class="box-create-form">
-            <h3 class="create_form_header">Search results</h3>
-            <div class="box-search-content">
-                <div class="search-cat">
-                    <button class="s-cat writ active" onclick="searchOpenCat('writ')">Writing</button>
-                    <button class="s-cat char" onclick="searchOpenCat('char')">Characters</button>
-                    <button class="s-cat loca" onclick="searchOpenCat('loca')">Locations</button>
-                    <button class="s-cat idea" onclick="searchOpenCat('idea')">Ideas</button>
-                    <!-- <button class="s-cat rese" onclick="searchOpenCat('rese')">Research</button> -->
-                </div>
-                <div class="search-results">
-                    <div id="s-writ" class="s-box-results"></div>
-                    <div id="s-char" class="s-box-results"></div>
-                    <div id="s-loca" class="s-box-results"></div>
-                    <div id="s-idea" class="s-box-results"></div>
-                    <!-- <div id="s-rese" class="s-box-results"></div> -->
-                </div>
-            </div>
-            <div class="form-input-button">
-            <button class="create_save_button" type="button" onclick="close_create_modal()">Close</button>
-        </div>
-        </div>
-    `
+         <div class="box-create-form">
+             <h3 class="create_form_header">Search results</h3>
+             <div class="box-search-content">
+                 <div class="search-cat">
+                     <button class="s-cat writ active" onclick="searchOpenCat('writ')">Writing</button>
+                     <button class="s-cat char" onclick="searchOpenCat('char')">Characters</button>
+                     <button class="s-cat loca" onclick="searchOpenCat('loca')">Locations</button>
+                     <button class="s-cat idea" onclick="searchOpenCat('idea')">Ideas</button>
+                     <!-- <button class="s-cat rese" onclick="searchOpenCat('rese')">Research</button> -->
+                 </div>
+                 <div class="search-results">
+                     <div id="s-writ" class="s-box-results"></div>
+                     <div id="s-char" class="s-box-results"></div>
+                     <div id="s-loca" class="s-box-results"></div>
+                     <div id="s-idea" class="s-box-results"></div>
+                     <!-- <div id="s-rese" class="s-box-results"></div> -->
+                 </div>
+             </div>
+             <div class="form-input-button">
+             <button class="create_save_button" type="button" onclick="close_create_modal()">Close</button>
+         </div>
+         </div>
+     `
 
     let modal = document.getElementById('modal_create');
     modal.innerHTML = markup;
@@ -102,9 +102,9 @@ function getSearchContent(value) {
         function: 'get',
         db: 'array', // rrturns array with db.all instead of object with db.each
         simple: 'yes',
-        records: 'subid, chapid, subname, subtext',
+        records: 'subid, Subchapters.chapid, subname, subtext, Chapters.chapname AS category, Chapters.chaptrash',
         table: 'Subchapters',
-        expression: 'WHERE subname LIKE \'%' + search + '%\' AND subtrash=0 OR subtext LIKE \'%' + search + '%\' AND subtrash=0 ORDER BY suborder'
+        expression: 'LEFT JOIN Chapters ON Chapters.chapid = Subchapters.chapid WHERE subname LIKE \'%' + search + '%\' AND subtrash=0 AND chaptrash=0 OR subtext LIKE \'%' + search + '%\' AND subtrash=0 AND chaptrash=0 ORDER BY suborder'
     }
 
     console.log(data);
@@ -112,13 +112,14 @@ function getSearchContent(value) {
     // yes, a promise. I want to chain these, to make loading faster.
     let first = new Promise((resolve, reject) => {
 
+        // this is first executed. Almost same code as in the method 'searchGetStuffMethod()' below
         database(data, (result) => {
             console.log(result);
 
             if (result == '') {
                 let markup = `
-                <div>no results found</div>
-                `
+                 <div>no results found</div>
+                 `
                 let add_results = document.getElementById('s-writ');
                 add_results.insertAdjacentHTML('beforeend', markup);
                 document.getElementById('s-writ').style.visibility = "visible";
@@ -126,36 +127,79 @@ function getSearchContent(value) {
 
             for (let i = 0; i < result.length; i++) {
 
-                let index = result[i].subtext.indexOf(search);
+                // indexOf is case-sensitive, so convert the strings to lowercase
+                let search_lowercase = search.toLowerCase();
+                var str_lowercase = result[i].subtext.toLowerCase();
+
+                let index = str_lowercase.indexOf(search_lowercase);
+
+                result[i].index = index;
+                result[i].search = search;
+
                 console.log(index);
 
-                if (index > 150) {
-                    let startindex = index - 150;
-                    let endindex = index + 150;
+                if (index > 300) {
 
-                    console.log(startindex, endindex);
+                    // the search-word has a specific index. To get a string with text, we substract
+                    // 300 characters from the index and use this as the startindex. We also add 300
+                    // characters to get an end index.
+                    let startindex = index - 300;
+                    let endindex = index + 300;
 
-                    let text_to_get = result[i].subtext.substring(startindex, endindex)
-                    let fix1 = text_to_get.replace(/<div>/g, '').replace(/<\/div>/g, '').replace(/<br>/g, '').replace(/iv>/g, '').replace(/div>/g, '').replace(/<span>/g, '').replace(/<\/span>/g, '').replace(/<ul>/g, '').replace(/<\/ul>/g, '').replace(/<\/li>/g, '').replace(/<li>/g, '').replace(/<blockquote>/g, '').replace(/<\/blockquote>/g, '').replace(/<\/h1>/g, '').replace(/<h1>/g, '').replace(/<h2>/g, '').replace(/<\/h2>/g, '').replace(/<\/h3>/g, '').replace(/<h3>/g, '').replace(/</g, '').replace(/>/g, '');
+                    // get the string based on the calculated start and end index.
+                    let text_too_much = result[i].subtext.substring(startindex, endindex);
+                    console.log(text_too_much);
 
-                    console.log(fix1);
+                    // create a new regular expression. It means: everything between < and >.
+                    let pattern = new RegExp("<.*?>", "gi");
 
-                    result[i].subtext = fix1;
+                    // replace every instance of pattern in the string text_too_much
+                    let text_to_get = text_too_much.replace(pattern, ' ');
+                    console.log(text_to_get);
+
+                    // create a new index based on the search word;
+                    let secindex = text_to_get.indexOf(search_lowercase);
+
+                    // create new start and end indexes, totalling 300 characters (-150, +150)
+                    let sindex = secindex - 150;
+                    let eindex = secindex + 150;
+
+                    // get the text based on the new indexes
+                    let text = text_to_get.substring(sindex, eindex);
+                    console.log(text);
+
+                    // add it to the subtext. 
+                    result[i].subtext = text;
                 }
 
-                if (index < 150) {
+                if (index < 300) {
                     let startindex = 0;
-                    let endindex = index + 150;
+                    let endindex = index + 300;
 
                     console.log(startindex, endindex);
 
-                    let text_to_get = result[i].subtext.substring(startindex, endindex)
-                    let fix1 = text_to_get.replace(/<div>/g, '').replace(/<\/div>/g, '').replace(/<br>/g, '').replace(/iv>/g, '').replace(/div>/g, '').replace(/<span>/g, '').replace(/<\/span>/g, '').replace(/<ul>/g, '').replace(/<\/ul>/g, '').replace(/<\/li>/g, '').replace(/<li>/g, '').replace(/<blockquote>/g, '').replace(/<\/blockquote>/g, '').replace(/<\/h1>/g, '').replace(/<h1>/g, '').replace(/<h2>/g, '').replace(/<\/h2>/g, '').replace(/<\/h3>/g, '').replace(/<h3>/g, '').replace(/</g, '').replace(/>/g, '');
+                    let text_too_much = result[i].subtext.substring(startindex, endindex)
 
+                    // create a new regular expression. It means: everything between < and >.
+                    let pattern = new RegExp("<.*?>", "gi");
 
-                    console.log(fix1);
+                    // replace every instance of pattern in the string text_too_much
+                    let text_to_get = text_too_much.replace(pattern, ' ');
+                    console.log(text_to_get);
 
-                    result[i].subtext = fix1;
+                    // create a new index based on the search word;
+                    let secindex = text_to_get.indexOf(search_lowercase);
+
+                    // create new start and end indexes, totalling 300 characters (-150, +150)
+                    let sindex = secindex - 150;
+                    let eindex = secindex + 150;
+
+                    // get the text based on the new indexes
+                    let text = text_to_get.substring(sindex, eindex);
+                    console.log(text);
+
+                    // add it to the specific subtext
+                    result[i].subtext = text;
                 }
             }
 
@@ -163,12 +207,12 @@ function getSearchContent(value) {
 
 
             let markup = `
-        ${result.map(result => `
-            <button class="s-result" onclick="searchOutput(this)" data-subid="${result.subid}" data-chapid="${result.chapid}">${result.subname}</button>
-            <br>
-            <code class="s-content">${result.subtext}</code>
-        `).join('')}
-        `;
+         ${result.map(result => `
+             <span><button class="s-result" onclick="searchOutput(this, 'writing')" data-subid="${result.subid}" data-chapid="${result.chapid}" data-search="${result.search}">${result.subname}</button> (${result.category})</span>
+             <br>
+             <code class="s-content">${result.subtext}</code>
+         `).join('')}
+         `;
 
             let add_results = document.getElementById('s-writ');
             add_results.insertAdjacentHTML('beforeend', markup);
@@ -191,6 +235,7 @@ function getSearchContent(value) {
         })
 }
 
+// add some content-specific data to the function and fire off method 'searchGetStuffMethod()'
 function searchGetCharacters(search) {
     console.log('search characters')
 
@@ -198,124 +243,254 @@ function searchGetCharacters(search) {
         function: 'get',
         db: 'array', // rrturns array with db.all instead of object with db.each
         simple: 'yes',
-        records: 'charname, charbio, charid',
+        records: 'charname AS name, charbio AS desc, charid AS id1',
         table: 'Characters',
         expression: 'WHERE charname LIKE \'%' + search + '%\' AND chartrash=0 OR charbio LIKE \'%' + search + '%\' AND chartrash=0'
     }
 
+    let data2 = {
+        function: 'get',
+        db: 'array', // rrturns array with db.all instead of object with db.each
+        simple: 'yes',
+        records: 'Charactercontent.charid AS id1, subjectid AS id2, subject, subjecttext AS text, Characters.chartrash, Characters.charname AS category',
+        table: 'Charactercontent',
+        expression: 'LEFT JOIN Characters ON Characters.charid = Charactercontent.charid WHERE subject LIKE \'%' + search + '%\' AND subjecttrash=0 AND chartrash=0 OR text LIKE \'%' + search + '%\' AND subjecttrash=0 AND chartrash=0'
+    }
+
+    let type = 'characters';
+
+    console.log('Get the characters');
+
+    searchGetStuffMethod(data, data2, type, search);
+}
+
+function searchGetLocations(search) {
+
+    let data = {
+        function: 'get',
+        db: 'array', // rrturns array with db.all instead of object with db.each
+        simple: 'yes',
+        records: 'locname AS name, locdesc AS desc, locid AS id1',
+        table: 'Locations',
+        expression: 'WHERE locname LIKE \'%' + search + '%\' AND trash=0 OR locdesc LIKE \'%' + search + '%\' AND trash=0'
+    }
+
+    let data2 = {
+        function: 'get',
+        db: 'array', // rrturns array with db.all instead of object with db.each
+        simple: 'yes',
+        records: 'LocContent.locid AS id1, locoid AS id2, title AS subject, text, Locations.trash AS loctrash, Locations.locname AS category',
+        table: 'LocContent',
+        expression: 'LEFT JOIN Locations ON Locations.locid = LocContent.locid WHERE subject LIKE \'%' + search + '%\' AND LocContent.trash=0 AND loctrash=0 OR text LIKE \'%' + search + '%\' AND LocContent.trash=0 AND loctrash=0'
+    }
+
+    let type = 'locations';
+
+    console.log('Get the Locations');
+
+    searchGetStuffMethod(data, data2, type, search);
+
+}
+
+function searchGetIdeas(search) {
+    console.log('search ideas')
+    let data = {
+        function: 'get',
+        db: 'array', // rrturns array with db.all instead of object with db.each
+        simple: 'yes',
+        records: 'title AS name, text AS desc, ideaid AS id1',
+        table: 'Ideas',
+        expression: 'WHERE title LIKE \'%' + search + '%\' AND trash=0 OR text LIKE \'%' + search + '%\' AND trash=0'
+    }
+
+    let data2 = {
+        function: 'get',
+        db: 'array', // rrturns array with db.all instead of object with db.each
+        simple: 'yes',
+        records: 'IdeasContent.ideaid AS id1, id AS id2, IdeasContent.title AS subject, IdeasContent.text, Ideas.trash AS ideatrash, Ideas.title AS category',
+        table: 'IdeasContent',
+        expression: 'LEFT JOIN Ideas ON Ideas.ideaid = IdeasContent.ideaid WHERE subject LIKE \'%' + search + '%\' AND IdeasContent.trash=0 AND ideatrash=0 OR IdeasContent.text LIKE \'%' + search + '%\' AND IdeasContent.trash=0 AND ideatrash=0'
+    }
+
+    let type = 'ideas';
+
+    console.log('Get the Ideas');
+
+    searchGetStuffMethod(data, data2, type, search);
+}
+
+function searchGetResearch(search) {
+    console.log('Get the Research');
+}
+
+// method to get stuff from database and put it in it's place.
+// it's only 146 lines if I do it this way :) 
+function searchGetStuffMethod(data, data2, type, search) {
+
+    // some specifics based on type. Object is used to put in some 
+    // type-specific options in the rest of the code.  
+    if (type == 'locations') {
+        var object = {
+            header: 'Locations',
+            element: 's-loca',
+            data_id1: 'data-locid',
+            data_id2: 'data-locoid',
+            this: 'locations'
+        }
+    }
+
+    if (type == 'ideas') {
+
+        var object = {
+            header: 'Ideas',
+            element: 's-idea',
+            data_id1: 'data-ideaid',
+            data_id2: 'data-id',
+            this: 'ideas'
+        }
+    }
+
+    if (type == 'characters') {
+        var object = {
+            header: 'Characters',
+            element: 's-char',
+            data_id1: 'data-charid',
+            data_id2: 'data-subjectid',
+            this: 'characters'
+        }
+    }
+
+    // run the first data-object
     database(data, (result) => {
+
+
 
         console.log(result);
 
+        // result emtpy? Create a div with 'no results found' and the header
         if (result == '') {
             let markup = `
-            <div class="s-header">Characters</div>
+            <div class="s-header">${object.header}</div>
             <div class="s-notfound">no results found</div>
             `
-            let add_results = document.getElementById('s-char');
+            // add markup to the corresponding element (i.e. s-char, s-loca, s-idea, s-rese)
+            let add_results = document.getElementById('' + object.element + '');
             add_results.insertAdjacentHTML('beforeend', markup);
         }
 
+        // not empty? Do the stuff. Markup creates some header and subtext. 
         else {
-
             let markup = `
-            <div class="s-header">Characters</div>
+            <div class="s-header">${object.header}</div>
             ${result.map(result => `
-                <button class="s-result" onclick="searchOutput(this)" data-charid="${result.charid}">${result.charname}</button>
+                <button class="s-result" onclick="searchOutput(this, '${object.this}')" ${object.data_id1}="${result.id1}" data-search="${search}">${result.name}</button>
                 <br>
-                <code class="s-content">${result.charbio}</code>
+                <code class="s-content">${result.desc}</code>
             `).join('')}
         `;
 
-            let add_results = document.getElementById('s-char');
+            let add_results = document.getElementById('' + object.element + '');
             add_results.insertAdjacentHTML('beforeend', markup);
         }
 
-        let data = {
-            function: 'get',
-            db: 'array', // rrturns array with db.all instead of object with db.each
-            simple: 'yes',
-            records: 'charid, subjectid, subject, subjecttext',
-            table: 'Charactercontent',
-            expression: 'WHERE subject LIKE \'%' + search + '%\' AND subjecttrash=0 OR subjecttext LIKE \'%' + search + '%\' AND subjecttrash=0'
-        }
+        // TODO: let the function to get the subchapters also use this method.
+        // in that case, data2 is not neccessary, so it should read 'empty'.
+        // At the moment, data2 is never emtpy.
+        if (data2 != 'empty') {
 
-        database(data, (result) => {
+            database(data2, (result) => {
 
-            if (result == '') {
-                let markup = `
-                <div class="s-header">Characters content</div>
+                // if empty, put it in words.
+                if (result == '') {
+                    let markup = `
+                <div class="s-header">${object.header} content</div>
                 <div class="s-notfound">no results found</div>
                 `
-                let add_results = document.getElementById('s-char');
-                add_results.insertAdjacentHTML('beforeend', markup);
-            }
-
-            else {
-
-                for (let i = 0; i < result.length; i++) {
-
-                    let index = result[i].subjecttext.indexOf(search);
-                    console.log(index);
-
-                    if (index > 150) {
-                        let startindex = index - 150;
-                        let endindex = index + 150;
-
-                        console.log(startindex, endindex);
-
-                        let text_to_get = result[i].subjecttext.substring(startindex, endindex)
-                        let fix1 = text_to_get.replace(/<div>/g, '').replace(/<\/div>/g, '').replace(/<br>/g, '').replace(/iv>/g, '').replace(/div>/g, '').replace(/<span>/g, '').replace(/<\/span>/g, '').replace(/<ul>/g, '').replace(/<\/ul>/g, '').replace(/<\/li>/g, '').replace(/<li>/g, '').replace(/<blockquote>/g, '').replace(/<\/blockquote>/g, '').replace(/<\/h1>/g, '').replace(/<h1>/g, '').replace(/<h2>/g, '').replace(/<\/h2>/g, '').replace(/<\/h3>/g, '').replace(/<h3>/g, '').replace(/</g, '').replace(/>/g, '');
-
-                        console.log(fix1);
-
-                        result[i].subjecttext = fix1;
-                    }
-
-                    if (index < 150) {
-                        let startindex = 0;
-                        let endindex = index + 150;
-
-                        console.log(startindex, endindex);
-
-                        let text_to_get = result[i].subjecttext.substring(startindex, endindex)
-                        let fix1 = text_to_get.replace(/<div>/g, '').replace(/<\/div>/g, '').replace(/<br>/g, '').replace(/iv>/g, '').replace(/div>/g, '').replace(/<span>/g, '').replace(/<\/span>/g, '').replace(/<ul>/g, '').replace(/<\/ul>/g, '').replace(/<\/li>/g, '').replace(/<li>/g, '').replace(/<blockquote>/g, '').replace(/<\/blockquote>/g, '').replace(/<\/h1>/g, '').replace(/<h1>/g, '').replace(/<h2>/g, '').replace(/<\/h2>/g, '').replace(/<\/h3>/g, '').replace(/<h3>/g, '').replace(/</g, '').replace(/>/g, '');
-
-
-                        console.log(fix1);
-
-                        result[i].subjecttext = fix1;
-                    }
+                    let add_results = document.getElementById('' + object.element + '');
+                    add_results.insertAdjacentHTML('beforeend', markup);
                 }
 
-                console.log(result);
+                else {
+                    // iterate over the results
+                    for (let i = 0; i < result.length; i++) {
 
+                        // indexOf is case-sensitive, so convert the strings to lowercase
+                        let search_lowercase = search.toLowerCase();
+                        var str_lowercase = result[i].text.toLowerCase();
 
-                let markup = `
-            <div class="s-header">Character content</div>
-            ${result.map(result => `
-            <button class="s-result" onclick="searchOutput(this)" data-subjectid="${result.subjectid}" data-charid="${result.charid}">${result.subject}</button>
-            <br>
-            <code class="s-content">${result.subjecttext}</code>
-        `).join('')}
-        `;
+                        // get the index
+                        let index = str_lowercase.indexOf(search_lowercase);
 
-                let add_results = document.getElementById('s-char');
-                add_results.insertAdjacentHTML('beforeend', markup);
+                        // add search to content of result[i]
+                        result[i].search = search;
 
-            }
-        })
+                        console.log(index);
+
+                        // if index is over 150, create a start and end index.
+                        // both added should be 300 characters long.
+                        if (index > 300) {
+
+                            // the search-word has a specific index. To get a string with text, we substract
+                            // 300 characters from the index and use this as the startindex. We also add 300
+                            // characters to get an end index.
+                            var startindex = index - 300;
+                            var endindex = index + 300;
+                        }
+
+                        // index below 150? make startindex 0 and endindex + 150
+                        if (index < 300) {
+
+                            // the search-word has a specific index. To get a string with text, we substract
+                            // 300 characters from the index and use this as the startindex. We also add 300
+                            // characters to get an end index.
+                            var startindex = index - 300;
+                            var endindex = index + 300;
+                        }
+
+                        // get the string based on the calculated start and end index.
+                        let text_too_much = result[i].text.substring(startindex, endindex);
+                        console.log(text_too_much);
+
+                        // create a new regular expression. It means: everything between < and >.
+                        let pattern = new RegExp("<.*?>", "gi");
+
+                        // replace every instance of pattern in the string text_too_much
+                        let text_to_get = text_too_much.replace(pattern, ' ');
+                        console.log(text_to_get);
+
+                        // create a new index based on the search word;
+                        let secindex = text_to_get.indexOf(search_lowercase);
+
+                        // create new start and end indexes, totalling 300 characters (-150, +150)
+                        let sindex = secindex - 150;
+                        let eindex = secindex + 150;
+
+                        // get the text based on the new indexes
+                        let text = text_to_get.substring(sindex, eindex);
+                        console.log(text);
+
+                        // add it to the subtext. 
+                        result[i].text = text;
+
+                    }
+
+                    console.log(result);
+
+                    // new markup
+                    let markup = `
+                        <div class="s-header">${object.header} content</div>
+                            ${result.map(result => `
+                                <span><button class="s-result" onclick="searchOutput(this)" ${object.data_id2}="${result.id2}" ${object.data_id1}="${result.id1}" data-search="${result.search}">${result.subject}</button> (${result.category})</span>
+                                <br>
+                                <code class="s-content">${result.text}</code>
+                            `).join('')}
+                    `;
+
+                    // add it to the corresponding element.
+                    let add_results = document.getElementById('' + object.element + '');
+                    add_results.insertAdjacentHTML('beforeend', markup);
+                }
+            })
+        }
     })
-}
-
-function searchGetLocations() {
-    console.log('search locations')
-}
-
-function searchGetIdeas() {
-    console.log('search ideas')
-}
-
-function searchGetResearch() {
-    console.log('search research')
 }

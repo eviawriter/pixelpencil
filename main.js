@@ -4,6 +4,7 @@ require('electron-reload')(__dirname);
 
 // this allows the native module to be loaded. Will be removed in Electron 10. 
 app.allowRendererProcessReuse = false;
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -26,10 +27,17 @@ function createWindow() {
       e.preventDefault();
       console.log(love_it);
 
-        mainWindow.webContents.send('love time', 'false');
+      mainWindow.webContents.send('love time', 'false');
     }
 
   })
+
+  mainWindow.webContents.on('found-in-page', (event, result) => {
+
+    if (result.finalUpdate) {
+      mainWindow.webContents.stopFindInPage('clearSelection');
+    }
+  });
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
@@ -51,9 +59,12 @@ app.on('ready', () => {
   const { getCursorScreenPoint, getDisplayNearestPoint } = screen
 
   const currentScreen = getDisplayNearestPoint(getCursorScreenPoint())
-  
+
   mainWindow.setBounds(currentScreen.bounds);
   mainWindow.setSize(1366, 768);
+
+
+
 
 })
 
@@ -87,4 +98,11 @@ ipcMain.on('app_quit', (event, info) => {
   app.quit()
 })
 
-// create a way to print 
+ipcMain.on('search', (event, arg) => {
+  console.log(arg);
+  console.log(event);
+  mainWindow.webContents.unselect();
+  
+  mainWindow.webContents.findInPage(arg, {findNext: true});
+
+});

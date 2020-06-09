@@ -60,3 +60,9 @@
     text-align: center;
     z-index: 1;
 }
+
+/* bookmark pointer to scroll to when searching stuff */
+#bookmark-pointer {
+    display: inline;
+    content: attr('hi');
+  }

@@ -26,7 +26,7 @@ function mainHamburgerModal() {
             <input name="form-dead" type="date" class="form-input">
 
         <div class="form-input-button">
-            <button class="create_close_button" type="button" onclick="close_mainHamburgerModal()">Close</button>
+            <button class="create_close_button" type="button" onclick="close_mainHamburgerModal(), menu('dashboard', 'hamburger')">Close</button>
             <button class="create_save_button" type="button" onclick="javascript:createProject(this)">Create project</button>
         </div>
     </form>
