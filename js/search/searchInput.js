@@ -335,7 +335,7 @@ function searchGetStuffMethod(data, data2, type, search) {
             element: 's-loca',
             data_id1: 'data-locid',
             data_id2: 'data-locoid',
-            this: 'locations'
+            this: 'locations',
         }
     }
 
@@ -346,7 +346,7 @@ function searchGetStuffMethod(data, data2, type, search) {
             element: 's-idea',
             data_id1: 'data-ideaid',
             data_id2: 'data-id',
-            this: 'ideas'
+            this: 'ideas',
         }
     }
 
@@ -356,7 +356,7 @@ function searchGetStuffMethod(data, data2, type, search) {
             element: 's-char',
             data_id1: 'data-charid',
             data_id2: 'data-subjectid',
-            this: 'characters'
+            this: 'characters',
         }
     }
 
@@ -480,7 +480,7 @@ function searchGetStuffMethod(data, data2, type, search) {
                     let markup = `
                         <div class="s-header">${object.header} content</div>
                             ${result.map(result => `
-                                <span><button class="s-result" onclick="searchOutput(this)" ${object.data_id2}="${result.id2}" ${object.data_id1}="${result.id1}" data-search="${result.search}">${result.subject}</button> (${result.category})</span>
+                                <span><button class="s-result" onclick="searchOutput(this, '${object.this}')" ${object.data_id2}="${result.id2}" ${object.data_id1}="${result.id1}" data-search="${result.search}">${result.subject}</button> (${result.category})</span>
                                 <br>
                                 <code class="s-content">${result.text}</code>
                             `).join('')}

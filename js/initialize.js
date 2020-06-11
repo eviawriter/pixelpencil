@@ -7,15 +7,7 @@ const sqlite3 = require('sqlite3').verbose();
 // create the userDir where all the user data of PixelPencil is stored
 const userDir = (electron.app || electron.remote.app).getPath('documents');
 
-// attach the project-directory and create a new one if it doesn't exist
 var fs = require('fs');
-var projectdir = path.join(userDir, '/PixelPencil/projects');
-
-// check if the projectdir exists
-if (!fs.existsSync(`${projectdir}`)) {
-  // if not, create the directory
-  fs.mkdirSync(`${projectdir}`, { recursive: true });
-}
 
 // create export-dir
 var exportdir = path.join(userDir, '/PixelPencil/exports');
@@ -26,27 +18,81 @@ if (!fs.existsSync(`${exportdir}`)) {
   fs.mkdirSync(`${exportdir}`, { recursive: true });
 }
 
-// This is the sourcedatabase, always loaded when the app starts.
-var sourcedatabase = path.resolve(__dirname, 'saved/protodatabase.evv');
+// attach the project-directory and create a new one if it doesn't exist
+var projectdir = path.join(userDir, '/PixelPencil/projects');
 
-// This is the new destination file in UserDir/saved
-var destinationdatabase = path.join(projectdir, 'protodatabase.evv');
-
-// if the destinationdatabase doesn't exists, copy the sourcedatabase to the userData.
-if (!fs.existsSync(destinationdatabase)) {
-  // copy the sourcedatabase to the destinationdatabase. 
-  fs.copyFile(sourcedatabase, destinationdatabase, (err) => {
-    if (err) throw err;
-    console.log('sourcedatabase copied to destinationdatabase');
-  });
+// check if the projectdir exists
+if (!fs.existsSync(`${projectdir}`)) {
+  // if not, create the directory
+  fs.mkdirSync(`${projectdir}`, { recursive: true });
 }
 
-// create the databaselocation
-// var databaselocation = path.join(projectdir, 'protodatabase.evv');
-var databaselocation = destinationdatabase;
+var read = fs.readFileSync(__dirname + '/js/userData.json');
+var locatedatabase = JSON.parse(read);
+var databaselocation = [];
+var resolve = locatedatabase.userData[0].Location;
+
+try {
+  if (fs.existsSync(`${resolve}`)) {
+    console.log(resolve);
+    success = true;
+  }
+
+  else {
+    success = false;
+    throw err;
+  }
+}
+catch (err) {
+  // todo: create nice alertbox.
+  console.log('ERROR: ' + resolve + ' has been moved or deleted. Click OK to load the standard database.');
+}
+
+if (success) {
+  console.log('database successfully loaded from:', resolve);
+  databaselocation = resolve;
+}
+
+if (!success) {
+
+  console.log('database failed to load from', resolve);
+  console.log('attempting to load tutorial database');
+  // This is the sourcedatabase called tutorial.evv. Opened when 
+  // the json-file userData.json is empty.
+  var sourcedatabase = path.resolve(__dirname, 'saved/tutorial.evv');
+
+  console.log(sourcedatabase);
+
+  // This is the new destination file in UserDir/saved
+  var destinationdatabase = path.join(projectdir, 'tutorial.evv');
+
+  // if the destinationdatabase doesn't exists, copy the sourcedatabase to the userData.
+  if (!fs.existsSync(destinationdatabase)) {
+    // copy the sourcedatabase to the destinationdatabase. 
+    fs.copyFile(sourcedatabase, destinationdatabase, (err) => {
+      if (err) throw err;
+      console.log('sourcedatabase copied to destinationdatabase');
+    });
+  }
+
+  // create the databaselocation
+  // var databaselocation = path.join(projectdir, 'protodatabase.evv');
+  databaselocation = destinationdatabase;
+
+  // only used when PixelPencil is loaded for the first time.
+  // change the location in the json to the new databaselocation
+  locatedatabase.userData[0].Location = databaselocation;
+
+  // write the information to the json-file.
+  fs.writeFile(__dirname + '/js/userData.json', JSON.stringify(locatedatabase), (err) => {
+    if (err) console.log('error writing file');
+  })
+}
 
 console.log(databaselocation);
 
+// databaseversion. Neccessary to check if database is correct version
+var databaseversion = '1.0';
 
 var db = new sqlite3.Database(databaselocation);
 
@@ -70,17 +116,55 @@ ipcRenderer.on('love time', (event, message) => {
 
 })
 
-ipcRenderer.on('database created', (name) => {
+// when changing project, ie: created or newly opened, this function is executed
+ipcRenderer.on('database', (name, from) => {
 
-  console.log(name);
+  // check if call comes from menuCreateProject.js
+  if (from == 'created') {
 
-  console.log('dit werkt!')
+    // create new location for the database using projectdir and name
+    var newlocation = projectdir + '/' + name + '.evv';
 
-  var newlocation = projectdir + '/' + name + '.evv';
-  databaselocation = "";
-  databaselocation = newlocation;
-  db = new sqlite3.Database(databaselocation);
+    // set databaselocation to the new location
+    databaselocation = newlocation;
 
+    // set db to the new databaselocation
+    db = new sqlite3.Database(databaselocation);
+  }
+
+  // check if call comes from menuOpenProject.js
+  if (from == 'opened') {
+
+    // name is already filled with the new databaselocation
+    databaselocation = name;
+
+    // set db to the new databaselocation
+    db = new sqlite3.Database(databaselocation);
+  }
+
+  // add file path to userData.json. On startup, this new location will 
+  // be standard.
+  const fs = require('fs');
+
+  // read the file
+  fs.readFile(__dirname + '/js/userData.json', (err, userdata) => {
+    if (err) {
+      console.log('error reading userData.json', err);
+    }
+
+    // parse userdata to json
+    var json = JSON.parse(userdata);
+
+    // change the location in the json to the new databaselocation
+    json.userData[0].Location = databaselocation;
+
+    // write the information to the json-file.
+    fs.writeFile(__dirname + '/js/userData.json', JSON.stringify(json), (err) => {
+      if (err) console.log('error writing file');
+    })
+  });
+
+  // reload all the content afterwards.
   reloadContent();
 
 })

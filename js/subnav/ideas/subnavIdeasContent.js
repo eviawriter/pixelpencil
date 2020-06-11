@@ -1,4 +1,4 @@
-function subnav_ideas(options) {
+function subnav_ideas(options, search) {
 
     console.log(options);
 
@@ -9,6 +9,21 @@ function subnav_ideas(options) {
 
     for (i = 0; i < selected.length; i++) {
         selected[i].style.backgroundColor = "";
+    }
+
+    // only neccessary if you search stuff
+    if (search != '') {
+        let select = document.getElementById('subnav-ideas').querySelector('.sn-subitem[data-ideaid="' + id + '"]');
+        console.log(select);
+        select.style.backgroundColor = "#00AE9D";
+
+        // open the whole character-menu
+        let stuff = document.getElementById('menu-characters');
+        menu('ideas', stuff)
+    }
+
+    if (options.dataset.id != '') {
+        var subid = options.dataset.id;
     }
 
     // set background of clicked item
@@ -80,12 +95,12 @@ function subnav_ideas(options) {
 
         document.getElementById('box-content-ideas').innerHTML = markup;
 
-        subnavIdeasSubjects(id);
+        subnavIdeasSubjects(id, subid, search);
 
     })
 }
 
-function subnavIdeasSubjects(id) {
+function subnavIdeasSubjects(id, subid, search) {
 
     let data = {
 
@@ -103,13 +118,13 @@ function subnavIdeasSubjects(id) {
 
     database(data, function (pop) {
 
-//        console.log(result);
+        //        console.log(result);
 
-//        let pop = {
-//            id: result.locoid,
-//            title: result.title,
-//            text: result.text
-//        }
+        //        let pop = {
+        //            id: result.locoid,
+        //            title: result.title,
+        //            text: result.text
+        //        }
 
         console.log(pop);
 
@@ -125,6 +140,26 @@ function subnavIdeasSubjects(id) {
              `
         // attach it at the end of the ct-wrapper (with the correct charid).
         document.getElementById('box-content-ideas').querySelector('.ct-wrapper[data-ideaid="' + id + '"]').insertAdjacentHTML('beforeend', markup);
+
+        // if there is a search keyword, execute highlight
+        if (search != undefined) {
+            console.log(search);
+            // subnavCharHighlight(search, subjectid);
+
+            let content = {
+                main: 'document.getElementById(\'box-content-ideas\').innerHTML;',
+                subject: 'document.querySelector(\'.ct-subject[data-id="' + subid + '"]\').innerHTML',
+                scroll: 'document.querySelector(\'.ct-subject[data-id="' + subid + '"]\')',
+                id: subid,
+                subreplace: 'document.querySelector(\'.ct-subject[data-id="' + subid + '"]\').innerHTML = new_text;',
+                mainreplace: 'document.getElementById(\'box-content-ideas\').innerHTML = new_text;',
+                box: 'box-content-ideas'
+            }
+
+            console.log(content);
+
+            subnavHighlight(search, content)
+        }
     })
 
     // Make sure the 'add subject' button in box-actions has the right charid. 

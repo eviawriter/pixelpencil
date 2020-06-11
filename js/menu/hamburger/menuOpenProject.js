@@ -41,9 +41,14 @@ function menuProjectDetails(details) {
         let db = new sqlite3.Database(opendir);
 
         // select the neccessary text.
-        db.get("SELECT projectname, projectdesc, projectdate, deadwords FROM Project", function (err, project) {
+        db.get("SELECT projectname, projectdesc, projectdate, deadwords, databaseversion FROM Project", function (err, project) {
             if (err) {
                 alert(err);
+            }
+
+            if (project.databaseversion != databaseversion) {
+                alert('Database version not compatible with current version of PixelPencil. Please refer to the manual at pixelpencil.art/help for help.'); 
+                return;
             }
 
             if (project == undefined) {
@@ -102,6 +107,7 @@ function menuOpenProject() {
     let markup = `
     <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
     `
+
     if (projectdirectory != "" && checkselect == "") {
         // Function to set databaselocation correctly
 
@@ -111,8 +117,9 @@ function menuOpenProject() {
         let datalocation = path.join(projectdir, '' + projectdirectory + '');
 
         // let datalocation = './Projectdata/' + projectdir + '';
+        ipcRenderer.emit('database', datalocation, 'opened');
 
-        changedatabasedir(datalocation);
+        // changedatabasedir(datalocation);
         console.log('selected from list');
 
         document.getElementById('hamcontent').innerHTML = markup;
@@ -120,13 +127,19 @@ function menuOpenProject() {
 
     else if (projectdirectory == "" && checkselect != "") {
         let datalocation = formopenproject["menu_open_selected"].files[0].path;
-        changedatabasedir(datalocation)
+
+        ipcRenderer.emit('database opened', datalocation, 'opened');
+
+        // changedatabasedir(datalocation)
         document.getElementById('hamcontent').innerHTML = markup;
     }
 
     else if (projectdirectory == "notselected" && checkselect != "") {
         let datalocation = formopenproject["menu_open_selected"].files[0].path;
-        changedatabasedir(datalocation)
+        
+        ipcRenderer.emit('database opened', datalocation, 'opened');
+
+        // changedatabasedir(datalocation)
         document.getElementById('hamcontent').innerHTML = markup;
     }
 

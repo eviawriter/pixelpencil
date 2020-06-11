@@ -1,4 +1,6 @@
 node_modules/electron/dist/electron
 node_modules
 node_modules_oud
+pixelpencil-linux-x64
+installer
 dist
