@@ -8,7 +8,8 @@
     "electron-installer-snap": "^5.1.0",
     "electron-rebuild": "^1.11.0",
     "electron-reload": "^1.5.0",
-    "sqlite3": "^4.2.0"
+    "sqlite3": "^4.2.0",
+    "pixelpencil": "github:eviawriter/pixelpencil"
   },
   "devDependencies": {
     "electron": "^9.0.0",
