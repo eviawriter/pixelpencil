@@ -17,7 +17,7 @@ function createWindow() {
   mainWindow.loadFile('index.html');
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools({ mode: 'detach' })
+  // mainWindow.webContents.openDevTools({ mode: 'detach' })
 
   love_it = true;
 
@@ -98,11 +98,11 @@ ipcMain.on('app_quit', (event, info) => {
   app.quit()
 })
 
-ipcMain.on('search', (event, arg) => {
-  console.log(arg);
-  console.log(event);
-  mainWindow.webContents.unselect();
-  
-  mainWindow.webContents.findInPage(arg, {findNext: true});
-
-});
+// ipcMain.on('search', (event, arg) => {
+//   console.log(arg);
+//   console.log(event);
+//   mainWindow.webContents.unselect();
+//   
+//   mainWindow.webContents.findInPage(arg, {findNext: true});
+// 
+// });

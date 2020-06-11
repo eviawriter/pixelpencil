@@ -12,13 +12,17 @@ function subnav_characters(options, search) {
 
     // only neccessary if you search stuff
     if (search != '') {
-        let select = document.getElementById('subnav-characters').querySelector('.sn-subitem[data-charid="'+charid+'"]');
+        let select = document.getElementById('subnav-characters').querySelector('.sn-subitem[data-charid="' + charid + '"]');
         console.log(select);
         select.style.backgroundColor = "#00AE9D";
 
         // open the whole character-menu
         let stuff = document.getElementById('menu-characters');
         menu('characters', stuff)
+    }
+
+    if (options.dataset.subjectid != '') {
+        var subjectid = options.dataset.subjectid;
     }
 
     // set background of clicked item
@@ -116,7 +120,7 @@ function subnav_characters(options, search) {
 
             document.getElementById('box-content-characters').innerHTML = markup;
 
-            subnav_characters_subjects(charid, search);
+            subnav_characters_subjects(charid, search, subjectid);
 
         }
 
@@ -125,7 +129,7 @@ function subnav_characters(options, search) {
 }
 
 // Add the subjects
-function subnav_characters_subjects(charid, search) {
+function subnav_characters_subjects(charid, search, subjectid) {
 
     // start sqlite3
     const sqlite3 = require('sqlite3').verbose();
@@ -157,6 +161,24 @@ function subnav_characters_subjects(charid, search) {
 
             // attach it at the end of the ct-wrapper (with the correct charid).
             document.getElementById('box-content-characters').querySelector('.ct-wrapper[data-charid="' + charid + '"]').insertAdjacentHTML('beforeend', markup);
+
+            // if there is a search keyword, execute highlight
+            if (search != undefined) {
+                console.log(search);
+                // subnavCharHighlight(search, subjectid);
+
+                let content = {
+                    main: 'document.getElementById(\'box-content-characters\').innerHTML;',
+                    subject: 'document.querySelector(\'.ct-subject[data-subjectid="' + subjectid + '"]\').innerHTML',
+                    scroll: 'document.querySelector(\'.ct-subject[data-subjectid="' + subjectid + '"]\')',
+                    id: subjectid,
+                    subreplace: 'document.querySelector(\'.ct-subject[data-subjectid="' + subjectid + '"]\').innerHTML = new_text;',
+                    mainreplace: 'document.getElementById(\'box-content-characters\').innerHTML = new_text;',
+                    box: 'box-content-characters'
+                }
+
+                subnavHighlight(search, content)
+            }
         }
 
     })
@@ -170,62 +192,4 @@ function subnav_characters_subjects(charid, search) {
     for (it = 0; it < tooltip.length; it++) {
         tooltip[it].dataset.charid = charid;
     }
-
-    if (search != undefined) {
-        console.log(search);
-        subnavCharHighlight(search);
-    }
-}
-
-function subnavCharHighlight(search) {
-
-    // make cont a string
-    let innerhtml = document.getElementById('box-content-characters').innerHTML;
-    console.log(innerhtml);
-    let content = innerhtml.toString();
-    console.log(content);
-
-    let pattern = new RegExp("(" + search + ")", "gi");
-    let new_text = content.replace(pattern, "<span class='highlight'>" + search + "</span>");
-
-    document.getElementById('box-content-characters').innerHTML = new_text;
-
-    console.log(pattern);
-    console.log(new_text);
-
-    // add eventlistener to the editor
-    document.getElementById('box-content-characters').addEventListener('click', function subnavCharClicked() {
-
-        document.getElementById('box-content-characters').removeEventListener('click', subnavCharClicked, false);
-
-        //  get innerhtml of editor
-        let inner = document.getElementById('box-content-characters').innerHTML;
-
-        // make it a string
-        let string = inner.toString();
-
-        console.log(string);
-
-        // make a regexp as searchpattern
-        let pattern2 = new RegExp("<span class=\"highlight\">" + search + "</span>", "gi");
-        console.log(pattern2);
-
-        // replace every instance of pattern2 in string
-        let new_text2 = string.replace(pattern2, search);
-        console.log(new_text2);
-
-        // replace current content with new_text2.
-        document.getElementById('box-content-characters').innerHTML = new_text2;
-
-    }, false);
-
-    let high = document.querySelector('.highlight');
-
-    console.log(high);
-
-    high.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-    });
-
 }

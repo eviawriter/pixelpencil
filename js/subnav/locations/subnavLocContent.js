@@ -1,6 +1,4 @@
-function subnav_locations(options) {
-
-    console.log(options);
+function subnav_locations(options, search) {
 
     let locid = options.dataset.locid;
 
@@ -10,6 +8,23 @@ function subnav_locations(options) {
     for (i = 0; i < selected.length; i++) {
         selected[i].style.backgroundColor = "";
     }
+
+    // <!-- bit of code neccessary if function call comes from a search query (ie, searchOutput.js) --!>
+
+    // Select menu-category and button that corresponds to search query 
+    if (search != '') {
+        let select = document.getElementById('subnav-locations').querySelector('.sn-subitem[data-locid="' + locid + '"]');
+        console.log(select);
+        select.style.backgroundColor = "#00AE9D";
+
+        // open the whole character-menu
+        let stuff = document.getElementById('menu-locations');
+        menu('locations', stuff)
+
+        var locoid = options.dataset.locoid;
+    }
+
+    // get locoid, used for 
 
     // set background of clicked item
     options.style.backgroundColor = "#00AE9D";
@@ -80,12 +95,12 @@ function subnav_locations(options) {
 
         document.getElementById('box-content-locations').innerHTML = markup;
 
-        subnavLocSubjects(locid);
+        subnavLocSubjects(locid, search, locoid);
 
     })
 }
 
-function subnavLocSubjects(id) {
+function subnavLocSubjects(id, search, locoid) {
 
     let data = {
 
@@ -103,13 +118,13 @@ function subnavLocSubjects(id) {
 
     database(data, function (pop) {
 
-//        console.log(result);
+        //        console.log(result);
 
-//        let pop = {
-//            id: result.locoid,
-//            title: result.title,
-//            text: result.text
-//        }
+        //        let pop = {
+        //            id: result.locoid,
+        //            title: result.title,
+        //            text: result.text
+        //        }
 
         console.log(pop);
 
@@ -125,6 +140,26 @@ function subnavLocSubjects(id) {
              `
         // attach it at the end of the ct-wrapper (with the correct charid).
         document.getElementById('box-content-locations').querySelector('.ct-wrapper[data-locid="' + id + '"]').insertAdjacentHTML('beforeend', markup);
+
+        // if there is a search keyword, execute highlight
+        if (search != undefined) {
+            console.log(search);
+            // subnavCharHighlight(search, subjectid);
+
+            let content = {
+                main: 'document.getElementById(\'box-content-locations\').innerHTML;',
+                subject: 'document.querySelector(\'.ct-subject[data-locoid="' + locoid + '"]\').innerHTML',
+                scroll: 'document.querySelector(\'.ct-subject[data-locoid="' + locoid + '"]\')',
+                id: locoid,
+                subreplace: 'document.querySelector(\'.ct-subject[data-locoid="' + locoid + '"]\').innerHTML = new_text;',
+                mainreplace: 'document.getElementById(\'box-content-locations\').innerHTML = new_text;',
+                box: 'box-content-locations'
+            }
+
+            console.log(content);
+
+            subnavHighlight(search, content)
+        }
     })
 
     // Make sure the 'add subject' button in box-actions has the right charid. 

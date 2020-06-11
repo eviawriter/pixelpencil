@@ -63,6 +63,8 @@
     align-items: flex-start;
     align-content: flex-start;
     visibility: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .s-result {

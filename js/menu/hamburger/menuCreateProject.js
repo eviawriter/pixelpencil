@@ -143,7 +143,8 @@ function createProject() {
             "projectdate"	INTEGER,
             "deadconcept"	INTEGER,
             "deadrevision"	INTEGER,
-            "deadwords"	TEXT
+            "deadwords"	TEXT,
+            "databaseversion"	TEXT NOT NULL
         )`);
 
         // create Research
@@ -197,6 +198,7 @@ function createProject() {
         db.run(`
         CREATE TABLE "ResNotes" (
             "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            "subjid"	INTEGER,
             "title"	INTEGER,
             "text"	INTEGER,
             "date"	INTEGER,
@@ -244,11 +246,17 @@ function createProject() {
             "trash"	INTEGER NOT NULL
         )`);
 
+        // create RESEARCH CATEGORIES
+        db.run(`
+        CREATE TABLE "ResCat" (
+            "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            "title"	INTEGER,
+            "text"	INTEGER,
+            "trash"	INTEGER NOT NULL
+        )`)
 
         // create VIEW words
-        db.run(`
-        CREATE VIEW words AS SELECT Chapters.chapname, Chapters.chapid, Chapters.chaporder, Chapters.chaptrash, Subchapters.subname AS subname, Subchapters.subid AS subid, Subchapters.count AS words from Chapters Left JOIN Subchapters ON Subchapters.chapid = Chapters.chapid WHERE Chapters.chaptrash = 0 AND Subchapters.count IS NOT NULL Order by chaporder, suborder  
-        `);
+        db.run(`CREATE VIEW words AS SELECT Chapters.chapname, Chapters.chapid, Chapters.chaporder, Chapters.chaptrash, Subchapters.subname AS subname, Subchapters.subid AS subid, Subchapters.count AS words from Chapters Left JOIN Subchapters ON Subchapters.chapid = Chapters.chapid WHERE Chapters.chaptrash = 0 AND Subchapters.count IS NOT NULL Order by chaporder, suborder`);
 
         // create VIEW export
         db.run(`CREATE VIEW export AS SELECT Chapters.chapname, Chapters.chapid, Chapters.chaporder, Subchapters.subname AS subname, Subchapters.subtext AS subtext, Subchapters.suborder AS suborder, Subchapters.subid AS subid from Chapters Left JOIN Subchapters ON Subchapters.chapid = Chapters.chapid WHERE Subchapters.subtrash = 0 AND Chapters.chaptrash = 0 Order by chaporder, suborder`);
@@ -264,13 +272,15 @@ function createProject() {
 
         // add project details to the database.
         db.run(`
-        INSERT INTO Project (projectname, projectdesc, projectdate, deadwords) VALUES ('${name_esc}', '${desc_esc}', '${dead}', '${word}')
+        INSERT INTO Project (projectname, projectdesc, projectdate, deadwords, databaseversion) VALUES ('${name_esc}', '${desc_esc}', '${dead}', '${word}', '${databaseversion}')
         `, (err) => {
             if (err) {
                 console.log(err);
             }
 
-            ipcRenderer.emit('database created', name);
+            let from = 'created';
+
+            ipcRenderer.emit('database', name, from);
         })
     });
 };
